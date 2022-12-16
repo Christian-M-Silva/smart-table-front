@@ -1,7 +1,17 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <router-view/>
 </template>
 
-<style src="./App.css" />
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    @apply bg-neutral-300;
+}
+
+.borda{
+    border: 1px red solid
+}
+</style>
