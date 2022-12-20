@@ -171,5 +171,5 @@
     </section>
   </div>
 </template>
-<style src="./loginAndRegister.css"></style>
+<style scoped src="./loginAndRegister.css"></style>
 <script  src="./loginAndRegister.ts"></script>

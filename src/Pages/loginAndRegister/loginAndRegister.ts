@@ -2,7 +2,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent(
     {
-
         data(){
            return{
             action: "Login",
