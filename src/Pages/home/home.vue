@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen pt-24">
+  <div class="h-screen pt-16">
     <section>
       <div class="w-full lg:w-6/12 px-4 mx-auto pt-6">
         <div
@@ -18,7 +18,7 @@
         >
           <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
             <div class="text-slate-700 text-center my-5 font-bold text-2xl">
-              <h2>{{action}}</h2>
+              <h2 :class="classAnimation">{{ action }}</h2>
             </div>
             <form>
               <div class="relative w-full mb-3">
@@ -87,6 +87,7 @@
                     transition-all
                     duration-150
                   "
+                  autocomplete="on"
                   v-model="password"
                   placeholder="Insira a senha"
                 />
@@ -118,15 +119,21 @@
                   type="button"
                   @click="registerOrLogin"
                 >
-                 {{action}}
+                  {{ action }}
                 </button>
               </div>
 
               <div class="flex justify-center mt-2">
-                <span @click="action = 'Cadastrar'" v-show="action == 'Login'"
+                <span
+                  class="slide-in-right cursor-pointer"
+                  @click="action = 'Cadastrar'"
+                  v-show="action == 'Login'"
                   >Não está cadastrado? Faça o seu cadastro</span
                 >
-                <span @click="action = 'Login'" v-show="action == 'Cadastrar'"
+                <span
+                  class="slide-in-left cursor-pointer"
+                  @click="action = 'Login'"
+                  v-show="action == 'Cadastrar'"
                   >Já está cadastrado? Faça o seu login</span
                 >
               </div>
@@ -134,7 +141,7 @@
           </div>
         </div>
       </div>
-      <footer class="relative pt-8 pb-6 mt-8">
+      <footer class="relative pt-14 mt-5">
         <div class="container mx-auto px-4">
           <div
             class="
@@ -145,7 +152,18 @@
             "
           >
             <footer class="w-full md:w-6/12 px-4 mx-auto text-center">
-              <span>CREATE 🎮 CHRISTIAN SILVA</span>
+              <a
+                href="https://github.com/Christian-M-Silva"
+                target="_blank"
+                class="
+                  bg-red-500
+                  font-bold
+                  shadow-lg shadow-red-500/50
+                  rounded-md
+                  p-2
+                "
+                >DEVELOPED 🎮 <span class="text-red-700">CHRISTIAN</span></a
+              >
             </footer>
           </div>
         </div>

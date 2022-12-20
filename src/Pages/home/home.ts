@@ -1,20 +1,35 @@
-export default{
+import { defineComponent } from "vue";
 
-    data(){
-       return{
-        action: "Login",
-        entity: '',
-        password: '',
-       }
-    },
+export default defineComponent(
+    {
 
-    methods: {
-        registerOrLogin(){
-            // if (this.action === 'Login') {
-            //     alert("aqui")
-            // } else {
-                
-            // }
+        data(){
+           return{
+            action: "Login",
+            entity: '',
+            password: '',
+            classAnimation: 'slide-in-right'
+           }
+        },
+    
+        methods: {
+            registerOrLogin(){
+                if (this.action === 'Login') {
+                    return alert("logado")
+                } 
+
+                return alert("registrar")
+            },
+        },
+
+        watch: {
+            action(value):string{
+                if (value === "Login") {
+                    return this.classAnimation = "slide-in-right"
+                }
+
+                return this.classAnimation = "slide-in-left"
+            }
         }
     }
-}
+)
