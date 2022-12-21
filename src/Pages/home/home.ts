@@ -4,7 +4,7 @@ export default defineComponent(
     {
         data(){
            return{
-            
+            entity: 'Christian'
            }
         },
     
@@ -14,9 +14,5 @@ export default defineComponent(
         watch: {
            
         },
-
-        created(){
-            alert("teste")
-        }
     }
 )

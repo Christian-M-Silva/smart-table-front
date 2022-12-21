@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Home</h1>
+    <h1 class="text-center mt-2 text-2xl font-bold">Você está logado como {{entity}}</h1>
   </div>
 </template>
 <style scoped src="./home.css"></style>
