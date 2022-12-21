@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header v-if="$route.name !== 'loginAndRegister'"/>
     <router-view />
   </div>
 </template>
@@ -21,11 +20,8 @@ body {
 
 <script>
 import { defineComponent } from "vue";
-import Header from "@/components/Header/Header.vue";
 
 export default defineComponent({
-  components: {
-    Header
-  },
+  
 });
 </script>

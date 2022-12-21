@@ -13,6 +13,10 @@ export default defineComponent(
 
         watch: {
            
+        },
+
+        created(){
+            alert("teste")
         }
     }
 )
