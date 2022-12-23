@@ -24,5 +24,4 @@
   </div>
 </template>
 
-<style scoped src="./Header.css"></style>
 <script  src="./Header.ts"></script>

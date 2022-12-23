@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-
-createApp(App).use(router).mount('#app')
+import { Quasar } from 'quasar'
+const quasarUserOptions = require('./quasar-user-options')
+createApp(App).use(Quasar, quasarUserOptions).use(router).mount('#app')
