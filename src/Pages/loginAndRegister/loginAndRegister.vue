@@ -123,15 +123,15 @@
                 </button>
               </div>
 
-              <div class="flex justify-center mt-2">
+              <div class="flex justify-center mt-2 bg-gray-500 rounded-md cursor-pointer">
                 <span
-                  class="slide-in-right cursor-pointer"
+                  class="slide-in-right text-center w-full py-2"
                   @click="action = 'Cadastrar'"
                   v-show="action == 'Login'"
                   >Não está cadastrado? Faça o seu cadastro</span
                 >
                 <span
-                  class="slide-in-left cursor-pointer"
+                  class="slide-in-left text-center w-full py-2"
                   @click="action = 'Login'"
                   v-show="action == 'Cadastrar'"
                   >Já está cadastrado? Faça o seu login</span
@@ -141,32 +141,19 @@
           </div>
         </div>
       </div>
-      <footer class="relative pt-14 mt-5">
-        <div class="container mx-auto px-4">
-          <div
-            class="
-              flex flex-wrap
-              items-center
-              md:justify-between
-              justify-center
-            "
-          >
-            <footer class="w-full md:w-6/12 px-4 mx-auto text-center">
-              <a
-                href="https://github.com/Christian-M-Silva"
-                target="_blank"
-                class="
-                  bg-red-500
-                  font-bold
-                  shadow-lg shadow-red-500/50
-                  rounded-md
-                  p-2
-                "
-                >DEVELOPED 🎮 <span class="text-red-700">CHRISTIAN</span></a
-              >
-            </footer>
-          </div>
-        </div>
+      <footer class="w-full md:w-6/12 px-4 mx-auto text-center my-14">
+        <a
+          href="https://github.com/Christian-M-Silva"
+          target="_blank"
+          class="
+            bg-red-500
+            font-bold
+            shadow-lg shadow-red-500/50
+            rounded-md
+            p-2
+          "
+          >DEVELOPED 🎮 <span class="text-red-700">CHRISTIAN</span></a
+        >
       </footer>
     </section>
   </div>
