@@ -5,40 +5,23 @@
     </h1>
 
     <div
-      class="flex gap-1"
-      :class="
+      :class="[
+        'flex gap-1',
         $q.screen.lt.md
           ? $q.screen.sm
             ? 'flex-col mx-36 mt-5'
             : 'flex-col mt-5'
-          : 'my-3'
-      "
+          : 'my-3',
+      ]"
     >
       <div class="flex gap-1">
         <input
-          :class="$q.screen.gt.xs ? 'w-72' : 'w-16'"
+          :class="[
+            ' form-control px-3 relative flex-auto min-w-0 block py-1.5 text-base font-normal  text-gray-700  bg-slate-100 bg-clip-padding border border-solid border-gray-300  rounded  transition  ease-in-out focus:text-gray-700 focus:bg-slate-50 focus:border-blue-600  focus:outline-none',
+            $q.screen.gt.xs ? 'w-72' : 'w-16',
+          ]"
           type="search"
-          class="
-            form-control
-            px-3
-            relative
-            flex-auto
-            min-w-0
-            block
-            py-1.5
-            text-base
-            font-normal
-            text-gray-700
-            bg-slate-100 bg-clip-padding
-            border border-solid border-gray-300
-            rounded
-            transition
-            ease-in-out
-            focus:text-gray-700
-            focus:bg-slate-50
-            focus:border-blue-600
-            focus:outline-none
-          "
+          class=""
           placeholder="Nome da tabela"
           aria-label="Pesquise pelo nome da tabela"
           aria-describedby="button-search"
@@ -170,50 +153,6 @@
       v-model:selected="selected"
       @row-click="goTo"
     >
-      <!-- <template v-slot:body-cell-download>
-        <q-td @click="download" class="">
-          <div class="text-center"></div>
-        </q-td>
-      </template>
-
-      <template v-slot:item="props">
-        <div
-          class="
-            q-pa-xs
-            col-xs-12 col-sm-6 col-md-4 col-lg-3
-            grid-style-transition
-          "
-          :style="props.selected ? 'transform: scale(0.95);' : ''"
-        >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-checkbox
-                dense
-                v-model="props.selected"
-                :label="props.row.name"
-              />
-            </q-card-section>
-            <q-separator />
-            <q-list @click="goTo" dense>
-              <q-item v-for="col in props.cols" :key="col.name">
-                <q-item-section>
-                  <q-item-label>{{ col.label }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-item-label
-                    @click="download"
-                    v-if="col.name === 'download'"
-                    caption
-                  >
-                    <q-icon name="image" size="sm"
-                  /></q-item-label>
-                  <q-item-label v-else caption>{{ col.value }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card>
-        </div>
-      </template> -->
     </q-table>
 
     <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
