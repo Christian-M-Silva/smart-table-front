@@ -1,10 +1,5 @@
 import { defineComponent } from "vue";
-
-interface Rows {
-  name: string,
-  createdAt: string,
-  updateAt: string,
-}
+import { Rows } from "@/interfaces/interfaces"
 export default defineComponent(
   {
     data() {

@@ -1,14 +1,20 @@
 module.exports = {
-    publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
 
-    pluginOptions: {
-      quasar: {
-        importStrategy: 'kebab',
-        rtlSupport: false
-      }
-    },
+  pluginOptions: {
+    quasar: {
+      importStrategy: 'kebab',
+      rtlSupport: false
+    }
+  },
 
-    transpileDependencies: [
-      'quasar'
-    ]
+  devServer: {
+    host: process.env.VUE_APP_SERVER_HOST,
+    port: process.env.VUE_APP_SERVER_PORT,
+    open: '/login'
+  },
+
+  transpileDependencies: [
+    'quasar'
+  ]
 }

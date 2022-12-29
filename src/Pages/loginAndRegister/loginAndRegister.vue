@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen pt-20">
-    <section>
+    <div>
       <div class="w-full lg:w-6/12 px-4 mx-auto pt-6">
         <div
           class="
@@ -155,7 +155,7 @@
           >DEVELOPED 🎮 <span class="text-red-700">CHRISTIAN</span></a
         >
       </footer>
-    </section>
+    </div>
   </div>
 </template>
 <style scoped src="./loginAndRegister.css"></style>
