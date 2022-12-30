@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/login',
+    path: '/',
     name: 'loginAndRegister',
     component: () => import('@/Pages/loginAndRegister/loginAndRegister.vue')
   },
@@ -11,9 +11,14 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/Header/Header.vue'),
     children: [
       {
-        path: 'home',
+        path: '/home',
         name: 'home',
         component: () => import('@/Pages/home/home.vue')
+      },
+      {
+        path: '/:pathMatch(.*)',
+        name: 'notFound',
+        component: () => import('@/Pages/notFound/notFound.vue')
       },
     ]
   },

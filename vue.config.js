@@ -11,7 +11,7 @@ module.exports = {
   devServer: {
     host: process.env.VUE_APP_SERVER_HOST,
     port: process.env.VUE_APP_SERVER_PORT,
-    open: '/login'
+    open: '/'
   },
 
   transpileDependencies: [

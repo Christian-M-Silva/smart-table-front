@@ -1,7 +1,9 @@
 <template>
   <div>
     <header class="bg-slate-500 py-5 px-5 flex justify-between">
-      <h1 class="text-xl font-semibold">SMART TABLE</h1>
+      <h1 class="text-xl font-semibold cursor-pointer" @click="$router.push({ name: 'home' })">
+        SMART TABLE
+      </h1>
       <div @click="exit" class="flex cursor-pointer">
         <svg
           class="w-6 h-6"
