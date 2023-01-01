@@ -123,7 +123,16 @@
                 </button>
               </div>
 
-              <div class="flex justify-center mt-2 bg-gray-500 rounded-md cursor-pointer">
+              <div
+                class="
+                  flex
+                  justify-center
+                  mt-2
+                  bg-gray-500
+                  rounded-md
+                  cursor-pointer
+                "
+              >
                 <span
                   class="slide-in-right text-center w-full py-2"
                   @click="action = 'Cadastrar'"

@@ -1,34 +1,40 @@
 import { defineComponent } from "vue";
+import { Actions } from "@/types/types";
 
 export default defineComponent(
     {
-        data(){
-           return{
-            action: "Login",
-            entity: '',
-            password: '',
-            classAnimation: 'slide-in-right'
-           }
+        data() {
+            return {
+                action: '' as Actions,
+                entity: '',
+                password: '',
+                classAnimation: 'slide-in-right'
+            }
         },
-    
-        methods: {
-            registerOrLogin(){
-                if (this.action === 'Login') {
-                    return alert("logado")
-                } 
 
-                return alert("registrar")
+        methods: {
+            registerOrLogin() {
+                if (this.action === "Cadastrar") {
+                     alert("registrado")
+                     return this.action = "Login"
+                }
+                return alert("logado")
+                
             },
         },
 
         watch: {
-            action(value):string{
+            action(value): string {
                 if (value === "Login") {
                     return this.classAnimation = "slide-in-right"
                 }
 
                 return this.classAnimation = "slide-in-left"
             }
-        }
+        },
+
+        created() {
+            this.action = "Login"
+        },
     }
 )
