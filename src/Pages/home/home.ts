@@ -43,7 +43,7 @@ export default defineComponent(
       },
 
       newTable() {
-        alert("Nova tabela")
+        this.$router.push({name: 'tables'})
       },
 
       removeTable() {

@@ -18,6 +18,8 @@ export default defineComponent(
                      alert("registrado")
                      return this.action = "Login"
                 }
+
+                this.$router.push({name: 'home'})
                 return alert("logado")
                 
             },
