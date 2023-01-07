@@ -10,18 +10,21 @@ export default defineComponent({
                     name: 'nameTable',
                     type: 'text',
                     title: 'Nome da tabela',
+                    required: true
                 },
                 {
                     vModel: '',
                     type: 'number',
                     name: 'numberRow',
-                    title: 'Quantidade de linhas da tabela'
+                    title: 'Quantidade de linhas da tabela',
+                    required: true
                 },
                 {
                     vModel: '',
                     name: 'dayBegin',
                     type: 'date',
-                    title: 'Dia inicial da tabela'
+                    title: 'Dia inicial da tabela',
+                    required: false
                 },
                 {
                     vModel: [],
@@ -35,11 +38,12 @@ export default defineComponent({
                         {label: "Quinta", value: "thursday"},
                         {label: "Sexta", value: "friday"},
                         {label: "Sábado", value: "saturday"}
-                    ]
+                    ],
+                    required: true
                 },
             ],
             nameColumns: '',
-
+        
             namesColumns: ['']
         }
     },

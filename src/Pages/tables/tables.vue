@@ -29,7 +29,6 @@
             <div class="my-5" v-for="input in inputs" :key="input.title">
               <span class="font-bold">{{ input.title.toUpperCase() }}</span>
               <q-select
-                :ref="input.name"
                 v-if="input.options"
                 v-model="input.vModel"
                 :options="input.options"
@@ -39,7 +38,6 @@
               <q-input
                 v-else
                 v-model="input.vModel"
-                :ref="input.name"
                 :type="input.type"
                 filled
               />
