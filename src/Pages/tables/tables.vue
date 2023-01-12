@@ -33,14 +33,14 @@
                 v-model="input.vModel"
                 :options="input.options"
                 filled
-                :rules="[val => !!val || 'Esse campo é obrigatório']"
+                :rules="[(val) => val.length > 0 || 'Esse campo é obrigatório']"
                 multiple
               />
               <q-input
                 v-else
                 v-model="input.vModel"
                 :type="input.type"
-                :rules="[val => !!val || 'Esse campo é obrigatório']"
+                :rules="[(val) => !!val || 'Esse campo é obrigatório']"
                 filled
               />
             </div>

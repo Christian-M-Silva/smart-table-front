@@ -3,3 +3,7 @@ export interface Rows {
     createdAt: string,
     updateAt: string,
 }
+export interface vModelSelect {
+    label: string,
+    value: string
+}
