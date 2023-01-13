@@ -7,6 +7,7 @@ export default defineComponent({
         return {
             createTableModal: false,
             loading: false,
+            erroInput: false,
             inputs: [
                 {
                     vModel: '',
@@ -49,7 +50,7 @@ export default defineComponent({
 
     methods: {
         addNameColumn() {
-            this.namesColumns.includes(this.nameColumns.toUpperCase()) ? alert("Esse nome já tem " + this.nameColumns) : this.namesColumns.push(this.nameColumns.toUpperCase())
+            this.namesColumns.includes(this.nameColumns.toUpperCase()) || /\s/g.test(this.nameColumns) || this.nameColumns.length === 0 ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
             this.nameColumns = ''
         },
 

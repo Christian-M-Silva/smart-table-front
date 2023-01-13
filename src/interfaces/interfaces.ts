@@ -1,4 +1,4 @@
-export interface Rows {
+export interface RowsTableHome {
     name: string,
     createdAt: string,
     updateAt: string,

@@ -1,5 +1,5 @@
 import { defineComponent } from "vue";
-import { Rows } from "@/interfaces/interfaces"
+import { RowsTableHome } from "@/interfaces/interfaces"
 export default defineComponent(
   {
     data() {
@@ -31,7 +31,7 @@ export default defineComponent(
           },
         ],
 
-        rows: [] as Rows[],
+        rows: [] as RowsTableHome[],
 
         selected: []
       }
