@@ -69,8 +69,16 @@
         </q-page-container>
       </q-layout>
     </q-dialog>
+
+    <div v-if="loading" class="h-[calc(100vh-68px)] column justify-center items-center">
+      <q-icon
+        name="autorenew"
+        size="7rem"
+        class="animate-spin h-20"
+      />
+      <span>Construindo sua Tabela</span>
+    </div>
   </div>
 </template>
-
 
 <script  src="./tables.ts"></script>

@@ -2,9 +2,11 @@ import { defineComponent } from "vue";
 import { vModelSelect } from "@/interfaces/interfaces";
 
 export default defineComponent({
+    
     data() {
         return {
             createTableModal: false,
+            loading: false,
             inputs: [
                 {
                     vModel: '',
@@ -84,10 +86,6 @@ export default defineComponent({
 
                 let rows = [] //Valor a ser passado no array, aqui dentro ele vai pegar todos os dias que tem que aparecer na tabela
 
-                console.log("🚀 ~ file: tables.ts:68 ~ confirm ~ quantityRow", quantityRow)
-                console.log("🚀 ~ file: tables.ts:73 ~ confirm ~ weekDaysChosenByUser", weekDaysChosenByUser)
-                console.log("🚀 ~ file: tables.ts:86 ~ confirm ~ currentDate", currentDate.getDay())
-
                 //AQUI VOU COLOCAR A LÓGICA QUE ESTOU ARRUMANDO ACIMA
 
                 let date = currentDate //Fazemos o date receber o currentDate
@@ -103,7 +101,17 @@ export default defineComponent({
 
                     date = new Date(date.setDate(date.getDate() + 1)) //ai fazemos a date somar mais um dia
                 }
+                
+                this.createTableModal = false
+
+                this.loading = true
+
+                console.log("🚀 ~ file: tables.ts:68 ~ confirm ~ quantityRow", quantityRow)
+                console.log("🚀 ~ file: tables.ts:73 ~ confirm ~ weekDaysChosenByUser", weekDaysChosenByUser)
+                console.log("🚀 ~ file: tables.ts:86 ~ confirm ~ currentDate", currentDate.getDay())
                 console.log("🚀 ~ file: tables.ts:105 ~ confirm ~ rows", rows)
+
+                this.loading = false
             }
         }
     },
