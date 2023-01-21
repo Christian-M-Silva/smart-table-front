@@ -13,3 +13,7 @@ export interface vModelSelect {
     label: string,
     value: string
 }
+
+export interface inputs extends vModelSelect{
+    index: number
+}

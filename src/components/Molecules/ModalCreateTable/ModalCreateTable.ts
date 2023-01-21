@@ -139,7 +139,7 @@ export default defineComponent({
                 for (let index = 0; index < this.rows.length; index++) {
                     this.columns.forEach(el => {
                         if (el.name !== 'date') {
-                            this.rows[index][el.field] = `Teste ${index}`
+                            this.rows[index][el.field] = ''
                         }
                     });
                 }
