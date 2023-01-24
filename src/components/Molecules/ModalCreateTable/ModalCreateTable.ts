@@ -9,25 +9,25 @@ export default defineComponent({
             erroInput: false,
             inputs: [
                 {
-                    vModel: '',
+                    vModel: 'Indicador e Volante',
                     name: 'nameTable',
                     type: 'text',
                     title: 'Nome da tabela',
                 },
                 {
-                    vModel: '',
+                    vModel: '6',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela'
                 },
                 {
-                    vModel: '',
+                    vModel: '2023-02-03',
                     name: 'dayBegin',
                     type: 'date',
                     title: 'Dia inicial da tabela'
                 },
                 {
-                    vModel: [],
+                    vModel: [{ label: "Quarta", value: '3' }, { label: "Sábado", value: '6' }],
                     name: 'weekDays',
                     title: 'Dias da Semana que a tabela vai ter que repetir',
                     options: [
@@ -47,7 +47,7 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: [] as string[]
+            namesColumns: ['INDICADOR', 'VOLANTE'] as string[]
         }
     },
 

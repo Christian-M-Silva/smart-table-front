@@ -1,19 +1,50 @@
 <template>
   <div>
     <q-table
+      card-class="bg-blue-grey-5"
       table-header-class="bg-blue-grey-6"
       table-class="bg-blue-grey-2"
-      class="mx-32 my-5"
+      :class="[{ 'mx-32 my-5': isNotFullScreen }]"
       v-show="showTable"
       :rows-per-page-options="[0]"
       :virtual-scroll-sticky-size-start="48"
       virtual-scroll
-      :title="nameTable"
       :rows="rows"
       :columns="columns"
       row-key="date"
       @row-click="openModalEdit"
-    />
+    >
+      <template v-slot:top="props">
+        <div class="row w-full justify-between mt-2">
+          <h5>
+            {{ nameTable }}
+          </h5>
+          <q-btn
+            flat
+            round
+            dense
+            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+            @click="fullscreen(props)"
+            class="q-ml-md"
+          />
+        </div>
+      </template>
+      <template v-slot:bottom>
+        <div class="row justify-between w-full items-center">
+          <div class="row gap-2">
+            <q-btn
+              color="green"
+              icon="check"
+              label="FINALIZAR"
+              @click="showModalConfirm('OK')"
+            />
+            <q-btn color="red" icon="close" label="CANCELAR" @click="showModalConfirm('CANCEL')" />
+          </div>
+          <span>Total de linhas: {{ rows.length }}</span>
+        </div>
+      </template>
+    </q-table>
+
     <modal-create-table @confirm="createTable" />
 
     <div
@@ -53,6 +84,22 @@
             />
           </div>
         </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="isOpenModalConfirm" persistent>
+      <q-card>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm"
+            >Tem certeza?</span
+          >
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="NÃO" color="red" v-close-popup />
+          <q-btn flat label="SIM" color="green" v-close-popup @click="finalize" v-if="confirm === 'OK'"/>
+          <q-btn flat label="SIM" color="green" v-close-popup @click="cancel" v-else-if="confirm === 'CANCEL'"/>
+        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>

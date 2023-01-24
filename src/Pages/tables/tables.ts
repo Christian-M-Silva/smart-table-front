@@ -14,7 +14,10 @@ export default defineComponent({
             showTable: false,
             nameTable: '',
             isModalEditInput: false,
-            arrayInputs: [] as inputs[]
+            arrayInputs: [] as inputs[],
+            isNotFullScreen: true,
+            confirm: '',
+            isOpenModalConfirm: false
         }
     },
 
@@ -41,12 +44,35 @@ export default defineComponent({
             this.arrayInputs = inputs
         },
 
-        editValue(index:number, value:string, label:string){
+        editValue(index: number, value: string, label: string) {
             for (const key in this.rows[index]) {
                 if (key === label) {
                     this.rows[index][key] = value
                 }
             }
+        },
+
+        fullscreen(props: any) {
+            this.isNotFullScreen = !this.isNotFullScreen
+            props.toggleFullscreen()
+        },
+
+        cancel() {
+            this.$router.push({ name: 'home' })
+        },
+
+        finalize() {
+            const data = {
+                rows: this.rows,
+                columns: this.columns,
+                nameTable: this.nameTable
+            }
+            console.log("🚀 ~ file: tables.ts:68 ~ confirm ~ data", data)
+        },
+
+        showModalConfirm(value: string){
+            this.confirm = value
+            this.isOpenModalConfirm = true
         }
     },
 })
