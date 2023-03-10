@@ -2,6 +2,13 @@ import { defineComponent } from "vue";
 import { vModelSelect, ColumnsTableCreate } from "@/interfaces/interfaces";
 
 export default defineComponent({
+    props:{
+        openModalAgain: {
+            type: Boolean,
+            default: false,
+        },
+        updateData: Object
+    },
 
     data() {
         return {
@@ -72,7 +79,7 @@ export default defineComponent({
                 // PEGAR A QUANTIDADE DE LINHA PASSADO PELO USER
                 const quantityRow = Number(this.inputs.filter(input => input.name === 'numberRow')[0].vModel)
 
-                //PEGA OS DIAS DA SEMANA E ATRIBUI PARA UM ARRAY CHAMADO weekDays INICIO -----------
+                //PEGA OS DIAS DA SEMANA E ATRIBUI PARA UM ARRAY CHAMADO weekDays
                 const vModelWeekDays = this.inputs.filter(input => input.name === 'weekDays')[0].vModel as vModelSelect[]
                 let weekDaysChosenByUser = [] as string[]
                 vModelWeekDays.forEach(el => {
@@ -80,7 +87,7 @@ export default defineComponent({
                 });
 
 
-                //CRIA A NOVA DATA COM BASE NO QUE O USER PASSOU INICIO ***********************
+                //CRIA A NOVA DATA COM BASE NO QUE O USER PASSOU 
                 let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string
                 const datePart = vModelDayBegin.split("-");
                 const year = parseInt(datePart[0]);
@@ -88,13 +95,12 @@ export default defineComponent({
                 const day = parseInt(datePart[2]);
                 const currentDate = new Date(year, month, day);
 
-                let rowsDate = [] //Valor a ser passado no array, aqui dentro ele vai pegar todos os dias que tem que aparecer na tabela
+                let rowsDate = []
 
-                //AQUI VOU COLOCAR A LÓGICA QUE ESTOU ARRUMANDO ACIMA
-
-                let date = currentDate //Fazemos o date receber o currentDate
+                let date = currentDate
 
                 while (rowsDate.length < quantityRow) { //aqui ele vai ver se a quantidade de linhas ou seja de datas armazenadas dentro do row, combina com a quantidade de linha, pois cada data é uma linha
+                    
                     let dayWeek = date.getDay().toString() //aqui ele vai pegar o date e pegar o dia da semana que ele está se referindo
 
                     if (weekDaysChosenByUser.includes(dayWeek)) {// se retornar verdadeiro então rowsDate, recebe essa data atual já formatada
@@ -107,8 +113,6 @@ export default defineComponent({
                 }
 
                 this.createTableModal = false
-
-
                 
                 let nameTable = ''
                 this.inputs.forEach(el => {
@@ -143,8 +147,26 @@ export default defineComponent({
                         }
                     });
                 }
-                this.$emit('confirm', this.rows, this.columns, true, nameTable)
+                this.$emit('confirm', this.rows, this.columns, nameTable, true)
+                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ nameTable", nameTable)
+                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.columns", this.columns)
+                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.rows", this.rows)
             }
+        },
+
+        updateTable(newValue:any){
+            console.log("🚀 ~ file: ModalCreateTable.ts:158 ~ updateTable ~ newValue", newValue)
+        }
+    },
+
+    watch:{
+        openModalAgain(){
+            this.createTableModal = true
+        },
+
+        updateData(newValue){
+            alert('aqui')
+            this.updateTable(newValue)
         }
     },
 

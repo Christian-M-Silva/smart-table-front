@@ -9,11 +9,16 @@ export interface ColumnsTableCreate {
     field: string,
     align: 'left',
 }
+export interface DataEnd {
+    nameTable: string,
+    columns: any[],
+    rows: any[],
+}
 export interface vModelSelect {
     label: string,
     value: string
 }
 
-export interface inputs extends vModelSelect{
+export interface inputs extends vModelSelect {
     index: number
 }

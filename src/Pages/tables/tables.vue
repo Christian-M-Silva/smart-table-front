@@ -39,13 +39,18 @@
               @click="showModalConfirm('OK')"
             />
             <q-btn color="red" icon="close" label="CANCELAR" @click="showModalConfirm('CANCEL')" />
+            <q-btn color="blue" icon="edit" label="EDITAR TABELA" @click="editTable"/>
           </div>
           <span>Total de linhas: {{ rows.length }}</span>
         </div>
       </template>
     </q-table>
 
-    <modal-create-table @confirm="createTable" />
+    <div class="w-screen row mt-2 justify-center items-center" v-show="!showTable">
+      <q-btn color="primary" label="ABRIR MODAL DE CRIAÇÃO" @click="IsOpenAgain = !IsOpenAgain" />
+    </div>
+
+    <modal-create-table @confirm="createTable" :openModalAgain="IsOpenAgain" :updateData="dataUpdate"/>
 
     <div
       v-if="loading"

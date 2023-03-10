@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, inputs } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, inputs, DataEnd } from "@/interfaces/interfaces";
 
 export default defineComponent({
     components: {
@@ -17,12 +17,14 @@ export default defineComponent({
             arrayInputs: [] as inputs[],
             isNotFullScreen: true,
             confirm: '',
-            isOpenModalConfirm: false
+            isOpenModalConfirm: false,
+            IsOpenAgain: false,
+            dataUpdate: {} as DataEnd
         }
     },
 
     methods: {
-        createTable(rows: any, columns: any, isLoading: boolean, nameTable: string) {
+        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean,) {
             this.loading = isLoading
             this.columns = columns
             this.rows = rows
@@ -73,6 +75,15 @@ export default defineComponent({
         showModalConfirm(value: string){
             this.confirm = value
             this.isOpenModalConfirm = true
+        },
+
+        editTable(){
+            this.dataUpdate = {
+                rows: this.rows,
+                columns: this.columns,
+                nameTable: this.nameTable
+                // isUpdate:true
+            }
         }
     },
 })
