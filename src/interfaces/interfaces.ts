@@ -3,6 +3,11 @@ export interface RowsTableHome {
     createdAt: string,
     updateAt: string,
 }
+export interface DataUser {
+    entity: string,
+    password: string,
+    email?: string,
+}
 export interface ColumnsTableCreate {
     name: string,
     label: string,

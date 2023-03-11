@@ -1,8 +1,12 @@
 import { defineComponent } from "vue";
 import { Actions } from "@/types/types";
+import { DataUser } from "@/interfaces/interfaces";
+import utils from "@/mixins/utils";
+import axios from "axios";
 
 export default defineComponent(
     {
+        mixins: [utils],
         data() {
             return {
                 action: '' as Actions,
@@ -13,15 +17,26 @@ export default defineComponent(
         },
 
         methods: {
-            registerOrLogin() {
+            async registerOrLogin() {
+                let dataUser: DataUser
+                dataUser = {
+                    entity: "Mangueira",
+                    email: "christianmoraissilvacms@gmail.com",
+                    password: "12345"
+                }
                 if (this.action === "Cadastrar") {
-                     alert("registrado")
-                     return this.action = "Login"
+                    alert("registrado")
+                    await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
+                        console.log(res)
+                    })).catch((erro => {
+                        console.error(erro)
+                    }))
+                    return this.action = "Login"
                 }
 
-                this.$router.push({name: 'home'})
+                this.$router.push({ name: 'home' })
                 return alert("logado")
-                
+
             },
         },
 
