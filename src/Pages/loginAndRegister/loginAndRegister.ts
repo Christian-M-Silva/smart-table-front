@@ -10,9 +10,10 @@ export default defineComponent(
         data() {
             return {
                 action: '' as Actions,
+                classAnimation: 'slide-in-right',
                 entity: '',
                 password: '',
-                classAnimation: 'slide-in-right'
+                email: ''
             }
         },
 
@@ -20,9 +21,9 @@ export default defineComponent(
             async registerOrLogin() {
                 let dataUser: DataUser
                 dataUser = {
-                    entity: "Mangueira",
-                    email: "christianmoraissilvacms@gmail.com",
-                    password: "12345"
+                    entity: this.entity,
+                    email: this.email,
+                    password: this.password
                 }
                 if (this.action === "Cadastrar") {
                     alert("registrado")
