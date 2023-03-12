@@ -21,8 +21,17 @@
                   type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   v-model="entity"
+                  @blur="v$.entity.$touch"
                   placeholder="Insira seu nome ou da empresa"
                 />
+                <div v-for="error of v$.entity.$errors" :key="error.$uid">
+                  <div
+                    v-if="action === 'Cadastrar'"
+                    class="text-red-700 font-semibold"
+                  >
+                    {{ error.$message }}
+                  </div>
+                </div>
               </div>
 
               <div
@@ -39,7 +48,13 @@
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   v-model="email"
                   placeholder="Insira seu e-mail"
+                  @blur="v$.email.$touch"
                 />
+                <div v-for="error of v$.email.$errors" :key="error.$uid">
+                  <div class="text-red-700 font-semibold">
+                    {{ error.$message }}
+                  </div>
+                </div>
               </div>
 
               <div class="relative w-full mb-3">
@@ -54,7 +69,16 @@
                   autocomplete="on"
                   v-model="password"
                   placeholder="Insira a senha"
+                  @blur="v$.password.$touch"
                 />
+                <div v-for="error of v$.password.$errors" :key="error.$uid">
+                  <div
+                    v-if="action === 'Cadastrar'"
+                    class="text-red-700 font-semibold"
+                  >
+                    {{ error.$message }}
+                  </div>
+                </div>
               </div>
 
               <div class="text-center mt-6">

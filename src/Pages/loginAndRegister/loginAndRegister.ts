@@ -3,10 +3,15 @@ import { Actions } from "@/types/types";
 import { DataUser } from "@/interfaces/interfaces";
 import utils from "@/mixins/utils";
 import axios from "axios";
+import { useVuelidate } from '@vuelidate/core'
+import { required, email, helpers } from '@vuelidate/validators'
 
 export default defineComponent(
     {
         mixins: [utils],
+        setup() {
+            return { v$: useVuelidate() }
+        },
         data() {
             return {
                 action: '' as Actions,
@@ -25,24 +30,32 @@ export default defineComponent(
                     email: this.email,
                     password: this.password
                 }
+
                 if (this.action === "Cadastrar") {
-                    alert("registrado")
+                    const isValidate = await this.v$.$validate()
+                    if (!isValidate) {
+                        return console.error("Um dos dados dos inputs não está seguindo as regras estabelecidas")
+                    }
+
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
                         console.log(res)
+                        return this.action = "Login"
                     })).catch((erro => {
-                        console.error(erro)
+                        return console.error(erro)
                     }))
-                    return this.action = "Login"
+                }else{
+                    return alert("logado")
+                    this.$router.push({ name: 'home' })
                 }
-
-                this.$router.push({ name: 'home' })
-                return alert("logado")
-
             },
         },
 
         watch: {
             action(value): string {
+                this.v$.$reset()
+                this.entity = ''
+                this.email = ''
+                this.password = ''
                 if (value === "Login") {
                     return this.classAnimation = "slide-in-right"
                 }
@@ -54,5 +67,13 @@ export default defineComponent(
         created() {
             this.action = "Login"
         },
+
+        validations() {
+            return {
+                entity: { required: helpers.withMessage('Esse campo é obrigatório', required) },
+                password: { required: helpers.withMessage('Esse campo é obrigatório', required) },
+                email: { required: helpers.withMessage('Esse campo é obrigatório', required), email: helpers.withMessage('O valor não está no formato de email', email) }
+            }
+        }
     }
 )
