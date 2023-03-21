@@ -1,13 +1,17 @@
 import { defineComponent } from "vue";
 import { Actions } from "@/types/types";
 import { DataUser } from "@/interfaces/interfaces";
-import utils from "@/mixins/utils";
+import utils from "@/mixins/packAxios";
 import axios from "axios";
 import { useVuelidate } from '@vuelidate/core'
 import { required, email, helpers } from '@vuelidate/validators'
+import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 
 export default defineComponent(
     {
+        components: {
+            ModalResponseApi,
+        },
         mixins: [utils],
         setup() {
             return { v$: useVuelidate() }
@@ -18,7 +22,9 @@ export default defineComponent(
                 classAnimation: 'slide-in-right',
                 entity: '',
                 password: '',
-                email: ''
+                email: '',
+                openModal: false,
+                response: {}
             }
         },
 
@@ -38,13 +44,13 @@ export default defineComponent(
                     }
 
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
-                        console.log(res)
-                        return this.action = "Login"
+                        this.response = res
+                        this.action = "Login"
                     })).catch((erro => {
-                        return console.error(erro)
+                        this.response = erro
                     }))
-                }else{
-                    return alert("logado")
+                    this.openModal = !this.openModal
+                } else {
                     this.$router.push({ name: 'home' })
                 }
             },

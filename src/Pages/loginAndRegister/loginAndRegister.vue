@@ -9,6 +9,7 @@
             <div class="text-slate-700 text-center my-5 font-bold text-2xl">
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
+            <modal-response-api :isOpenModal="openModal" :responseApi="response"></modal-response-api>
             <form>
               <div class="relative w-full mb-3">
                 <label
