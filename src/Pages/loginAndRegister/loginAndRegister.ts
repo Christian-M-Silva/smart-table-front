@@ -59,8 +59,15 @@ export default defineComponent(
                 }
             },
 
-            async sendEmail(){
+            async sendEmail() {
                 alert(this.email)
+
+                // await axios.put(`${this.baseUrl}sendEmailforgetPassword`, this.email).then((res => {
+                //     console.log("🚀 ~ file: loginAndRegister.ts:67 ~ awaitaxios.put ~ res:", res)
+                // })).catch((erro => {
+                //     console.log("🚀 ~ file: loginAndRegister.ts:68 ~ awaitaxios.put ~ erro:", erro)
+                // }))
+
                 this.modelSendEmail = false
             },
         },
