@@ -1,29 +1,33 @@
-import { defineComponent } from "vue";
 import { Actions } from "@/types/types";
-import { DataUser } from "@/interfaces/interfaces";
-import utils from "@/mixins/packAxios";
 import axios from "axios";
-import { useVuelidate } from '@vuelidate/core'
-import { required, email, helpers } from '@vuelidate/validators'
+import { DataUser } from "@/interfaces/interfaces";
+import { defineComponent } from "vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
+import { required, email, helpers } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
+import utils from "@/mixins/packAxios";
 
 export default defineComponent(
     {
         components: {
             ModalResponseApi,
         },
+
         mixins: [utils],
+
         setup() {
             return { v$: useVuelidate() }
         },
+
         data() {
             return {
                 action: '' as Actions,
+                email: '',
                 classAnimation: 'slide-in-right',
                 entity: '',
-                password: '',
-                email: '',
+                modelSendEmail: false,
                 openModal: false,
+                password: '',
                 response: {}
             }
         },
@@ -54,6 +58,11 @@ export default defineComponent(
                     this.$router.push({ name: 'home' })
                 }
             },
+
+            async sendEmail(){
+                alert(this.email)
+                this.modelSendEmail = false
+            },
         },
 
         watch: {
@@ -76,9 +85,9 @@ export default defineComponent(
 
         validations() {
             return {
+                email: { required: helpers.withMessage('Esse campo é obrigatório', required), email: helpers.withMessage('O valor não está no formato de email', email) },
                 entity: { required: helpers.withMessage('Esse campo é obrigatório', required) },
                 password: { required: helpers.withMessage('Esse campo é obrigatório', required) },
-                email: { required: helpers.withMessage('Esse campo é obrigatório', required), email: helpers.withMessage('O valor não está no formato de email', email) }
             }
         }
     }

@@ -86,7 +86,9 @@
               </div>
 
               <div class="text-center mt-5 text-teal-700 font-semibold">
-                <span class="cursor-pointer" v-if="action == 'Login'">Esqueci minha senha</span>
+                <span class="cursor-pointer" @click="modelSendEmail = true" v-if="action == 'Login'"
+                  >Esqueci minha senha</span
+                >
               </div>
 
               <div class="text-center mt-6">
@@ -128,6 +130,28 @@
         >
       </footer>
     </div>
+
+    <q-dialog v-model="modelSendEmail" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Digite o e-mail cadastrado</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input
+            dense
+            v-model="email"
+            autofocus
+            @keyup.enter="sendEmail"
+          />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn flat label="Enviar" @click="sendEmail" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <style scoped src="./loginAndRegister.css"></style>
