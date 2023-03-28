@@ -9,7 +9,10 @@
             <div class="text-slate-700 text-center my-5 font-bold text-2xl">
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
-            <modal-response-api :isOpenModal="openModal" :responseApi="response"></modal-response-api>
+            <modal-response-api
+              :isOpenModal="openModal"
+              :responseApi="response"
+            ></modal-response-api>
             <form>
               <div class="relative w-full mb-3">
                 <label
@@ -23,7 +26,7 @@
                   class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   v-model="entity"
                   @blur="v$.entity.$touch"
-                  placeholder="Insira seu nome ou da empresa"
+                  placeholder="Insira seu nome ou da instituição"
                 />
                 <div v-for="error of v$.entity.$errors" :key="error.$uid">
                   <div
@@ -80,6 +83,10 @@
                     {{ error.$message }}
                   </div>
                 </div>
+              </div>
+
+              <div class="text-center mt-5 text-teal-700 font-semibold">
+                <span class="cursor-pointer" v-if="action == 'Login'">Esqueci minha senha</span>
               </div>
 
               <div class="text-center mt-6">
