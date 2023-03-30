@@ -6,7 +6,7 @@
           <span :class="colorCode">ERRO {{ code }}</span>
         </div>
         <div class="header-body-modal">
-          <span :class="colorCode">{{message}}</span>
+          <span :class="colorCode">{{axiosMessage}}</span>
         </div>
       </q-card>
     </q-dialog>

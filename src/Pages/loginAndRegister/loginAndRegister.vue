@@ -9,10 +9,6 @@
             <div class="text-slate-700 text-center my-5 font-bold text-2xl">
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
-            <modal-response-api
-              :isOpenModal="openModal"
-              :responseApi="response"
-            ></modal-response-api>
             <form>
               <div class="relative w-full mb-3">
                 <label
@@ -86,7 +82,10 @@
               </div>
 
               <div class="text-center mt-5 text-teal-700 font-semibold">
-                <span class="cursor-pointer" @click="modelSendEmail = true" v-if="action == 'Login'"
+                <span
+                  class="cursor-pointer"
+                  @click="modelSendEmail = true"
+                  v-if="action == 'Login'"
                   >Esqueci minha senha</span
                 >
               </div>
@@ -131,6 +130,12 @@
       </footer>
     </div>
 
+    <modal-response-api
+      :isOpenModal="openModal"
+      :messageAxios="messageAxios"
+      :responseApi="response"
+    ></modal-response-api>
+
     <q-dialog v-model="modelSendEmail" persistent>
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -138,12 +143,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="email"
-            autofocus
-            @keyup.enter="sendEmail"
-          />
+          <q-input dense v-model="email" autofocus @keyup.enter="sendEmail" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">

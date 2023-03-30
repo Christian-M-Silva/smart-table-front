@@ -26,9 +26,7 @@ export default defineComponent(
                 classAnimation: 'slide-in-right',
                 entity: '',
                 modelSendEmail: false,
-                openModal: false,
                 password: '',
-                response: {}
             }
         },
 
@@ -51,6 +49,7 @@ export default defineComponent(
                         this.response = res
                         this.action = "Login"
                     })).catch((erro => {
+                        this.messageAxios = erro.response.data.errors[0].message
                         this.response = erro
                     }))
                     this.openModal = !this.openModal
@@ -60,14 +59,14 @@ export default defineComponent(
             },
 
             async sendEmail() {
-                alert(this.email)
-
-                // await axios.put(`${this.baseUrl}sendEmailforgetPassword`, this.email).then((res => {
-                //     console.log("🚀 ~ file: loginAndRegister.ts:67 ~ awaitaxios.put ~ res:", res)
-                // })).catch((erro => {
-                //     console.log("🚀 ~ file: loginAndRegister.ts:68 ~ awaitaxios.put ~ erro:", erro)
-                // }))
-
+                await axios.put(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
+                    this.messageAxios = res.data.message
+                    this.response = res
+                })).catch((erro => {
+                    this.messageAxios = erro.response.data.error
+                    this.response = erro
+                }))
+                this.openModal = !this.openModal
                 this.modelSendEmail = false
             },
         },
