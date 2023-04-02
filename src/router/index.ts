@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/loginAndRegister/:param?',
+    path: '/loginAndRegister/:tableId?',
     name: 'loginAndRegister',
     component: () => import('@/Pages/loginAndRegister/loginAndRegister.vue')
   },

@@ -130,8 +130,13 @@
       </footer>
     </div>
 
+    <modal-error
+      :errorMessage="errorMessage"
+      :isOpenModalErro="openModalError"
+    />
+    
     <modal-response-api
-      :isOpenModal="openModal"
+      :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
       :responseApi="response"
     ></modal-response-api>
@@ -152,6 +157,13 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <modal-inputs
+      :isOpenModal="openModalInputs"
+      titleModal="Crie sua nova senha"
+      :inputs="inputsModal"
+      @confirm="saveNewPassword"
+    />
   </div>
 </template>
 <style scoped src="./loginAndRegister.css"></style>

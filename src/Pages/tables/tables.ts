@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, inputs, DataEnd } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, Inputs, DataEnd } from "@/interfaces/interfaces";
 
 export default defineComponent({
     components: {
@@ -14,7 +14,7 @@ export default defineComponent({
             showTable: false,
             nameTable: '',
             isModalEditInput: false,
-            arrayInputs: [] as inputs[],
+            arrayInputs: [] as Inputs[],
             isNotFullScreen: true,
             confirm: '',
             isOpenModalConfirm: false,
@@ -35,7 +35,7 @@ export default defineComponent({
 
         openModalEdit(evt: Event, row: any, index: number) {
             this.isModalEditInput = true
-            let inputs = [] as inputs[]
+            let inputs = [] as Inputs[]
             for (const key in row) {
                 inputs.push({
                     label: key,

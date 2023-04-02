@@ -1,7 +1,9 @@
 import { Actions } from "@/types/types";
 import axios from "axios";
-import { DataUser } from "@/interfaces/interfaces";
+import { DataUser, InputsModal } from "@/interfaces/interfaces";
 import { defineComponent } from "vue";
+import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
+import ModalInputs from "@/components/Molecules/ModalInputs/ModalInputs.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { required, email, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
@@ -10,6 +12,8 @@ import utils from "@/mixins/packAxios";
 export default defineComponent(
     {
         components: {
+            ModalError,
+            ModalInputs,
             ModalResponseApi,
         },
 
@@ -25,7 +29,12 @@ export default defineComponent(
                 email: '',
                 classAnimation: 'slide-in-right',
                 entity: '',
+                errorMessage: '',
+                inputsModal: [] as InputsModal[],
+                isReload: false,
                 modelSendEmail: false,
+                openModalError: false,
+                openModalInputs: false,
                 password: '',
             }
         },
@@ -52,21 +61,41 @@ export default defineComponent(
                         this.messageAxios = erro.response.data.errors[0].message
                         this.response = erro
                     }))
-                    this.openModal = !this.openModal
+                    this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.$router.push({ name: 'home' })
                 }
             },
 
+            async saveNewPassword(inputs: InputsModal[]) {
+                const isIgualPassword = inputs[0].vModel === inputs[1].vModel
+                if (!isIgualPassword) {
+                    this.openModalError = !this.openModalError
+                    return this.errorMessage = "As senhas não são as mesmas"
+                }
+
+                await axios.put(`${this.baseUrl}user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
+                    this.response = res
+                    setTimeout(() => {
+                        this.$router.push({ name: 'loginAndRegister' })
+                    }, 2000);
+                })).catch((erro => {
+                    this.messageAxios = erro.response.data.error
+                    this.response = erro
+                }))
+                this.openModalResponseAPI = !this.openModalResponseAPI
+
+            },
+
             async sendEmail() {
-                await axios.put(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
+                await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
                     this.response = res
                 })).catch((erro => {
                     this.messageAxios = erro.response.data.error
                     this.response = erro
                 }))
-                this.openModal = !this.openModal
+                this.openModalResponseAPI = !this.openModalResponseAPI
                 this.modelSendEmail = false
             },
         },
@@ -82,11 +111,28 @@ export default defineComponent(
                 }
 
                 return this.classAnimation = "slide-in-left"
-            }
+            },
         },
 
         created() {
             this.action = "Login"
+            this.openModalInputs = !!this.$route.params.tableId
+            this.inputsModal = [
+                {
+                    title: 'Digite sua nova Senha',
+                    isRequired: false,
+                    type: 'password',
+                    vModel: '',
+                    isPwd: true
+                },
+                {
+                    title: 'Confirme a nova senha digitada',
+                    isRequired: false,
+                    type: 'password',
+                    vModel: '',
+                    isPwd: true
+                }
+            ]
         },
 
         validations() {
