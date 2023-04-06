@@ -134,7 +134,7 @@
       :errorMessage="errorMessage"
       :isOpenModalErro="openModalError"
     />
-    
+
     <modal-response-api
       :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
@@ -164,6 +164,8 @@
       :inputs="inputsModal"
       @confirm="saveNewPassword"
     />
+
+    <loading :isLoading="isLoading" />
   </div>
 </template>
 <style scoped src="./loginAndRegister.css"></style>

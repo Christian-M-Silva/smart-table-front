@@ -7,7 +7,9 @@ import ModalInputs from "@/components/Molecules/ModalInputs/ModalInputs.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { required, email, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import utils from "@/mixins/packAxios";
+import packAxios from "@/mixins/packAxios";
+
+
 
 export default defineComponent(
     {
@@ -17,7 +19,7 @@ export default defineComponent(
             ModalResponseApi,
         },
 
-        mixins: [utils],
+        mixins: [packAxios],
 
         setup() {
             return { v$: useVuelidate() }
@@ -26,6 +28,7 @@ export default defineComponent(
         data() {
             return {
                 action: '' as Actions,
+                confirm: true,
                 email: '',
                 classAnimation: 'slide-in-right',
                 entity: '',
@@ -54,6 +57,7 @@ export default defineComponent(
                         return console.error("Um dos dados dos inputs não está seguindo as regras estabelecidas")
                     }
 
+                    this.isLoading = true
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
                         this.response = res
                         this.action = "Login"
@@ -61,6 +65,7 @@ export default defineComponent(
                         this.messageAxios = erro.response.data.errors[0].message
                         this.response = erro
                     }))
+                    this.isLoading = false
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.$router.push({ name: 'home' })
@@ -74,6 +79,7 @@ export default defineComponent(
                     return this.errorMessage = "As senhas não são as mesmas"
                 }
 
+                this.isLoading = true
                 await axios.put(`${this.baseUrl}user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
                     this.response = res
                     setTimeout(() => {
@@ -83,11 +89,13 @@ export default defineComponent(
                     this.messageAxios = erro.response.data.error
                     this.response = erro
                 }))
+                this.isLoading = false
                 this.openModalResponseAPI = !this.openModalResponseAPI
 
             },
 
             async sendEmail() {
+                this.isLoading = true
                 await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
                     this.response = res
@@ -95,6 +103,7 @@ export default defineComponent(
                     this.messageAxios = erro.response.data.error
                     this.response = erro
                 }))
+                this.isLoading = false
                 this.openModalResponseAPI = !this.openModalResponseAPI
                 this.modelSendEmail = false
             },
