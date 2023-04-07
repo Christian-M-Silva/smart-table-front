@@ -97,7 +97,7 @@ export default defineComponent(
             },
 
             async sendEmail() {
-                this.isLoading = true
+                this.isLoading = true 
                 this.messageAxios = ''
                 await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
