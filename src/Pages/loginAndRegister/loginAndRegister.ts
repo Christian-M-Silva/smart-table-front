@@ -56,6 +56,7 @@ export default defineComponent(
                     if (!isValidate) {
                         return console.error("Um dos dados dos inputs não está seguindo as regras estabelecidas")
                     }
+                    this.messageAxios = ''
 
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
@@ -78,6 +79,7 @@ export default defineComponent(
                     this.openModalError = !this.openModalError
                     return this.errorMessage = "As senhas não são as mesmas"
                 }
+                this.messageAxios = ''
 
                 this.isLoading = true
                 await axios.put(`${this.baseUrl}user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
@@ -96,6 +98,7 @@ export default defineComponent(
 
             async sendEmail() {
                 this.isLoading = true
+                this.messageAxios = ''
                 await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
                     this.response = res
