@@ -15,7 +15,8 @@ export default defineComponent({
         titleModal: {
             type: String,
             default: 'Insira seus dados na tabela',
-        }
+        },
+        isCloseModal: Boolean
     },
 
 
@@ -28,4 +29,10 @@ export default defineComponent({
     created() {
         this.modelOpenModal = !!this.isOpenModal
     },
+
+    watch:{
+        isCloseModal(){
+            this.modelOpenModal = false
+        }
+    }
 })

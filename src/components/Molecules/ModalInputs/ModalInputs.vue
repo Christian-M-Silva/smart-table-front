@@ -64,7 +64,6 @@
             color="blue-grey-10"
             icon="check"
             label="Confirmar"
-            v-close-popup
             @click="$emit('confirm', inputs)"
           />
         </div>

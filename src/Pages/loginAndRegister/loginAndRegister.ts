@@ -28,6 +28,7 @@ export default defineComponent(
         data() {
             return {
                 action: '' as Actions,
+                closeModal: false,
                 confirm: true,
                 email: '',
                 classAnimation: 'slide-in-right',
@@ -79,6 +80,7 @@ export default defineComponent(
                     this.openModalError = !this.openModalError
                     return this.errorMessage = "As senhas não são as mesmas"
                 }
+                this.closeModal = !this.closeModal        
                 this.messageAxios = ''
 
                 this.isLoading = true

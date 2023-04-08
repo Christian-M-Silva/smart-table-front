@@ -159,6 +159,7 @@
     </q-dialog>
 
     <modal-inputs
+      :isCloseModal="closeModal"
       :isOpenModal="openModalInputs"
       titleModal="Crie sua nova senha"
       :inputs="inputsModal"
