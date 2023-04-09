@@ -70,7 +70,18 @@ export default defineComponent(
                     this.isLoading = false
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
-                    this.$router.push({ name: 'home' })
+                    this.messageAxios = ''
+
+                    this.isLoading = true
+                    await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
+                        this.response = res
+                        this.$router.push({ name: 'home' })
+                    })).catch((erro => {
+                        this.messageAxios = 'Entidade ou senha errado'
+                        this.response = erro
+                    }))
+                    this.isLoading = false
+                    this.openModalResponseAPI = !this.openModalResponseAPI
                 }
             },
 
@@ -80,7 +91,7 @@ export default defineComponent(
                     this.openModalError = !this.openModalError
                     return this.errorMessage = "As senhas não são as mesmas"
                 }
-                this.closeModal = !this.closeModal        
+                this.closeModal = !this.closeModal
                 this.messageAxios = ''
 
                 this.isLoading = true
