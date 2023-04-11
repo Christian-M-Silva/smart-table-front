@@ -11,7 +11,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/Molecules/Header/Header.vue'),
     children: [
       {
-        path: '/home',
+        path: '/home/:tableId',
         name: 'home',
         component: () => import('@/Pages/home/home.vue')
       },

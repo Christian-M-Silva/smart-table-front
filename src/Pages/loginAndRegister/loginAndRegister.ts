@@ -75,7 +75,7 @@ export default defineComponent(
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
                         this.response = res
-                        this.$router.push({ name: 'home' })
+                        this.$router.push({ name: 'home', params: {tableId: res.data.tableId} })
                     })).catch((erro => {
                         this.messageAxios = 'Entidade ou senha errado'
                         this.response = erro
