@@ -1,5 +1,6 @@
 import { Actions } from "@/types/types";
 import axios from "axios";
+import Cookies from 'js-cookie'
 import { DataUser, InputsModal } from "@/interfaces/interfaces";
 import { defineComponent } from "vue";
 import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
@@ -75,6 +76,7 @@ export default defineComponent(
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
                         this.response = res
+                        Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
                         this.$router.push({ name: 'home', params: {tableId: res.data.tableId} })
                     })).catch((erro => {
                         this.messageAxios = 'Entidade ou senha errado'
