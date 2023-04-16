@@ -1,6 +1,9 @@
 <template>
   <div>
     <header class="bg-slate-500 py-5 px-5 flex justify-between">
+      <div>
+        <q-icon @click="editUser" class="cursor-pointer" name="fas fa-user-edit" size="xs" />
+      </div>
       <h1 class="text-xl font-semibold cursor-pointer" @click="$router.push({ name: 'home' })">
         SMART TABLE
       </h1>

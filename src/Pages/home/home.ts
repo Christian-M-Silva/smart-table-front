@@ -1,12 +1,11 @@
 
 import { defineComponent } from "vue";
 import packAxios from "@/mixins/packAxios";
-import utils from "@/mixins/utils";
 import { RowsTableHome } from "@/interfaces/interfaces"
 
 export default defineComponent(
   {
-    mixins: [packAxios, utils],
+    mixins: [packAxios],
     data() {
       return {
         search: '',

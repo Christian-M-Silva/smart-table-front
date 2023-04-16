@@ -14,6 +14,8 @@ export default defineComponent(
         },
 
         async created() {
+            console.log("🚀 ~ file: utils.ts:19 ~ axios.interceptors.request.use ~ Cookies.get('authToken'):", Cookies.get('authToken'))
+
             axios.interceptors.request.use((config) => {
                 const token = Cookies.get('authToken')
                 if (token) {
