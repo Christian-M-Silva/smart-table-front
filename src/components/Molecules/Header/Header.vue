@@ -4,7 +4,7 @@
       <div>
         <q-icon @click="editUser" class="cursor-pointer" name="fas fa-user-edit" size="xs" />
       </div>
-      <h1 class="text-xl font-semibold cursor-pointer" @click="$router.push({ name: 'home' })">
+      <h1 class="text-xl font-semibold cursor-pointer" @click="$router.push({ name: 'home', params: {tableId: tableId} })">
         SMART TABLE
       </h1>
       <div @click="exit" class="flex cursor-pointer">

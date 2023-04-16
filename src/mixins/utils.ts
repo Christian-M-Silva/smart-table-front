@@ -14,8 +14,6 @@ export default defineComponent(
         },
 
         async created() {
-            console.log("🚀 ~ file: utils.ts:19 ~ axios.interceptors.request.use ~ Cookies.get('authToken'):", Cookies.get('authToken'))
-
             axios.interceptors.request.use((config) => {
                 const token = Cookies.get('authToken')
                 if (token) {
@@ -26,7 +24,6 @@ export default defineComponent(
 
             await axios.get(`${this.baseUrl}auth/isAuthenticate`).then((res => {
                 this.isAuthenticate = res.data
-                console.log("🚀 ~ file: home.ts:72 ~ awaitaxios.get ~ res:", res)
             })).catch((erro => {
                 console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)
             }))

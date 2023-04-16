@@ -77,6 +77,7 @@ export default defineComponent(
                     await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
                         this.response = res
                         Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
+                        Cookies.set('tableId', res.data.tableId)
                         this.$router.push({ name: 'home', params: {tableId: res.data.tableId} })
                     })).catch((erro => {
                         this.messageAxios = 'Entidade ou senha errado'
@@ -142,6 +143,8 @@ export default defineComponent(
         },
 
         created() {
+            Cookies.remove('authToken')
+            Cookies.remove('tableId')
             this.action = "Login"
             this.openModalInputs = !!this.$route.params.tableId
             this.inputsModal = [
