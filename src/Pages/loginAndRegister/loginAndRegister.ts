@@ -78,7 +78,7 @@ export default defineComponent(
                         this.response = res
                         Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
                         Cookies.set('tableId', res.data.tableId)
-                        this.$router.push({ name: 'home', params: {tableId: res.data.tableId} })
+                        this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
                     })).catch((erro => {
                         this.messageAxios = 'Entidade ou senha errado'
                         this.response = erro
@@ -142,7 +142,21 @@ export default defineComponent(
             },
         },
 
-        created() {
+        async created() {
+            axios.interceptors.request.use((config) => {
+                const token = Cookies.get('authToken')
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`
+                }
+                return config
+            })
+            await axios.delete(`${this.baseUrl}auth`).then((res => {
+                this.messageAxios = res.data.message
+                this.response = res
+            })).catch((erro => {
+                this.messageAxios = erro.response.data.error
+                this.response = erro
+            }))
             Cookies.remove('authToken')
             Cookies.remove('tableId')
             this.action = "Login"

@@ -20,7 +20,6 @@ export default defineComponent(
                 return this.$router.push({ name: 'loginAndRegister' })
             },
             exit() {
-                alert("exit")
                 this.$router.push({ name: 'loginAndRegister' })
             }
         },
