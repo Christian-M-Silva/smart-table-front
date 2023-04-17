@@ -4,10 +4,11 @@ import Cookies from "js-cookie";
 import { defineComponent } from "vue";
 import packAxios from "@/mixins/packAxios";
 import { RowsTableHome } from "@/interfaces/interfaces"
+import utils from "@/mixins/utils";
 
 export default defineComponent(
   {
-    mixins: [packAxios],
+    mixins: [packAxios, utils],
     data() {
       return {
         search: '',
@@ -80,6 +81,7 @@ export default defineComponent(
 
     created() {
       // this.getTables()
+      this.authenticate()
       this.rows.push(
         {
           name: "Nome",

@@ -1,7 +1,8 @@
 <template>
   <div class="mx-10">
     <h1 class="text-center mt-3 text-2xl font-bold">
-      Você está logado como {{ entity }}
+      <span v-if="isAuthenticate">Você está logado como {{entity}}</span>
+      <span v-else>Olá seja bem-vindo(a)</span>
     </h1>
 
     <div

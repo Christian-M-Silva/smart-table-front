@@ -26,5 +26,6 @@ export default defineComponent(
 
         created() {
             this.tableId = Cookies.get('tableId') as string
+            this.authenticate()
         },
     })

@@ -13,20 +13,22 @@ export default defineComponent(
             }
         },
 
-        async created() {
-            axios.interceptors.request.use((config) => {
-                const token = Cookies.get('authToken')
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`
-                }
-                return config
-            })
+        methods: {
+            async authenticate() {
+                axios.interceptors.request.use((config) => {
+                    const token = Cookies.get('authToken')
+                    if (token) {
+                        config.headers.Authorization = `Bearer ${token}`
+                    }
+                    return config
+                })
 
-            await axios.get(`${this.baseUrl}auth/isAuthenticate`).then((res => {
-                this.isAuthenticate = res.data
-            })).catch((erro => {
-                console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)
-            }))
+                await axios.get(`${this.baseUrl}auth/isAuthenticate`).then((res => {
+                    this.isAuthenticate = res.data
+                })).catch((erro => {
+                    console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)
+                }))
+            }
         },
     }
 )
