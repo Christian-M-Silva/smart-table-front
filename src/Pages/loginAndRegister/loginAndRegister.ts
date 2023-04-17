@@ -52,17 +52,16 @@ export default defineComponent(
                     email: this.email,
                     password: this.password
                 }
+                this.messageAxios = ''
 
                 if (this.action === "Cadastrar") {
                     const isValidate = await this.v$.$validate()
                     if (!isValidate) {
                         return console.error("Um dos dados dos inputs não está seguindo as regras estabelecidas")
                     }
-                    this.messageAxios = ''
 
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
-                        this.response = res
                         this.action = "Login"
                     })).catch((erro => {
                         this.messageAxios = erro.response.data.errors[0].message
@@ -71,8 +70,6 @@ export default defineComponent(
                     this.isLoading = false
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
-                    this.messageAxios = ''
-
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
                         this.response = res
@@ -143,6 +140,7 @@ export default defineComponent(
         },
 
         async created() {
+            this.messageAxios = ''
             axios.interceptors.request.use((config) => {
                 const token = Cookies.get('authToken')
                 if (token) {
