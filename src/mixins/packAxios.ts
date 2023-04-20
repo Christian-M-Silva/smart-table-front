@@ -1,6 +1,5 @@
 import { defineComponent } from "vue";
 import Loading from "@/components/Molecules/Loading/Loading.vue";
-
 export default defineComponent(
     {
         components: {
@@ -9,7 +8,7 @@ export default defineComponent(
 
         data() {
             return {
-                baseUrl: 'http://127.0.0.1:3333/',
+                baseUrl: process.env.VUE_APP_API_URL,
                 openModalResponseAPI: false,
                 messageAxios: '',
                 response: {},
