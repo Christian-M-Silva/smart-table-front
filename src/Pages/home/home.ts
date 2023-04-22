@@ -99,12 +99,8 @@ export default defineComponent(
         this.openModalResponseAPI = !this.openModalResponseAPI
       },
 
-      newTable() {
-        this.$router.push({ name: 'tables' })
-      },
-
-      removeTable() {
-        alert("removeTable")
+      download() {
+        alert("Download this archive")
       },
 
       goTo(evt: Event, row: object, index: number) {
@@ -114,8 +110,12 @@ export default defineComponent(
 
       },
 
-      download() {
-        alert("Download this archive")
+      newTable() {
+        this.$router.push({ name: 'tables' })
+      },
+
+      removeTable() {
+        alert("removeTable")
       },
     },
 
