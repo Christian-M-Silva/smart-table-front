@@ -33,6 +33,7 @@
       <button
         class="bg-emerald-500 shadow-lg shadow-emerald-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
         @click="newTable"
+        v-if="isAuthenticate"
       >
         <q-icon name="add" size="xs" />
         <span> NOVA TABELA</span>
@@ -40,7 +41,7 @@
 
       <button
         class="bg-red-500 shadow-lg shadow-red-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
-        v-show="selected.length > 0"
+        v-show="selected.length > 0 && isAuthenticate"
         @click="removeTable"
       >
         <q-icon name="delete" size="xs" />
