@@ -9,10 +9,47 @@ import utils from "@/mixins/utils";
 
 export default defineComponent(
   {
-    mixins: [packAxios, utils],
-    components:{
+    components: {
       ModalResponseApi
     },
+
+    created() {
+      // this.getTables()
+      this.authenticate()
+      this.rows.push(
+        {
+          name: "Nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+        {
+          name: "nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+        {
+          name: "Nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+        {
+          name: "nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+        {
+          name: "Nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+        {
+          name: "nome",
+          createdAt: 'Criado',
+          updateAt: 'Atualizado',
+        },
+      )
+    },
+
     data() {
       return {
         search: '',
@@ -82,6 +119,8 @@ export default defineComponent(
       },
     },
 
+    mixins: [packAxios, utils],
+
     watch: {
       async search(newValue) {
         if (newValue.length > 0) {
@@ -91,48 +130,11 @@ export default defineComponent(
           await axios.get(`${this.baseUrl}table/search/${tableId}/${this.search}`).then((res => {
             console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
           })).catch((erro => {
-           console.error(erro)
+            console.error(erro)
           }))
           this.isLoading = false
         }
       }
-    },
-
-    created() {
-      // this.getTables()
-      this.authenticate()
-      this.rows.push(
-        {
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-      )
     },
   }
 )
