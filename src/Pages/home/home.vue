@@ -63,7 +63,7 @@
       :rows="rows"
       :grid="$q.screen.lt.md"
       :columns="columns"
-      row-key="name"
+      row-key="id"
       selection="multiple"
       v-model:selected="selected"
       @row-click="goTo"

@@ -26,6 +26,7 @@ export interface InputsModal {
     isPwd?: boolean 
 }
 export interface RowsTableHome {
+    id: string,
     name: string,
     createdAt: string,
     updateAt: string,

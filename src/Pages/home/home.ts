@@ -18,31 +18,37 @@ export default defineComponent(
       this.authenticate()
       this.rows.push(
         {
+          id: '7287287287287',
           name: "Nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
         },
         {
+          id: '7287287287286',
           name: "nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
         },
         {
+          id: '7287287287281',
           name: "Nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
         },
         {
+          id: '7287287287282',
           name: "nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
         },
         {
+          id: '7287287287283',
           name: "Nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
         },
         {
+          id: '728728728728444',
           name: "nome",
           createdAt: 'Criado',
           updateAt: 'Atualizado',
@@ -52,8 +58,6 @@ export default defineComponent(
 
     data() {
       return {
-        search: '',
-        entity: 'Christian',
         columns: [
           {
             name: 'name',
@@ -78,10 +82,10 @@ export default defineComponent(
             sortable: true
           },
         ],
-
+        entity: 'Christian',
         rows: [] as RowsTableHome[],
-
-        selected: []
+        search: '',
+        selected: [] as RowsTableHome[],
       }
     },
 
@@ -115,7 +119,19 @@ export default defineComponent(
       },
 
       removeTable() {
-        alert("removeTable")
+        this.selected.forEach(async el => {
+          console.log("🚀 ~ file: home.ts:134 ~ removeTable ~ el:", el.id)
+          this.messageAxios = ''
+          this.isLoading = true
+          await axios.delete(`${this.baseUrl}table/${Cookies.get('tableId')}/${el.id}`).then((res => {
+            console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
+          })).catch((erro => {
+            this.messageAxios = erro.response.data.error
+            this.response = erro
+            this.openModalResponseAPI = !this.openModalResponseAPI
+          }))
+        });
+        this.isLoading = false
       },
     },
 
