@@ -42,7 +42,7 @@
       <button
         class="bg-red-500 shadow-lg shadow-red-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
         v-show="selected.length > 0 && isAuthenticate"
-        @click="removeTable"
+        @click="this.openModalConfirm = !this.openModalConfirm"
       >
         <q-icon name="delete" size="xs" />
         <span>REMOVER TABELA</span>
@@ -70,13 +70,18 @@
     >
     </q-table>
 
-    <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
     <loading :isLoading="isLoading" />
     <modal-response-api
       :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
       :responseApi="response"
     ></modal-response-api>
+    <modal-confirm
+      :isOpenModalConfirm="openModalConfirm"
+      @confirm="removeTable"
+    ></modal-confirm>
+      <!-- TODO:Descomentar e colocar dentro do  modal-confirm-->
+      <!-- @negative="getTables" -->
   </div>
 </template>
 <script src="./home.ts"></script>

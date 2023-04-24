@@ -2,6 +2,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { defineComponent } from "vue";
+import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import packAxios from "@/mixins/packAxios";
 import { RowsTableHome } from "@/interfaces/interfaces"
@@ -10,10 +11,12 @@ import utils from "@/mixins/utils";
 export default defineComponent(
   {
     components: {
+      ModalConfirm,
       ModalResponseApi
     },
 
     created() {
+      // TODO:Descomentar
       // this.getTables()
       this.authenticate()
       this.rows.push(
@@ -83,6 +86,7 @@ export default defineComponent(
           },
         ],
         entity: 'Christian',
+        openModalConfirm: false,
         rows: [] as RowsTableHome[],
         search: '',
         selected: [] as RowsTableHome[],
@@ -90,18 +94,20 @@ export default defineComponent(
     },
 
     methods: {
-      async getTables() {
-        this.messageAxios = ''
-        this.isLoading = true
-        await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
-          console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-        })).catch((erro => {
-          this.messageAxios = erro.response.data.error
-          this.response = erro
-        }))
-        this.isLoading = false
-        this.openModalResponseAPI = !this.openModalResponseAPI
-      },
+      // TODO:Descomentar
+      // async getTables() {
+      //   this.messageAxios = ''
+      //   this.isLoading = true
+      //   await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
+      //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
+      //   })).catch((erro => {
+      //     this.messageAxios = erro.response.data.error
+      //     this.response = erro
+      //   }))
+      //   this.isLoading = false
+      //   this.openModalResponseAPI = !this.openModalResponseAPI
+      //   this.selected = []
+      // }, 
 
       download() {
         alert("Download this archive")
@@ -120,7 +126,6 @@ export default defineComponent(
 
       removeTable() {
         this.selected.forEach(async el => {
-          console.log("🚀 ~ file: home.ts:134 ~ removeTable ~ el:", el.id)
           this.messageAxios = ''
           this.isLoading = true
           await axios.delete(`${this.baseUrl}table/${Cookies.get('tableId')}/${el.id}`).then((res => {
@@ -132,6 +137,8 @@ export default defineComponent(
           }))
         });
         this.isLoading = false
+        // TODO:Descomentar
+        // this.getTables()
       },
     },
 
