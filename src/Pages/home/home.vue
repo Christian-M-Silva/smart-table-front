@@ -79,9 +79,8 @@
     <modal-confirm
       :isOpenModalConfirm="openModalConfirm"
       @confirm="removeTable"
+      @negative="getTables"
     ></modal-confirm>
-      <!-- TODO:Descomentar e colocar dentro do  modal-confirm-->
-      <!-- @negative="getTables" -->
   </div>
 </template>
 <script src="./home.ts"></script>

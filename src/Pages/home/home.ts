@@ -16,8 +16,7 @@ export default defineComponent(
     },
 
     created() {
-      // TODO:Descomentar
-      // this.getTables()
+      this.getTables()
       this.authenticate()
       this.rows.push(
         {
@@ -94,8 +93,8 @@ export default defineComponent(
     },
 
     methods: {
-      // TODO:Descomentar
-      // async getTables() {
+      async getTables() {
+        // TODO:Descomentar
       //   this.messageAxios = ''
       //   this.isLoading = true
       //   await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
@@ -107,10 +106,25 @@ export default defineComponent(
       //   this.isLoading = false
       //   this.openModalResponseAPI = !this.openModalResponseAPI
       //   this.selected = []
-      // }, 
+      }, 
 
       download() {
-        alert("Download this archive")
+        // TODO:Descomentar
+        // let tablesForDownload = []
+        // this.selected.forEach(async el => {
+        //   this.messageAxios = ''
+        //   this.isLoading = true
+        //   await axios.get(`${this.baseUrl}table/download/${Cookies.get('tableId')}/${el.id}`).then((res => {
+        //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
+        //     tablesForDownload.push(res.data)
+        //   })).catch((erro => {
+        //     this.messageAxios = erro.response.data.error
+        //     this.response = erro
+        //     this.openModalResponseAPI = !this.openModalResponseAPI
+        //   }))
+        // });
+        // this.isLoading = false
+        // this.getTables()
       },
 
       goTo(evt: Event, row: object, index: number) {
@@ -137,8 +151,7 @@ export default defineComponent(
           }))
         });
         this.isLoading = false
-        // TODO:Descomentar
-        // this.getTables()
+        this.getTables()
       },
     },
 
