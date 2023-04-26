@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from 'js-cookie'
 import { DataUser, InputsModal } from "@/interfaces/interfaces";
 import { defineComponent } from "vue";
+import InputComponent from "@/components/Atomos/InputComponent/InputComponent.vue";
 import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
 import ModalInputs from "@/components/Molecules/ModalInputs/ModalInputs.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
@@ -15,6 +16,7 @@ import packAxios from "@/mixins/packAxios";
 export default defineComponent(
     {
         components: {
+            InputComponent,
             ModalError,
             ModalInputs,
             ModalResponseApi,
@@ -37,6 +39,8 @@ export default defineComponent(
                 errorMessage: '',
                 inputsModal: [] as InputsModal[],
                 isReload: false,
+                isPwd: true,
+                typePassword: 'password',
                 modelSendEmail: false,
                 openModalError: false,
                 openModalInputs: false,
@@ -45,6 +49,13 @@ export default defineComponent(
         },
 
         methods: {
+            showPassword(isShowPassWord: boolean) {
+                if (isShowPassWord) {
+                    return this.typePassword = 'password'
+                }
+                return this.typePassword = 'text'
+            },
+
             async registerOrLogin() {
                 let dataUser: DataUser
                 dataUser = {

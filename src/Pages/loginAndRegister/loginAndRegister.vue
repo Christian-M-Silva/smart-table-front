@@ -10,76 +10,37 @@
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
             <form>
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlfor="grid-password"
-                >
-                  ENTIDADE</label
-                >
-                <input
-                  type="text"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  v-model="entity"
-                  @blur="v$.entity.$touch"
-                  placeholder="Insira seu nome ou da instituição"
-                />
-                <div v-for="error of v$.entity.$errors" :key="error.$uid">
-                  <div
-                    v-if="action === 'Cadastrar'"
-                    class="text-red-700 font-semibold"
-                  >
-                    {{ error.$message }}
-                  </div>
-                </div>
-              </div>
+              <input-component
+                type="text"
+                title="ENTIDADE"
+                v-model="entity"
+                @blur="v$.entity.$touch"
+                placeholder="Insira seu nome ou da instituição"
+                :erros="action === 'Cadastrar' ? v$.entity.$errors : []"
+              ></input-component>
 
-              <div
-                :class="['relative w-full mb-3 slide-in-left']"
+              <input-component
                 v-show="action === 'Cadastrar'"
-              >
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                >
-                  EMAIL</label
-                >
-                <input
-                  type="text"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  v-model="email"
-                  placeholder="Insira seu e-mail"
-                  @blur="v$.email.$touch"
-                />
-                <div v-for="error of v$.email.$errors" :key="error.$uid">
-                  <div class="text-red-700 font-semibold">
-                    {{ error.$message }}
-                  </div>
-                </div>
-              </div>
+                type="text"
+                title="EMAIL"
+                autocomplete="username"
+                v-model="email"
+                placeholder="Insira seu e-mail"
+                @blur="v$.email.$touch"
+                :erros="action === 'Cadastrar' ? v$.email.$errors : []"
+              ></input-component>
 
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlfor="grid-password"
-                  >Senha</label
-                >
-                <input
-                  type="password"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  autocomplete="on"
-                  v-model="password"
-                  placeholder="Insira a senha"
-                  @blur="v$.password.$touch"
-                />
-                <div v-for="error of v$.password.$errors" :key="error.$uid">
-                  <div
-                    v-if="action === 'Cadastrar'"
-                    class="text-red-700 font-semibold"
-                  >
-                    {{ error.$message }}
-                  </div>
-                </div>
-              </div>
+              <input-component
+                :type="typePassword"
+                title="SENHA"
+                isVisibility
+                v-model="password"
+                placeholder="Insira a senha"
+                autocomplete="current-password"
+                @blur="v$.password.$touch"
+                @show-password="showPassword"
+                :erros="action === 'Cadastrar' ? v$.password.$errors : []"
+              ></input-component>
 
               <div class="text-center mt-5 text-teal-700 font-semibold">
                 <span
