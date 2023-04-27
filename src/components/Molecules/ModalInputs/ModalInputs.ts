@@ -27,12 +27,15 @@ export default defineComponent({
     },
 
     created() {
-        this.modelOpenModal = !!this.isOpenModal
+        this.modelOpenModal = this.isOpenModal
     },
 
     watch:{
         isCloseModal(){
             this.modelOpenModal = false
-        }
+        },
+        isOpenModal(){
+            this.modelOpenModal = true
+        },
     }
 })
