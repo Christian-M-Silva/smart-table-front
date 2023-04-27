@@ -101,7 +101,7 @@ export default defineComponent(
       //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
       //   })).catch((erro => {
       //     this.messageAxios = erro.response.data.error
-      //     this.responseApiStatus = erro
+      //     this.responseApiStatus = erro.response.status
       //   }))
       //   this.isLoading = false
       //   this.openModalResponseAPI = !this.openModalResponseAPI
@@ -119,7 +119,7 @@ export default defineComponent(
         //     tablesForDownload.push(res.data)
         //   })).catch((erro => {
         //     this.messageAxios = erro.response.data.error
-        //     this.responseApiStatus = erro
+        //     this.responseApiStatus = erro.response.status
         //     this.openModalResponseAPI = !this.openModalResponseAPI
         //   }))
         // });
@@ -142,11 +142,9 @@ export default defineComponent(
         this.selected.forEach(async el => {
           this.messageAxios = ''
           this.isLoading = true
-          await axios.delete(`${this.baseUrl}table/${Cookies.get('tableId')}/${el.id}`).then((res => {
-            console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-          })).catch((erro => {
+          await axios.delete(`${this.baseUrl}table/${Cookies.get('tableId')}/${el.id}`).catch((erro => {
             this.messageAxios = erro.response.data.error
-            this.responseStatus = erro
+            this.responseStatus = erro.response.status
             this.openModalResponseAPI = !this.openModalResponseAPI
           }))
         });
@@ -163,9 +161,7 @@ export default defineComponent(
           const tableId = Cookies.get('tableId')
           this.isLoading = true
 
-          await axios.get(`${this.baseUrl}table/search/${tableId}/${this.search}`).then((res => {
-            console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-          })).catch((erro => {
+          await axios.get(`${this.baseUrl}table/search/${tableId}/${this.search}`).catch((erro => {
             console.error(erro)
           }))
           this.isLoading = false
