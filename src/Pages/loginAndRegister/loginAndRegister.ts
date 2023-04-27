@@ -73,23 +73,24 @@ export default defineComponent(
 
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
+                        this.responseStatus = res.status
                         this.action = "Login"
                     })).catch((erro => {
                         this.messageAxios = erro.response.data.errors[0].message
-                        this.response = erro
+                        this.responseStatus = erro.response.status
                     }))
                     this.isLoading = false
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
-                        this.response = res
+                        this.responseStatus = res.status
                         Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
                         Cookies.set('tableId', res.data.tableId)
                         this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
                     })).catch((erro => {
                         this.messageAxios = 'Entidade ou senha errado'
-                        this.response = erro
+                        this.responseStatus = erro.response.status
                     }))
                     this.isLoading = false
                     this.openModalResponseAPI = !this.openModalResponseAPI
@@ -107,13 +108,13 @@ export default defineComponent(
 
                 this.isLoading = true
                 await axios.put(`${this.baseUrl}user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
-                    this.response = res
+                    this.responseStatus = res.status
                     setTimeout(() => {
                         this.$router.push({ name: 'loginAndRegister' })
                     }, 2000);
                 })).catch((erro => {
                     this.messageAxios = erro.response.data.error
-                    this.response = erro
+                    this.responseStatus = erro.response.status
                 }))
                 this.isLoading = false
                 this.openModalResponseAPI = !this.openModalResponseAPI
@@ -125,10 +126,10 @@ export default defineComponent(
                 this.messageAxios = ''
                 await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
-                    this.response = res
+                    this.responseStatus = res.status
                 })).catch((erro => {
                     this.messageAxios = erro.response.data.error
-                    this.response = erro
+                    this.responseStatus = erro.response.status
                 }))
                 this.isLoading = false
                 this.openModalResponseAPI = !this.openModalResponseAPI
@@ -159,12 +160,8 @@ export default defineComponent(
                 }
                 return config
             })
-            await axios.delete(`${this.baseUrl}auth`).then((res => {
-                this.messageAxios = res.data.message
-                this.response = res
-            })).catch((erro => {
-                this.messageAxios = erro.response.data.error
-                this.response = erro
+            await axios.delete(`${this.baseUrl}auth`).catch((erro => {
+                console.error(erro)
             }))
             Cookies.remove('authToken')
             Cookies.remove('tableId')

@@ -74,7 +74,7 @@
     <modal-response-api
       :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
-      :responseApi="response"
+      :responseApiStatus="responseStatus"
     ></modal-response-api>
     <modal-confirm
       :isOpenModalConfirm="openModalConfirm"

@@ -2,8 +2,8 @@
   <div>
     <q-dialog v-model="openModal" position="top">
       <q-card>
-        <div v-if="code > 399" class="header-body-modal">
-          <span :class="colorCode">ERRO {{ code }}</span>
+        <div v-if="responseApiStatus > 399" class="header-body-modal">
+          <span :class="colorCode">ERRO {{ responseApiStatus }}</span>
         </div>
         <div class="header-body-modal">
           <span :class="colorCode">{{axiosMessage}}</span>

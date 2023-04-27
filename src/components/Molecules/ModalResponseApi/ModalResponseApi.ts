@@ -6,8 +6,8 @@ export default defineComponent({
             type: Boolean,
             required: true
         },
-        responseApi: {
-            type: Object,
+        responseApiStatus: {
+            type: Number,
             required: true
         },
 
@@ -19,7 +19,6 @@ export default defineComponent({
 
     data() {
         return {
-            code: 0,
             colorCode: '',
             openModal: false,
             axiosMessage: ''
@@ -30,12 +29,8 @@ export default defineComponent({
         isOpenModal() {
             this.openModal = true
             this.axiosMessage = this.messageAxios
-            if (this.responseApi.status) {
-                this.code = this.responseApi.status
-            } else {
-                this.code = this.responseApi.response.status
-            }
-            switch (this.code) {
+
+            switch (this.responseApiStatus) {
                 case 200:
                     this.colorCode = 'text-lime-700'
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Requisição feita com sucesso'

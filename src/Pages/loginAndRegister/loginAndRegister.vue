@@ -99,7 +99,7 @@
     <modal-response-api
       :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
-      :responseApi="response"
+      :responseApiStatus="responseStatus"
     ></modal-response-api>
 
     <q-dialog v-model="modelSendEmail" persistent>

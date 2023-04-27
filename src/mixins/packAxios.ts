@@ -11,7 +11,7 @@ export default defineComponent(
                 baseUrl: process.env.VUE_APP_API_URL,
                 openModalResponseAPI: false,
                 messageAxios: '',
-                response: {},
+                responseStatus: 200,
                 isLoading: false
             }
         },

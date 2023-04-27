@@ -101,7 +101,7 @@ export default defineComponent(
       //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
       //   })).catch((erro => {
       //     this.messageAxios = erro.response.data.error
-      //     this.response = erro
+      //     this.responseApiStatus = erro
       //   }))
       //   this.isLoading = false
       //   this.openModalResponseAPI = !this.openModalResponseAPI
@@ -119,7 +119,7 @@ export default defineComponent(
         //     tablesForDownload.push(res.data)
         //   })).catch((erro => {
         //     this.messageAxios = erro.response.data.error
-        //     this.response = erro
+        //     this.responseApiStatus = erro
         //     this.openModalResponseAPI = !this.openModalResponseAPI
         //   }))
         // });
@@ -146,7 +146,7 @@ export default defineComponent(
             console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
           })).catch((erro => {
             this.messageAxios = erro.response.data.error
-            this.response = erro
+            this.responseStatus = erro
             this.openModalResponseAPI = !this.openModalResponseAPI
           }))
         });
