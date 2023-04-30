@@ -26,6 +26,9 @@ export default defineComponent(
 
         created() {
             this.tableId = Cookies.get('tableId') as string
+            if (!this.tableId) {
+                this.$router.go(0)
+            }
             this.authenticate()
         },
     })
