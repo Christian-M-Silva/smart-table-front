@@ -41,11 +41,20 @@
 
       <button
         class="bg-red-500 shadow-lg shadow-red-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
-        v-show="selected.length > 0 && isAuthenticate"
+        v-show="selected.length > 0"
         @click="this.openModalConfirm = !this.openModalConfirm"
       >
         <q-icon name="delete" size="xs" />
         <span>REMOVER TABELA</span>
+      </button>
+
+      <button
+        class="bg-orange-500 shadow-lg shadow-orange-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
+        v-show="selected.length > 0"
+        @click="download"
+      >
+        <q-icon name="send" size="xs" />
+        <span>ENVIAR TABELAS</span>
       </button>
 
       <button
