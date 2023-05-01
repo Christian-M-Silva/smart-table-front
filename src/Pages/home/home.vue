@@ -41,7 +41,7 @@
 
       <button
         class="bg-red-500 shadow-lg shadow-red-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
-        v-show="selected.length > 0"
+        v-show="selected.length > 0 && isAuthenticate"
         @click="this.openModalConfirm = !this.openModalConfirm"
       >
         <q-icon name="delete" size="xs" />
@@ -50,8 +50,7 @@
 
       <button
         class="bg-orange-500 shadow-lg shadow-orange-500/50 btn px-5 py-2.5 font-medium text-xs leading-tight uppercase rounded flex items-center justify-center gap-1"
-        v-show="selected.length > 0"
-        @click="download"
+        @click="openModalSharing = !openModalSharing"
       >
         <q-icon name="send" size="xs" />
         <span>ENVIAR TABELAS</span>
@@ -65,7 +64,7 @@
         <q-icon name="image" size="xs" />
         <span>BAIXAR TABELA</span>
       </button>
-    </div>
+     </div>
 
     <q-table
       title="Tables"
@@ -90,6 +89,7 @@
       @confirm="removeTable"
       @negative="getTables"
     ></modal-confirm>
+    <modal-sharing :isOpenModalConfirm="openModalSharing" :networks="networks" :url="url" title="Designações" copyText></modal-sharing>
   </div>
 </template>
 <script src="./home.ts"></script>

@@ -1,4 +1,6 @@
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+
+import { ButtonInput } from "@/interfaces/interfaces";
 
 export default defineComponent(
     {
@@ -11,10 +13,17 @@ export default defineComponent(
         props: {
             title: String,
             erros: Array,
-            isVisibility: Boolean
+            isVisibility: Boolean,
+            bgColor: {
+                type: String,
+                default: "white"
+            },
+            button: {
+                type: Object as PropType<ButtonInput>,
+            }
         },
-        methods:{
-            showPassword(){
+        methods: {
+            showPassword() {
                 this.isPwd = !this.isPwd
                 this.$emit('show-password', this.isPwd)
             }

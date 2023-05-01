@@ -36,3 +36,16 @@ export interface vModelSelect {
     value: string,
     rest?: any
 }
+export interface ButtonInput {
+    color: string,
+    iconSize: string,
+    iconName: string,
+    label: string,
+}
+export interface Network {
+    network: string,
+    color: string,
+    icon: string,
+    className: string,
+    name: string,
+}

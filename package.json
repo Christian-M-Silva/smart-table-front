@@ -15,7 +15,8 @@
     "js-cookie": "^3.0.1",
     "quasar": "^2.0.0",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vue-social-sharing": "^4.0.0-alpha4"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~5.0.0",

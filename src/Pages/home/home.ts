@@ -3,6 +3,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { defineComponent } from "vue";
 import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
+import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import packAxios from "@/mixins/packAxios";
 import { RowsTableHome } from "@/interfaces/interfaces"
@@ -12,6 +13,7 @@ export default defineComponent(
   {
     components: {
       ModalConfirm,
+      ModalSharing,
       ModalResponseApi
     },
 
@@ -61,6 +63,13 @@ export default defineComponent(
 
     data() {
       return {
+        openModalSharing: false,
+        url: `${process.env.VUE_APP_URL}${this.$route.fullPath}`,
+        networks: [
+          { network: 'email', name: 'Email', icon: 'far fah fa-lg fa-envelope', color: '#e12828', className: 'text-white' },
+          { network: 'whatsapp', name: 'Whatsapp', icon: 'fab fah fa-lg fa-whatsapp', color: '#25d366', className: 'text-white' },
+        ],
+
         columns: [
           {
             name: 'name',
@@ -96,18 +105,18 @@ export default defineComponent(
     methods: {
       async getTables() {
         // TODO:Descomentar
-      //   this.messageAxios = ''
-      //   this.isLoading = true
-      //   await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
-      //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-      //   })).catch((erro => {
-      //     this.messageAxios = erro.response.data.error
-      //     this.responseApiStatus = erro.response.status
-      //   }))
-      //   this.isLoading = false
-      //   this.openModalResponseAPI = !this.openModalResponseAPI
-      //   this.selected = []
-      }, 
+        //   this.messageAxios = ''
+        //   this.isLoading = true
+        //   await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
+        //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
+        //   })).catch((erro => {
+        //     this.messageAxios = erro.response.data.error
+        //     this.responseApiStatus = erro.response.status
+        //   }))
+        //   this.isLoading = false
+        //   this.openModalResponseAPI = !this.openModalResponseAPI
+        //   this.selected = []
+      },
 
       download() {
         // TODO:Descomentar
