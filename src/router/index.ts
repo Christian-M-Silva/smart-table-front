@@ -16,9 +16,9 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/Pages/home/home.vue')
       },
       {
-        path: '/tables/:id?',
-        name: 'tables',
-        component: () => import('@/Pages/tables/tables.vue')
+        path: '/table/:tableId?',
+        name: 'table',
+        component: () => import('@/Pages/table/table.vue')
       },
       {
         path: '/:pathMatch(.*)',

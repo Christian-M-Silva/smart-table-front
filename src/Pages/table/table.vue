@@ -110,4 +110,4 @@
   </div>
 </template>
 
-<script  src="./tables.ts"></script>
+<script  src="./table.ts"></script>

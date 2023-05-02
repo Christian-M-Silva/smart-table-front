@@ -69,7 +69,7 @@ export default defineComponent({
                 columns: this.columns,
                 nameTable: this.nameTable
             }
-            console.log("🚀 ~ file: tables.ts:68 ~ confirm ~ data", data)
+            console.log("🚀 ~ file: table.ts:68 ~ confirm ~ data", data)
         },
 
         showModalConfirm(value: string){

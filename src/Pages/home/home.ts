@@ -137,15 +137,15 @@ export default defineComponent(
         // this.getTables()
       },
 
-      goTo(evt: Event, row: object, index: number) {
+      goTo(evt: Event, row: RowsTableHome, index: number) {
         console.log("🚀 ~ file: home.ts:67 ~ goTo ~ index", index)
-        console.log("🚀 ~ file: home.ts:67 ~ goTo ~ row", row)
+        console.log("🚀 ~ file: home.ts:67 ~ goTo ~ row", row.id)
         console.log("🚀 ~ file: home.ts:67 ~ goTo ~ evt", evt)
-
+        this.$router.push({ name: 'table', params:{tableId: row.id} })
       },
 
       newTable() {
-        this.$router.push({ name: 'tables' })
+        this.$router.push({ name: 'table' })
       },
 
       removeTable() {

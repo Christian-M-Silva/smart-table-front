@@ -171,6 +171,6 @@ export default defineComponent({
     },
 
     created() {
-        this.createTableModal = this.$route.params.id ? false : true
+        this.createTableModal = this.$route.params.tableId ? false : true
     },
 })
