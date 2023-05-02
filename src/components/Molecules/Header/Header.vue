@@ -2,31 +2,26 @@
   <div>
     <header class="bg-slate-500 py-5 px-5 flex justify-between">
       <div>
-        <q-icon @click="editUser" class="cursor-pointer" name="fas fa-user-edit" size="xs" />
+        <q-icon
+          @click="editUser"
+          class="cursor-pointer"
+          name="fas fa-user-edit"
+          size="xs"
+        />
       </div>
-      <h1 class="text-xl font-semibold cursor-pointer" @click="$router.push({ name: 'home', params: {tableId: tableId} })">
+      <h1
+        class="text-xl font-semibold cursor-pointer"
+        @click="$router.push({ name: 'home', params: { tableId: tableId } })"
+      >
         SMART TABLE
       </h1>
-      <div @click="exit" class="flex cursor-pointer">
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-          ></path>
-        </svg>
-        <span>Sair</span>
+      <div @click="exit" class="font-semibold row justify-center items-center cursor-pointer">
+        <q-icon :name="`fa-solid fa-arrow-right-${toOrFrom}-bracket`" class="pr-1" size="1rem"/>
+        <span >{{ isAuthenticate ? "Sair" : "Entrar" }}</span>
       </div>
     </header>
     <router-view></router-view>
   </div>
 </template>
 
-<script  src="./Header.ts"></script>
+<script src="./Header.ts"></script>

@@ -6,7 +6,8 @@ export default defineComponent(
     {
         data() {
             return {
-                tableId: ''
+                tableId: '',
+                toOrFrom: 'from'
             }
         },
         mixins: [utils],
@@ -30,5 +31,12 @@ export default defineComponent(
                 this.$router.go(0)
             }
             this.authenticate()
+            this.toOrFrom = this.isAuthenticate ? 'from' : 'to'
         },
+
+        watch: {
+            isAuthenticate() {
+                this.toOrFrom = this.isAuthenticate ? 'from' : 'to'
+            }
+        }
     })
