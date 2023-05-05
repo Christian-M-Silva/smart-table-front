@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-dialog v-model="createTableModal">
+    <q-dialog v-model="createTableModal" persistent>
       <q-layout view="Lhh lpR fff" container class="bg-white">
         <q-header class="bg-grey-7">
           <q-toolbar>
