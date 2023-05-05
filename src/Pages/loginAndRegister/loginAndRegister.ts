@@ -84,6 +84,8 @@ export default defineComponent(
                 } else {
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}/auth`, dataUser).then((res => {
+                        Cookies.remove('authToken')
+                        Cookies.remove('tableId')
                         this.responseStatus = res.status
                         Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
                         this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
@@ -162,8 +164,6 @@ export default defineComponent(
             await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
                 console.error(erro)
             }))
-            Cookies.remove('authToken')
-            Cookies.remove('tableId')
             this.action = "Login"
             this.openModalInputs = !!this.$route.params.tableId
             this.inputsModal = [
