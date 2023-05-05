@@ -23,7 +23,7 @@ export default defineComponent(
                     return config
                 })
 
-                await axios.get(`${this.baseUrl}auth/isAuthenticate`).then((res => {
+                await axios.get(`${this.baseUrl}/auth/isAuthenticate`).then((res => {
                     this.isAuthenticate = res.data
                 })).catch((erro => {
                     console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)

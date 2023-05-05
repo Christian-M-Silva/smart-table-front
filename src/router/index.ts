@@ -1,3 +1,5 @@
+import axios from 'axios'
+import Cookies from 'js-cookie'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
@@ -32,6 +34,30 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  const routesNeedAuthentication = ['table']
+  const nameRoute = to.name ? to.name : ''
+
+  if (routesNeedAuthentication.includes(nameRoute as string) && !to.params.tableId) {
+    axios.interceptors.request.use((config) => {
+      const token = Cookies.get('authToken')
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+      return config
+    })
+
+    await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`).then((res => {
+      res.data ? next() : next({ name: 'loginAndRegister' });
+    })).catch((erro => {
+      console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)
+    }))
+  } else {
+    next()
+  }
+
 })
 
 export default router

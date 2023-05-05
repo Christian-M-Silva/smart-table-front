@@ -107,7 +107,7 @@ export default defineComponent(
         // TODO:Descomentar
         //   this.messageAxios = ''
         //   this.isLoading = true
-        //   await axios.get(`${this.baseUrl}table/${Cookies.get('tableId')}`).then((res => {
+        //   await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}`).then((res => {
         //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
         //   })).catch((erro => {
         //     this.messageAxios = erro.response.data.error
@@ -124,7 +124,7 @@ export default defineComponent(
         // this.selected.forEach(async el => {
         //   this.messageAxios = ''
         //   this.isLoading = true
-        //   await axios.get(`${this.baseUrl}table/download/${Cookies.get('tableId')}/${el.id}`).then((res => {
+        //   await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`).then((res => {
         //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
         //     tablesForDownload.push(res.data)
         //   })).catch((erro => {
@@ -152,7 +152,7 @@ export default defineComponent(
         this.selected.forEach(async el => {
           this.messageAxios = ''
           this.isLoading = true
-          await axios.delete(`${this.baseUrl}table/${Cookies.get('tableId')}/${el.id}`).catch((erro => {
+          await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}`).catch((erro => {
             this.messageAxios = erro.response.data.error
             this.responseStatus = erro.response.status
             this.openModalResponseAPI = !this.openModalResponseAPI
@@ -171,7 +171,7 @@ export default defineComponent(
           const tableId = Cookies.get('tableId')
           this.isLoading = true
 
-          await axios.get(`${this.baseUrl}table/search/${tableId}/${this.search}`).catch((erro => {
+          await axios.get(`${this.baseUrl}/table/search/${tableId}/${this.search}`).catch((erro => {
             console.error(erro)
           }))
           this.isLoading = false

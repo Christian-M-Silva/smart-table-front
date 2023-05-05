@@ -72,7 +72,7 @@ export default defineComponent(
                     }
 
                     this.isLoading = true
-                    await axios.post(`${this.baseUrl}user`, dataUser).then((res => {
+                    await axios.post(`${this.baseUrl}/user`, dataUser).then((res => {
                         this.responseStatus = res.status
                         this.action = "Login"
                     })).catch((erro => {
@@ -83,7 +83,7 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.isLoading = true
-                    await axios.post(`${this.baseUrl}auth`, dataUser).then((res => {
+                    await axios.post(`${this.baseUrl}/auth`, dataUser).then((res => {
                         this.responseStatus = res.status
                         Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
                         this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
@@ -106,7 +106,7 @@ export default defineComponent(
                 this.messageAxios = ''
 
                 this.isLoading = true
-                await axios.put(`${this.baseUrl}user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
+                await axios.put(`${this.baseUrl}/user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
                     this.responseStatus = res.status
                     setTimeout(() => {
                         this.$router.push({ name: 'loginAndRegister' })
@@ -123,7 +123,7 @@ export default defineComponent(
             async sendEmail() {
                 this.isLoading = true
                 this.messageAxios = ''
-                await axios.post(`${this.baseUrl}user/sendEmailForgetPassword`, { email: this.email }).then((res => {
+                await axios.post(`${this.baseUrl}/user/sendEmailForgetPassword`, { email: this.email }).then((res => {
                     this.messageAxios = res.data.message
                     this.responseStatus = res.status
                 })).catch((erro => {
@@ -159,7 +159,7 @@ export default defineComponent(
                 }
                 return config
             })
-            await axios.delete(`${this.baseUrl}auth`).catch((erro => {
+            await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
                 console.error(erro)
             }))
             Cookies.remove('authToken')
