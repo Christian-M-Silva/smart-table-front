@@ -1,7 +1,7 @@
 import { Actions } from "@/types/types";
 import axios from "axios";
 import Cookies from 'js-cookie'
-import { DataUser, InputsModal } from "@/interfaces/interfaces";
+import { DataUser, BaseInputs } from "@/interfaces/interfaces";
 import { defineComponent } from "vue";
 import InputComponent from "@/components/Atomos/InputComponent/InputComponent.vue";
 import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
@@ -37,7 +37,7 @@ export default defineComponent(
                 classAnimation: 'slide-in-right',
                 entity: '',
                 errorMessage: '',
-                inputsModal: [] as InputsModal[],
+                inputsModal: [] as BaseInputs[],
                 isReload: false,
                 isPwd: true,
                 typePassword: 'password',
@@ -98,7 +98,7 @@ export default defineComponent(
                 }
             },
 
-            async saveNewPassword(inputs: InputsModal[]) {
+            async saveNewPassword(inputs: BaseInputs[]) {
                 const isIgualPassword = inputs[0].vModel === inputs[1].vModel
                 if (!isIgualPassword) {
                     this.openModalError = !this.openModalError

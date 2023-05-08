@@ -73,11 +73,13 @@
     <q-dialog v-model="erroInput" position="top">
       <q-card>
         <q-card-section class="row items-center no-wrap">
-         <span class="text-red-600 font-bold">O nome não pode ser repetido e nem ter espaços vazio</span>
+          <span class="text-red-600 font-bold"
+            >O nome não pode ser repetido e nem ter espaços vazio</span
+          >
         </q-card-section>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
-<script  src="./ModalCreateTable.ts"></script>
+<script src="./ModalCreateTable.ts"></script>

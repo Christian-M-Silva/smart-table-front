@@ -1,11 +1,11 @@
-import { InputsModal } from "@/interfaces/interfaces";
+import { BaseInputs } from "@/interfaces/interfaces";
 import { defineComponent } from "vue";
 
 
 export default defineComponent({
     props: {
         inputs: {
-            type: Object as () => InputsModal,
+            type: Object as () => BaseInputs,
             required: true,
         },
         isOpenModal: {

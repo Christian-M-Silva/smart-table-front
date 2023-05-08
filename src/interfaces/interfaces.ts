@@ -8,22 +8,24 @@ export interface DataEnd {
     nameTable: string,
     columns: any[],
     rows: any[],
+    inputsTable: BaseInputs[]
 }
 export interface DataUser {
     entity: string,
     password: string,
     email?: string,
 }
-export interface Inputs extends vModelSelect {
+export interface InputsEditTable extends vModelSelect {
     index: number
 }
-export interface InputsModal {
+export interface BaseInputs {
     title?: string,
     type: 'select' | 'date' | 'text' | 'number' | 'textarea' | 'password'
     options?: vModelSelect[],
-    isRequired: boolean,
+    isRequired?: boolean,
     vModel: string | object,
-    isPwd?: boolean 
+    isPwd?: boolean,
+    name?: string 
 }
 export interface RowsTableHome {
     id: string,

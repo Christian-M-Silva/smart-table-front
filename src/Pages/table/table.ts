@@ -1,6 +1,6 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, Inputs, DataEnd } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable, DataEnd, BaseInputs } from "@/interfaces/interfaces";
 
 export default defineComponent({
     components: {
@@ -14,28 +14,30 @@ export default defineComponent({
             showTable: false,
             nameTable: '',
             isModalEditInput: false,
-            arrayInputs: [] as Inputs[],
+            arrayInputs: [] as InputsEditTable[],
             isNotFullScreen: true,
             confirm: '',
             isOpenModalConfirm: false,
             IsOpenAgain: false,
-            dataUpdate: {} as DataEnd
+            dataUpdate: {} as DataEnd,
+            inputsCreateTable: [] as BaseInputs[]
         }
     },
 
     methods: {
-        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean,) {
+        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean, inputsModel: BaseInputs[]) {
             this.loading = isLoading
             this.columns = columns
             this.rows = rows
             this.showTable = true
-            this.loading = false
             this.nameTable = nameTable
+            this.inputsCreateTable = inputsModel
+            this.loading = false
         },
 
         openModalEdit(evt: Event, row: any, index: number) {
             this.isModalEditInput = true
-            let inputs = [] as Inputs[]
+            let inputs = [] as InputsEditTable[]
             for (const key in row) {
                 inputs.push({
                     label: key,
@@ -72,17 +74,17 @@ export default defineComponent({
             console.log("🚀 ~ file: table.ts:68 ~ confirm ~ data", data)
         },
 
-        showModalConfirm(value: string){
+        showModalConfirm(value: string) {
             this.confirm = value
             this.isOpenModalConfirm = true
         },
 
-        editTable(){
+        editTable() {
             this.dataUpdate = {
                 rows: this.rows,
                 columns: this.columns,
-                nameTable: this.nameTable
-                // isUpdate:true
+                nameTable: this.nameTable,
+                inputsTable: this.inputsCreateTable
             }
         }
     },
