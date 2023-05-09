@@ -1,6 +1,7 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, InputsEditTable, DataEnd, BaseInputs } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable} from "@/interfaces/interfaces";
+import Cookies from "js-cookie";
 
 export default defineComponent({
     components: {
@@ -19,19 +20,17 @@ export default defineComponent({
             confirm: '',
             isOpenModalConfirm: false,
             IsOpenAgain: false,
-            dataUpdate: {} as DataEnd,
-            inputsCreateTable: [] as BaseInputs[]
+            dataUpdate: [] as any[],
         }
     },
 
     methods: {
-        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean, inputsModel: BaseInputs[]) {
+        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean) {
             this.loading = isLoading
             this.columns = columns
             this.rows = rows
             this.showTable = true
             this.nameTable = nameTable
-            this.inputsCreateTable = inputsModel
             this.loading = false
         },
 
@@ -62,7 +61,7 @@ export default defineComponent({
         },
 
         cancel() {
-            this.$router.push({ name: 'home' })
+            this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
         },
 
         finalize() {
@@ -80,12 +79,8 @@ export default defineComponent({
         },
 
         editTable() {
-            this.dataUpdate = {
-                rows: this.rows,
-                columns: this.columns,
-                nameTable: this.nameTable,
-                inputsTable: this.inputsCreateTable
-            }
+            this.dataUpdate = this.rows
+            this.IsOpenAgain = !this.IsOpenAgain
         }
     },
 })

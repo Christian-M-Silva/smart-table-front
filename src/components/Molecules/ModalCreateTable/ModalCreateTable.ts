@@ -1,5 +1,6 @@
 import { defineComponent } from "vue";
 import { vModelSelect, ColumnsTableCreate } from "@/interfaces/interfaces";
+import Cookies from "js-cookie";
 
 export default defineComponent({
     props: {
@@ -7,7 +8,7 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-        updateData: Object,
+        updateData: Array,
     },
 
     data() {
@@ -70,7 +71,10 @@ export default defineComponent({
         },
 
         cancel() {
-            this.$router.push({ name: "home" })
+            if (this.updateData && this.updateData.length > 0) {
+                return this.createTableModal = false
+            }
+            return this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
         },
 
         confirm() {
@@ -148,30 +152,26 @@ export default defineComponent({
                         }
                     });
                 }
-                this.$emit('confirm', this.rows, this.columns, nameTable, true, this.inputs)
-                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ nameTable", nameTable)
-                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.columns", this.columns)
-                console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.rows", this.rows)
+                if (this.updateData && this.updateData.length > 0) {
+                    console.log("🚀 ~ file: ModalCreateTable.ts:156 ~ confirm ~ this.updateData:", this.updateData)
+                    console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.rows", this.rows)
+                    this.rows.forEach(el => {
+
+                    })
+                }
+                this.$emit('confirm', this.rows, this.columns, nameTable, true)
+                // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ nameTable", nameTable)
+                // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.columns", this.columns)
             }
         },
-
-        fillModal() {
-            console.log("preencher os v-models dos inputs")
-        },
-
-        updateTable(newValue: any) {
-            console.log("🚀 ~ file: ModalCreateTable.ts:158 ~ updateTable ~ newValue", newValue)
-            this.fillModal()
-        }
     },
 
     watch: {
         openModalAgain() {
+            this.inputs.map(el => el.vModel = el.type === 'select' ? [] : '')
+            this.nameColumns = ''
+            this.namesColumns = []
             this.createTableModal = true
-        },
-
-        updateData(newValue) {
-            this.updateTable(newValue)
         },
     },
 

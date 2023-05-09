@@ -4,12 +4,6 @@ export interface ColumnsTableCreate {
     field: string,
     align: 'left',
 }
-export interface DataEnd {
-    nameTable: string,
-    columns: any[],
-    rows: any[],
-    inputsTable: BaseInputs[]
-}
 export interface DataUser {
     entity: string,
     password: string,
