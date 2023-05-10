@@ -1,14 +1,20 @@
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import { vModelSelect, ColumnsTableCreate } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
+import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 
 export default defineComponent({
+    components: {
+        ModalConfirm
+    },
     props: {
         openModalAgain: {
             type: Boolean,
             default: false,
         },
-        updateData: Array,
+        updateData: {
+            type: Array as PropType<any>
+        }
     },
 
     data() {
@@ -56,7 +62,9 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: [] as string[]
+            namesColumns: [] as string[],
+            openModalConfirm: false,
+            userConfirmation: null as ((value: boolean) => void) | null,
         }
     },
 
@@ -71,13 +79,13 @@ export default defineComponent({
         },
 
         cancel() {
-            if (this.updateData && this.updateData.length > 0) {
+            if (this.updateData.length > 0) {
                 return this.createTableModal = false
             }
             return this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
         },
 
-        confirm() {
+        async confirm() {
             const isInvalid = this.inputs.filter(input => input.vModel.length === 0)
 
             if (this.namesColumns.length > 0 && isInvalid.length === 0) {
@@ -117,8 +125,6 @@ export default defineComponent({
                     date = new Date(date.setDate(date.getDate() + 1)) //ai fazemos a date somar mais um dia
                 }
 
-                this.createTableModal = false
-
                 let nameTable = ''
                 this.inputs.forEach(el => {
                     if (el.name === 'nameTable') {
@@ -152,17 +158,42 @@ export default defineComponent({
                         }
                     });
                 }
-                if (this.updateData && this.updateData.length > 0) {
+                if (this.updateData.length > 0) {
+                    const isLengthArraysDifferent = this.updateData.length !== this.rows.length
+                    const isLengthObjectInArraysDifferent = Object.keys(this.updateData[0]).length !== Object.keys(this.rows[0]).length
+
+                    if (isLengthArraysDifferent && isLengthObjectInArraysDifferent) {
+                        this.openModalConfirm = true;
+                        const userConfirmed = await this.waitForUserConfirmation();
+                        this.openModalConfirm = false;
+
+                        if (!userConfirmed) {
+                            return
+                        }
+                    }
                     console.log("🚀 ~ file: ModalCreateTable.ts:156 ~ confirm ~ this.updateData:", this.updateData)
                     console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.rows", this.rows)
-                    this.rows.forEach(el => {
-
-                    })
                 }
+                this.createTableModal = false
                 this.$emit('confirm', this.rows, this.columns, nameTable, true)
                 // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ nameTable", nameTable)
                 // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.columns", this.columns)
             }
+
+        },
+
+        waitForUserConfirmation() {
+            return new Promise((resolve) => {
+                this.userConfirmation = resolve;
+            });
+        },
+
+        proceed() {
+            this.userConfirmation?.(true)
+        },
+
+        notProceed() {
+            this.userConfirmation?.(false)
         },
     },
 

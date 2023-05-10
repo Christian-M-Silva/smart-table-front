@@ -79,6 +79,12 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <modal-confirm
+      :isOpenModalConfirm="openModalConfirm"
+      @confirm="proceed"
+      @negative="notProceed"
+    ></modal-confirm>
   </div>
 </template>
 
