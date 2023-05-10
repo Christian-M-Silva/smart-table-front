@@ -176,8 +176,6 @@ export default defineComponent({
                 }
                 this.createTableModal = false
                 this.$emit('confirm', this.rows, this.columns, nameTable, true)
-                // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ nameTable", nameTable)
-                // console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.columns", this.columns)
             }
 
         },
