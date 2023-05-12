@@ -2,7 +2,7 @@
   <q-dialog v-model="openModal" persistent>
     <q-card>
       <q-card-section class="row items-center">
-        <span class="q-ml-sm">{{messageConfirmation}}</span>
+        <span class="q-ml-sm text-base font-semibold">{{messageConfirmation}}</span>
       </q-card-section>
 
       <q-card-actions align="right">

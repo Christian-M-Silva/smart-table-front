@@ -159,10 +159,10 @@ export default defineComponent({
                     });
                 }
                 if (this.updateData.length > 0) {
-                    const isLengthArraysDifferent = this.updateData.length !== this.rows.length
-                    const isLengthObjectInArraysDifferent = Object.keys(this.updateData[0]).length !== Object.keys(this.rows[0]).length
+                    const isLengthArraysDifferent = this.updateData.length > this.rows.length
+                    const isLengthObjectInArraysDifferent = Object.keys(this.updateData[0]).length > Object.keys(this.rows[0]).length
 
-                    if (isLengthArraysDifferent && isLengthObjectInArraysDifferent) {
+                    if (isLengthArraysDifferent || isLengthObjectInArraysDifferent) {
                         this.openModalConfirm = true;
                         const userConfirmed = await this.waitForUserConfirmation();
                         this.openModalConfirm = false;
