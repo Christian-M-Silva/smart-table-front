@@ -84,6 +84,7 @@
       :isOpenModalConfirm="openModalConfirm"
       @confirm="proceed"
       @negative="notProceed"
+      messageConfirmation="Os valores da nova tabela são diferentes das anteriores, isso poderá acarreta em perda de dados, gostaria de prosseguir?"
     ></modal-confirm>
   </div>
 </template>

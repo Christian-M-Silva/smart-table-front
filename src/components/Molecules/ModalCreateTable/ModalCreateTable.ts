@@ -171,8 +171,18 @@ export default defineComponent({
                             return
                         }
                     }
-                    console.log("🚀 ~ file: ModalCreateTable.ts:156 ~ confirm ~ this.updateData:", this.updateData)
-                    console.log("🚀 ~ file: ModalCreateTable.ts:152 ~ confirm ~ this.rows", this.rows)
+
+
+                    this.rows.forEach((el, index) => {
+                        Object.keys(el).forEach((prop, indexObject) => {
+                            if (this.updateData[index] && this.updateData[index].hasOwnProperty(prop) && prop !== "date") {
+                                const propUpdateData = Object.keys(this.updateData[index])[indexObject]
+                                el[prop] = this.updateData[index][propUpdateData]
+                            }
+                        });
+
+                    })
+
                 }
                 this.createTableModal = false
                 this.$emit('confirm', this.rows, this.columns, nameTable, true)

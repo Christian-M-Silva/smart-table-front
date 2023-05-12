@@ -2,7 +2,7 @@
   <q-dialog v-model="openModal" persistent>
     <q-card>
       <q-card-section class="row items-center">
-        <span class="q-ml-sm">Tem certeza?</span>
+        <span class="q-ml-sm">{{messageConfirmation}}</span>
       </q-card-section>
 
       <q-card-actions align="right">

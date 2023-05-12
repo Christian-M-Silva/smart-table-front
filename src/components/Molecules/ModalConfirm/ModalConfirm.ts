@@ -22,6 +22,10 @@ export default defineComponent({
             type: Boolean,
             required: true
         },
+        messageConfirmation: {
+            type: String,
+            default: "Tem certeza?"
+        }
     },
 
     watch: {
