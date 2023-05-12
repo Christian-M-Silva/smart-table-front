@@ -74,7 +74,7 @@
       <q-card>
         <q-card-section class="row items-center no-wrap">
           <span class="text-red-600 font-bold"
-            >O nome não pode ser repetido e nem ter espaços vazio</span
+            >O nome não pode ser repetido, não pode ser "Date" e nem ter espaços vazios</span
           >
         </q-card-section>
       </q-card>

@@ -1,12 +1,13 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, InputsEditTable} from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 
 export default defineComponent({
     components: {
         ModalCreateTable,
     },
+   
     data() {
         return {
             loading: false,

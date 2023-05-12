@@ -23,25 +23,25 @@ export default defineComponent({
             erroInput: false,
             inputs: [
                 {
-                    vModel: '',
+                    vModel: 'e',
                     name: 'nameTable',
                     type: 'text',
                     title: 'Nome da tabela',
                 },
                 {
-                    vModel: '',
+                    vModel: '2',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela'
                 },
                 {
-                    vModel: '',
+                    vModel: '2001-07-13',
                     name: 'dayBegin',
                     type: 'date',
                     title: 'Dia inicial da tabela'
                 },
                 {
-                    vModel: [],
+                    vModel: [{ label: "Domingo", value: '0' },],
                     type: 'select',
                     name: 'weekDays',
                     title: 'Dias da Semana que a tabela vai ter que repetir',
@@ -62,7 +62,7 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: [] as string[],
+            namesColumns: ['u', 'o', 'i', 'a', '2', '9', '9', '0'] as string[],
             openModalConfirm: false,
             userConfirmation: null as ((value: boolean) => void) | null,
         }
@@ -70,7 +70,7 @@ export default defineComponent({
 
     methods: {
         addNameColumn() {
-            this.namesColumns.includes(this.nameColumns.toUpperCase()) || /\s/g.test(this.nameColumns) || this.nameColumns.length === 0 ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
+            this.namesColumns.includes(this.nameColumns.toUpperCase()) || /\s/g.test(this.nameColumns) || this.nameColumns.length === 0 || this.nameColumns.toUpperCase() === "DATE" ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
             this.nameColumns = ''
         },
 
