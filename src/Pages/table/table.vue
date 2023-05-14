@@ -38,19 +38,40 @@
               label="FINALIZAR"
               @click="showModalConfirm('OK')"
             />
-            <q-btn color="red" icon="close" label="CANCELAR" @click="showModalConfirm('CANCEL')" />
-            <q-btn color="blue" icon="edit" label="EDITAR TABELA" @click="editTable"/>
+            <q-btn
+              color="red"
+              icon="close"
+              label="CANCELAR"
+              @click="showModalConfirm('CANCEL')"
+            />
+            <q-btn
+              color="blue"
+              icon="edit"
+              label="EDITAR TABELA"
+              @click="editTable"
+            />
           </div>
           <span>Total de linhas: {{ rows.length }}</span>
         </div>
       </template>
     </q-table>
 
-    <div class="w-screen row mt-2 justify-center items-center" v-show="!showTable">
-      <q-btn color="primary" label="ABRIR MODAL DE CRIAÇÃO" @click="IsOpenAgain = !IsOpenAgain" />
+    <div
+      class="w-screen row mt-2 justify-center items-center"
+      v-show="!showTable"
+    >
+      <q-btn
+        color="primary"
+        label="ABRIR MODAL DE CRIAÇÃO"
+        @click="IsOpenAgain = !IsOpenAgain"
+      />
     </div>
 
-    <modal-create-table @confirm="createTable" :openModalAgain="IsOpenAgain" :updateData="dataUpdate"/>
+    <modal-create-table
+      @confirm="createTable"
+      :openModalAgain="IsOpenAgain"
+      :updateData="dataUpdate"
+    />
 
     <div
       v-if="loading"
@@ -61,13 +82,12 @@
     </div>
 
     <q-dialog
-      full-width
       v-model="isModalEditInput"
       persistent
       transition-show="flip-down"
       transition-hide="flip-up"
     >
-      <q-card class="bg-blue-grey-6 text-white">
+      <q-card class="bg-blue-grey-6 text-white" style="max-width: 80vw;">
         <q-bar class="row justify-end">
           <q-btn dense flat icon="close" v-close-popup> </q-btn>
         </q-bar>
@@ -95,19 +115,31 @@
     <q-dialog v-model="isOpenModalConfirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
-          <span class="q-ml-sm"
-            >Tem certeza?</span
-          >
+          <span class="q-ml-sm">Tem certeza?</span>
         </q-card-section>
 
         <q-card-actions align="right">
           <q-btn flat label="NÃO" color="red" v-close-popup />
-          <q-btn flat label="SIM" color="green" v-close-popup @click="finalize" v-if="confirm === 'OK'"/>
-          <q-btn flat label="SIM" color="green" v-close-popup @click="cancel" v-else-if="confirm === 'CANCEL'"/>
+          <q-btn
+            flat
+            label="SIM"
+            color="green"
+            v-close-popup
+            @click="finalize"
+            v-if="confirm === 'OK'"
+          />
+          <q-btn
+            flat
+            label="SIM"
+            color="green"
+            v-close-popup
+            @click="cancel"
+            v-else-if="confirm === 'CANCEL'"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
-<script  src="./table.ts"></script>
+<script src="./table.ts"></script>

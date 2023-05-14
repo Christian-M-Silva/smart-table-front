@@ -7,7 +7,7 @@ export default defineComponent({
     components: {
         ModalCreateTable,
     },
-   
+
     data() {
         return {
             loading: false,
@@ -45,6 +45,15 @@ export default defineComponent({
                     index: index
                 });
             }
+            inputs.sort((a, b) => {
+                if (a.label === 'date') {
+                    return -1; 
+                } else if (b.label === 'date') {
+                    return 1; 
+                } else {
+                    return 0;
+                }
+            })
             this.arrayInputs = inputs
         },
 
