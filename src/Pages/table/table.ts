@@ -1,7 +1,8 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
-import { ColumnsTableCreate, InputsEditTable } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable, BaseInputs } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
+type inputsForModalCreate = Omit<BaseInputs, "isRequired" | "isPwd">[];
 
 export default defineComponent({
     components: {
@@ -22,17 +23,19 @@ export default defineComponent({
             isOpenModalConfirm: false,
             IsOpenAgain: false,
             dataUpdate: [] as any[],
+            inputsModalCreate: [] as string[] | inputsForModalCreate[]
         }
     },
 
     methods: {
-        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean) {
+        createTable(rows: any, columns: any, nameTable: string, isLoading: boolean, inputs: string[] | inputsForModalCreate[]) {
             this.loading = isLoading
             this.columns = columns
             this.rows = rows
             this.showTable = true
             this.nameTable = nameTable
             this.loading = false
+            this.inputsModalCreate = inputs
         },
 
         openModalEdit(evt: Event, row: any, index: number) {
@@ -47,9 +50,9 @@ export default defineComponent({
             }
             inputs.sort((a, b) => {
                 if (a.label === 'date') {
-                    return -1; 
+                    return -1;
                 } else if (b.label === 'date') {
-                    return 1; 
+                    return 1;
                 } else {
                     return 0;
                 }

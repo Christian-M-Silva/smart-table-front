@@ -184,8 +184,12 @@ export default defineComponent({
                     })
 
                 }
+                const inputsData = {
+                    namesColumns: this.namesColumns,
+                    inputs: this.inputs,
+                }
                 this.createTableModal = false
-                this.$emit('confirm', this.rows, this.columns, nameTable, true)
+                this.$emit('confirm', this.rows, this.columns, nameTable, true, inputsData)
             }
 
         },
@@ -207,9 +211,9 @@ export default defineComponent({
 
     watch: {
         openModalAgain() {
-            this.inputs.map(el => el.vModel = el.type === 'select' ? [] : '')
-            this.nameColumns = ''
-            this.namesColumns = []
+            // this.inputs.map(el => el.vModel = el.type === 'select' ? [] : '')
+            // this.nameColumns = ''
+            // this.namesColumns = []
             this.createTableModal = true
         },
     },

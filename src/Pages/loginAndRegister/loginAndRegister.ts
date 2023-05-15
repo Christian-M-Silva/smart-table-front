@@ -10,6 +10,7 @@ import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalRespo
 import { required, email, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import packAxios from "@/mixins/packAxios";
+type inputsCreatePassword = Omit<BaseInputs, "name" | "options">[];
 
 
 
@@ -37,7 +38,7 @@ export default defineComponent(
                 classAnimation: 'slide-in-right',
                 entity: '',
                 errorMessage: '',
-                inputsModal: [] as BaseInputs[],
+                inputsModal: [] as inputsCreatePassword,
                 isReload: false,
                 isPwd: true,
                 typePassword: 'password',
@@ -172,7 +173,7 @@ export default defineComponent(
                     isRequired: false,
                     type: 'password',
                     vModel: '',
-                    isPwd: true
+                    isPwd: true,
                 },
                 {
                     title: 'Confirme a nova senha digitada',
