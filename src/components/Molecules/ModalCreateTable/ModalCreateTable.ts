@@ -29,7 +29,7 @@ export default defineComponent({
                     title: 'Nome da tabela',
                 },
                 {
-                    vModel: '2',
+                    vModel: '5',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela'
@@ -62,7 +62,7 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: ['u', 'o', 'i', 'a', '2', '9', '9', '0'] as string[],
+            namesColumns: ['1', '2', '3', '4', '5'] as string[],
             openModalConfirm: false,
             userConfirmation: null as ((value: boolean) => void) | null,
         }
@@ -184,12 +184,9 @@ export default defineComponent({
                     })
 
                 }
-                const inputsData = {
-                    namesColumns: this.namesColumns,
-                    inputs: this.inputs,
-                }
+ 
                 this.createTableModal = false
-                this.$emit('confirm', this.rows, this.columns, nameTable, true, inputsData)
+                this.$emit('confirm', this.rows, this.columns, nameTable, true)
             }
 
         },
@@ -211,9 +208,6 @@ export default defineComponent({
 
     watch: {
         openModalAgain() {
-            // this.inputs.map(el => el.vModel = el.type === 'select' ? [] : '')
-            // this.nameColumns = ''
-            // this.namesColumns = []
             this.createTableModal = true
         },
     },

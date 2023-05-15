@@ -4,6 +4,7 @@ export interface ColumnsTableCreate {
     field: string,
     align: 'left',
 }
+export type inputsWithoutIsPwdAndRequired = Omit<BaseInputs, "isRequired" | "isPwd">;
 export interface DataUser {
     entity: string,
     password: string,
@@ -19,7 +20,7 @@ export interface BaseInputs {
     isRequired?: boolean,
     vModel: string | object,
     isPwd?: boolean,
-    name?: string 
+    name?: string
 }
 export interface RowsTableHome {
     id: string,
