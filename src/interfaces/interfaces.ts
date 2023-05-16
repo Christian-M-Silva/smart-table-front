@@ -15,7 +15,7 @@ export interface InputsEditTable extends vModelSelect {
 }
 export interface BaseInputs {
     title?: string,
-    type: 'select' | 'date' | 'text' | 'number' | 'textarea' | 'password'
+    type: 'date' | 'text' | 'number' | 'textarea' | 'password'
     options?: vModelSelect[],
     isRequired?: boolean,
     vModel: string | object,

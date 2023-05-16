@@ -13,6 +13,7 @@ export default defineComponent(
         props: {
             title: String,
             erros: Array,
+            required: Boolean,
             isVisibility: Boolean,
             bgColor: {
                 type: String,
@@ -34,6 +35,7 @@ export default defineComponent(
                     ...this.$attrs,
                     ...this.$props,
                 }
+                console.log("🚀 ~ file: InputComponent.ts:35 ~ propsComputed ~ props:", props)
                 return props
             }
         },

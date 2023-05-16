@@ -27,7 +27,7 @@
         <q-page-container style="max-height: 577px" class="scroll">
           <q-page padding class="mx-10">
             <div class="my-5" v-for="input in inputs" :key="input.title">
-              <span class="font-bold">{{ input.title.toUpperCase() }}</span>
+              <span class="font-bold text-red-600">*{{ input.title.toUpperCase() }}</span>
               <q-select
                 v-if="input.options"
                 v-model="input.vModel"
@@ -52,7 +52,7 @@
                 @keyup.enter="addNameColumn"
                 type="text"
                 filled
-                hint="Clique Enter para adicionar o titulo da coluna, e clique no nome da coluna para remover ela"
+                hint="Clique Enter para adicionar o titulo da coluna, e clique no nome da coluna para remover ela. (É OBRIGATÓRIO PELO MENOS UMA COLUNA)"
               />
 
               <div class="flex gap-2 bg-slate-500 h-28 p-3 mt-5">
@@ -74,7 +74,8 @@
       <q-card>
         <q-card-section class="row items-center no-wrap">
           <span class="text-red-600 font-bold"
-            >O nome não pode ser repetido, não pode ser "Date" e nem ter espaços vazios</span
+            >O nome não pode ser repetido, não pode ser "Date" e nem ter espaços
+            vazios</span
           >
         </q-card-section>
       </q-card>
