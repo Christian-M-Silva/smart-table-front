@@ -50,6 +50,12 @@
               label="EDITAR TABELA"
               @click="editTable"
             />
+            <q-btn
+              color="deep-orange"
+              icon="delete"
+              label="LIMPAR OS DADOS DA TABELA"
+              @click="clearTable"
+            />
           </div>
           <span>Total de linhas: {{ rows.length }}</span>
         </div>

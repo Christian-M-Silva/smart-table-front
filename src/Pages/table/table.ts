@@ -74,6 +74,17 @@ export default defineComponent({
             this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
         },
 
+        clearTable() {
+            this.rows.forEach(el => {
+                Object.keys(el).forEach((prop) => {
+                    if (prop !== "date") {
+                        el[prop] = ""
+                    }
+                });
+
+            })
+        },
+
         finalize() {
             const data = {
                 rows: this.rows,
