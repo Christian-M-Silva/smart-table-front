@@ -86,8 +86,9 @@
       persistent
       transition-show="flip-down"
       transition-hide="flip-up"
+      @keyup.enter="isModalEditInput = false"
     >
-      <q-card class="bg-blue-grey-6 text-white" style="max-width: 80vw;">
+      <q-card class="bg-blue-grey-6 text-white" style="max-width: 80vw">
         <q-bar class="row justify-end">
           <q-btn dense flat icon="close" v-close-popup> </q-btn>
         </q-bar>
@@ -105,7 +106,7 @@
               type="text"
               :label="input.label.toUpperCase()"
               :readonly="input.label === 'date'"
-              @blur="editValue(input.index, input.value, input.label)"
+              @change="editValue(input.index, input.value, input.label)"
             />
           </div>
         </q-card-section>
