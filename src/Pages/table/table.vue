@@ -29,6 +29,16 @@
           />
         </div>
       </template>
+      <template v-slot:header-cell-date="props">
+        <q-th style="background-color: #666666" :props="props">
+          {{ props.col.label }}
+        </q-th>
+      </template>
+      <template v-slot:body-cell-date="props">
+        <q-td style="background-color: #666666">
+          {{ props.row.date }}
+        </q-td>
+      </template>
       <template v-slot:bottom>
         <div class="row justify-between w-full items-center">
           <div class="row gap-2">
