@@ -10,6 +10,7 @@
       :virtual-scroll-sticky-size-start="48"
       virtual-scroll
       :rows="rows"
+      :grid="$q.screen.lt.md"
       :columns="columns"
       row-key="date"
       @row-click="openModalEdit"

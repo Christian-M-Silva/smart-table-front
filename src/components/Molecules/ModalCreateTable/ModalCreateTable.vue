@@ -52,6 +52,7 @@
                 @keyup.enter="addNameColumn"
                 type="text"
                 filled
+                :class="{'mb-16': $q.screen.lt.sm}"
                 hint="Clique Enter para adicionar o titulo da coluna, e clique no nome da coluna para remover ela. (É OBRIGATÓRIO PELO MENOS UMA COLUNA)"
               />
 
