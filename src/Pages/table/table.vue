@@ -4,7 +4,7 @@
       card-class="bg-blue-grey-5"
       table-header-class="bg-blue-grey-6"
       table-class="bg-blue-grey-2"
-      :class="[{ 'mx-32 my-5': isNotFullScreen }]"
+      :class="[{ 'mx-32 my-5': isNotFullScreen && $q.screen.gt.sm }]"
       v-show="showTable"
       :rows-per-page-options="[0]"
       :virtual-scroll-sticky-size-start="48"
@@ -42,7 +42,7 @@
       </template>
       <template v-slot:bottom>
         <div class="row justify-between w-full items-center">
-          <div class="row gap-2">
+          <div :class="[  $q.screen.width > 425 ? 'shrink-0': 'flex-col w-full justify-center', 'flex gap-1']">
             <q-btn
               color="green"
               icon="check"
@@ -114,7 +114,7 @@
           <div class="text-h6">ALTERE OS VALORES DOS INPUTS</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none row gap-1">
+        <q-card-section :class="['q-pt-none row gap-1', {'justify-center': $q.screen.width < 426}]">
           <div v-for="input in arrayInputs" :key="input.label">
             <q-input
               color="grey-10"
