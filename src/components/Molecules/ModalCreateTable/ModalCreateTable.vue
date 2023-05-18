@@ -4,15 +4,17 @@
       <q-layout view="Lhh lpR fff" container class="bg-white">
         <q-header class="bg-grey-7">
           <q-toolbar>
-            <q-toolbar-title>Insira os dados da sua tabela</q-toolbar-title>
-            <q-btn flat v-close-popup round dense icon="close" />
+            <q-toolbar-title > <span :class="{'text-sm': $q.screen.xs}">Insira os dados da sua tabela</span> </q-toolbar-title>
+            <q-btn flat v-close-popup round dense>
+              <q-icon name="close" :size="$q.screen.xs ? 'sm' : 'md'" />
+            </q-btn>
           </q-toolbar>
         </q-header>
 
-        <q-footer class="bg-blue-grey-5 p-2 gap-2 flex justify-end text-white">
+        <q-footer :class="['bg-blue-grey-5 p-2 gap-2 flex text-white', $q.screen.xs ? 'column justify-center' : 'justify-end']">
           <q-btn
             color="blue-grey-10"
-            icon="check"
+            icon="close"
             label="Cancelar"
             @click="cancel"
           />
