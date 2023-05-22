@@ -42,18 +42,25 @@
       </template>
       <template v-slot:bottom>
         <div class="row justify-between w-full items-center">
-          <div :class="[  $q.screen.width > 425 ? 'shrink-0': 'flex-col w-full justify-center', 'flex gap-1']">
+          <div
+            :class="[
+              $q.screen.width > 425
+                ? 'shrink-0'
+                : 'flex-col w-full justify-center',
+              'flex gap-1',
+            ]"
+          >
             <q-btn
               color="green"
               icon="check"
               label="FINALIZAR"
-              @click="showModalConfirm('OK')"
+              @click="finalize"
             />
             <q-btn
               color="red"
               icon="close"
               label="CANCELAR"
-              @click="showModalConfirm('CANCEL')"
+              @click="isOpenModalConfirm = true"
             />
             <q-btn
               color="blue"
@@ -90,6 +97,12 @@
       :updateData="dataUpdate"
     />
 
+    <modal-confirm
+      :isOpenModalConfirm="isOpenModalConfirm"
+      @confirm="cancel"
+      @negative="isOpenModalConfirm = false"
+    ></modal-confirm>
+
     <div
       v-if="loading"
       class="h-[calc(100vh-68px)] column justify-center items-center"
@@ -100,7 +113,6 @@
 
     <q-dialog
       v-model="isModalEditInput"
-      persistent
       transition-show="flip-down"
       transition-hide="flip-up"
       @keyup.enter="isModalEditInput = false"
@@ -114,7 +126,12 @@
           <div class="text-h6">ALTERE OS VALORES DOS INPUTS</div>
         </q-card-section>
 
-        <q-card-section :class="['q-pt-none row gap-1', {'justify-center': $q.screen.width < 426}]">
+        <q-card-section
+          :class="[
+            'q-pt-none row gap-1',
+            { 'justify-center': $q.screen.width < 426 },
+          ]"
+        >
           <div v-for="input in arrayInputs" :key="input.label">
             <q-input
               color="grey-10"
@@ -127,34 +144,6 @@
             />
           </div>
         </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog v-model="isOpenModalConfirm" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm">Tem certeza?</span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="NÃO" color="red" v-close-popup />
-          <q-btn
-            flat
-            label="SIM"
-            color="green"
-            v-close-popup
-            @click="finalize"
-            v-if="confirm === 'OK'"
-          />
-          <q-btn
-            flat
-            label="SIM"
-            color="green"
-            v-close-popup
-            @click="cancel"
-            v-else-if="confirm === 'CANCEL'"
-          />
-        </q-card-actions>
       </q-card>
     </q-dialog>
   </div>
