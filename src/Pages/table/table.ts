@@ -5,6 +5,7 @@ import { ColumnsTableCreate, InputsEditTable, vModelSelect } from "@/interfaces/
 import Cookies from "js-cookie";
 import axios from "axios";
 import packAxios from "@/mixins/packAxios";
+import { DateTime } from 'luxon';
 
 export default defineComponent({
     components: {
@@ -96,14 +97,21 @@ export default defineComponent({
         },
 
         async finalize() {
-            const tableId = Cookies.get('tableId')
+            const idTable = Cookies.get('tableId')
+            const [day, month, year] = this.nextUpdate.split('/');
+            const date = new Date(+year, +month - 1, +day).toISOString();
+            const nextUpdate = DateTime.fromISO(date);
+            const rows = JSON.stringify(this.rows)
+            const cols = JSON.stringify(this.columns)
+            const daysWeek = JSON.stringify(this.weekDays)
+
             const data = {
-                rows: this.rows,
-                columns: this.columns,
+                rows,
+                cols,
                 nameTable: this.nameTable,
-                tableId,
-                weekDays: this.weekDays,
-                nextUpdate: this.nextUpdate
+                idTable,
+                daysWeek,
+                nextUpdate 
             }
             console.log("🚀 ~ file: table.ts:68 ~ confirm ~ data", data)
             this.isLoading = true

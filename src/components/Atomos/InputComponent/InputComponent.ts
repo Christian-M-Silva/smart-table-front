@@ -35,7 +35,6 @@ export default defineComponent(
                     ...this.$attrs,
                     ...this.$props,
                 }
-                console.log("🚀 ~ file: InputComponent.ts:35 ~ propsComputed ~ props:", props)
                 return props
             }
         },
