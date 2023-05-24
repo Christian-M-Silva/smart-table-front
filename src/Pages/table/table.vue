@@ -97,6 +97,12 @@
       :updateData="dataUpdate"
     />
 
+    <modal-response-api
+      :isOpenModal="openModalResponseAPI"
+      :messageAxios="messageAxios"
+      :responseApiStatus="responseStatus"
+    ></modal-response-api>
+
     <modal-confirm
       :isOpenModalConfirm="isOpenModalConfirm"
       @confirm="cancel"

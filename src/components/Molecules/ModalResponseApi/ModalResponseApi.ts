@@ -52,8 +52,12 @@ export default defineComponent({
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Dado não encontrado'
                     break;
                 case 422:
-                    this.colorCode = 'text-red-600'
+                    this.colorCode = 'text-red-500'
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Não foi possível processar as instruções, tente alterar o dado enviado'
+                    break;
+                case 500:
+                    this.colorCode = 'text-red-600'
+                    this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Houve algum erro no servidor ao processar esse dado, tente novamente, mais tarde'
                     break;
             }
         }

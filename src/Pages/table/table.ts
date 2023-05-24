@@ -5,12 +5,14 @@ import { ColumnsTableCreate, InputsEditTable, vModelSelect } from "@/interfaces/
 import Cookies from "js-cookie";
 import axios from "axios";
 import packAxios from "@/mixins/packAxios";
+import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { DateTime } from 'luxon';
 
 export default defineComponent({
     components: {
         ModalCreateTable,
-        ModalConfirm
+        ModalConfirm,
+        ModalResponseApi
     },
 
     mixins: [packAxios],
@@ -113,18 +115,19 @@ export default defineComponent({
                 daysWeek,
                 nextUpdate 
             }
-            console.log("🚀 ~ file: table.ts:68 ~ confirm ~ data", data)
             this.isLoading = true
             this.messageAxios = ''
             await axios.post(`${this.baseUrl}/table`, data).then((res => {
-                console.log("🚀 ~ file: table.ts:110 ~ awaitaxios.post ~ res:", res)
                 this.responseStatus = res.status
+                setTimeout(() => {
+                    this.$router.push({ name: 'home', params: { tableId: idTable } })
+                }, 1000);
             })).catch((erro => {
-                console.log("🚀 ~ file: table.ts:112 ~ awaitaxios.post ~ erro:", erro)
-                this.messageAxios = erro.response.data.errors[0].message
+                console.error(erro)
                 this.responseStatus = erro.response.status
             }))
             this.isLoading = false
+            this.openModalResponseAPI = !this.openModalResponseAPI
         },
 
         editTable() {
