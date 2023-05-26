@@ -4,14 +4,23 @@
       <q-layout view="Lhh lpR fff" container class="bg-white">
         <q-header class="bg-grey-7">
           <q-toolbar>
-            <q-toolbar-title > <span :class="{'text-sm': $q.screen.xs}">Insira os dados da sua tabela</span> </q-toolbar-title>
+            <q-toolbar-title>
+              <span :class="{ 'text-sm': $q.screen.xs }"
+                >Insira os dados da sua tabela</span
+              >
+            </q-toolbar-title>
             <q-btn flat v-close-popup round dense>
               <q-icon name="close" :size="$q.screen.xs ? 'sm' : 'md'" />
             </q-btn>
           </q-toolbar>
         </q-header>
 
-        <q-footer :class="['bg-blue-grey-5 p-2 gap-2 flex text-white', $q.screen.xs ? 'column justify-center' : 'justify-end']">
+        <q-footer
+          :class="[
+            'bg-blue-grey-5 p-2 gap-2 flex text-white',
+            $q.screen.xs ? 'column justify-center' : 'justify-end',
+          ]"
+        >
           <q-btn
             color="blue-grey-10"
             icon="close"
@@ -28,8 +37,20 @@
 
         <q-page-container style="max-height: 577px" class="scroll">
           <q-page padding class="mx-10">
+            <div class="my-5">
+              <span class="font-bold text-red-600">*Nome da tabela</span>
+              <q-input
+              class="borda"
+                v-model="nameTable"
+                :rules="[(val) => !!val || 'Esse campo é obrigatório']"
+                filled
+              />
+             <div class="text-red-700 font-semibold" v-if="v$.nameTable.asyncValidator.$invalid">O nome da tabela escolhido, já existe, escolha outro</div>
+            </div>
             <div class="my-5" v-for="input in inputs" :key="input.title">
-              <span class="font-bold text-red-600">*{{ input.title.toUpperCase() }}</span>
+              <span class="font-bold text-red-600"
+                >*{{ input.title.toUpperCase() }}</span
+              >
               <q-select
                 v-if="input.options"
                 v-model="input.vModel"
@@ -54,7 +75,7 @@
                 @keyup.enter="addNameColumn"
                 type="text"
                 filled
-                :class="{'mb-16': $q.screen.lt.sm}"
+                :class="{ 'mb-16': $q.screen.lt.sm }"
                 hint="Clique Enter para adicionar o titulo da coluna, e clique no nome da coluna para remover ela. (É OBRIGATÓRIO PELO MENOS UMA COLUNA)"
               />
 

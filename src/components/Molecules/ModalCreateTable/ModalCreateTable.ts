@@ -3,12 +3,20 @@ import { vModelSelect, ColumnsTableCreate } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 import utils from "@/mixins/utils";
+import axios from "axios";
+import packAxios from "@/mixins/packAxios";
+import { helpers } from "@vuelidate/validators";
+import { useVuelidate } from '@vuelidate/core'
+const { withAsync } = helpers
 
 export default defineComponent({
+    setup() {
+        return { v$: useVuelidate() }
+    },
     components: {
         ModalConfirm
     },
-    mixins: [utils],
+    mixins: [utils, packAxios],
     props: {
         openModalAgain: {
             type: Boolean,
@@ -23,13 +31,8 @@ export default defineComponent({
         return {
             createTableModal: false,
             erroInput: false,
+            nameTable: "e",
             inputs: [
-                {
-                    vModel: 'e',
-                    name: 'nameTable',
-                    type: 'text',
-                    title: 'Nome da tabela',
-                },
                 {
                     vModel: '5',
                     type: 'number',
@@ -88,9 +91,13 @@ export default defineComponent({
         },
 
         async confirm() {
-            const isInvalid = this.inputs.filter(input => input.vModel.length === 0)
+            const isValidate = await this.v$.$validate()
+            if (!isValidate) {
+                return console.error("O nome da tabela escolhido, já existe, escolha outro")
+            }
+            const hasSomeInputInvalid = this.inputs.filter(input => input.vModel.length === 0)
 
-            if (this.namesColumns.length > 0 && isInvalid.length === 0) {
+            if (this.namesColumns.length > 0 && hasSomeInputInvalid.length === 0) {
                 // PEGAR A QUANTIDADE DE LINHA PASSADO PELO USER
                 const quantityRow = Number(this.inputs.filter(input => input.name === 'numberRow')[0].vModel)
 
@@ -114,14 +121,6 @@ export default defineComponent({
                 let rowsDate = this.createArrayData(date, weekDaysChosenByUser, quantityRow + 1)
 
                 let nextUpdate = rowsDate.pop()
-
-                let nameTable = ''
-                this.inputs.forEach(el => {
-                    if (el.name === 'nameTable') {
-                        nameTable = el.vModel as string
-                    }
-                });
-
 
                 this.columns = this.namesColumns.map(el => ({
                     name: el.toLowerCase(),
@@ -174,9 +173,9 @@ export default defineComponent({
                     })
 
                 }
- 
+
                 this.createTableModal = false
-                this.$emit('confirm', this.rows, this.columns, nameTable, vModelWeekDays, nextUpdate)
+                this.$emit('confirm', this.rows, this.columns, this.nameTable, vModelWeekDays, nextUpdate)
             }
 
         },
@@ -205,4 +204,15 @@ export default defineComponent({
     created() {
         this.createTableModal = this.$route.params.tableId ? false : true
     },
+    validations: {
+        nameTable: {
+            asyncValidator: withAsync( async (newValue: any, v: any) => {
+                const exist = await axios.get(`${v.baseUrl}/table/existTableWithThisName/${v.nameTable}/${Cookies.get('tableId')}`).then((res => {
+                    return res.data
+                }))
+                return !exist
+            })
+        }
+    }
+
 })
