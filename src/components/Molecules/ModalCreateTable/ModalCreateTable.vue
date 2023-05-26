@@ -40,7 +40,6 @@
             <div class="my-5">
               <span class="font-bold text-red-600">*Nome da tabela</span>
               <q-input
-              class="borda"
                 v-model="nameTable"
                 :rules="[(val) => !!val || 'Esse campo é obrigatório']"
                 filled
