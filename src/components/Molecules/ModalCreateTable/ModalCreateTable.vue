@@ -43,8 +43,15 @@
                 v-model="nameTable"
                 :rules="[(val) => !!val || 'Esse campo é obrigatório']"
                 filled
-              />
-             <div class="text-red-700 font-semibold" v-if="v$.nameTable.asyncValidator.$invalid">O nome da tabela escolhido, já existe, escolha outro</div>
+              >
+                <template v-slot:hint>
+                  <span
+                    class="text-red-700 font-semibold"
+                    v-if="v$.nameTable.asyncValidator.$invalid"
+                    >O nome da tabela escolhido, já existe, escolha outro</span
+                  >
+                </template>
+              </q-input>
             </div>
             <div class="my-5" v-for="input in inputs" :key="input.title">
               <span class="font-bold text-red-600"
