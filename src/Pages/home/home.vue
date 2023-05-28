@@ -23,7 +23,7 @@
           ]"
           type="search"
           class=""
-          placeholder="Nome da tabela"
+          placeholder="Pesquise pelo nome da tabela"
           aria-label="Pesquise pelo nome da tabela"
           aria-describedby="button-search"
           v-model="search"
