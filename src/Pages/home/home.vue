@@ -64,7 +64,7 @@
         <q-icon name="image" size="xs" />
         <span>BAIXAR TABELA</span>
       </button>
-     </div>
+    </div>
 
     <q-table
       title="Tables"
@@ -75,8 +75,9 @@
       selection="multiple"
       v-model:selected="selected"
       @row-click="goTo"
-    >
-    </q-table>
+      v-model:pagination="pagination"
+      @request="onRequest"
+    />
 
     <loading :isLoading="isLoading" />
     <modal-response-api
@@ -89,7 +90,13 @@
       @confirm="removeTable"
       @negative="getTables"
     ></modal-confirm>
-    <modal-sharing :isOpenModalConfirm="openModalSharing" :networks="networks" :url="url" title="Designações" copyText></modal-sharing>
+    <modal-sharing
+      :isOpenModalConfirm="openModalSharing"
+      :networks="networks"
+      :url="url"
+      title="Designações"
+      copyText
+    ></modal-sharing>
   </div>
 </template>
 <script src="./home.ts"></script>

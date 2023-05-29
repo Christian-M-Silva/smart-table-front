@@ -11,6 +11,7 @@ import utils from "@/mixins/utils";
 
 export default defineComponent(
   {
+    mixins: [packAxios, utils],
     components: {
       ModalConfirm,
       ModalSharing,
@@ -21,49 +22,18 @@ export default defineComponent(
       Cookies.set('tableId', this.$route.params.tableId as string)
       this.getTables()
       this.authenticate()
-      this.rows.push(
-        {
-          id: '7287287287287',
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          id: '7287287287286',
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          id: '7287287287281',
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          id: '7287287287282',
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          id: '7287287287283',
-          name: "Nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-        {
-          id: '728728728728444',
-          name: "nome",
-          createdAt: 'Criado',
-          updateAt: 'Atualizado',
-        },
-      )
     },
 
     data() {
       return {
         openModalSharing: false,
+        pagination: {
+          sortBy: 'desc',
+          descending: false,
+          page: 1,
+          rowsPerPage: 5,
+          rowsNumber: 5
+        },
         url: `${process.env.VUE_APP_URL}${this.$route.fullPath}`,
         networks: [
           { network: 'email', name: 'Email', icon: 'far fah fa-lg fa-envelope', color: '#e12828', className: 'text-white' },
@@ -104,20 +74,26 @@ export default defineComponent(
 
     methods: {
       async getTables() {
-        // TODO:Descomentar
-        //   this.messageAxios = ''
-        //   this.isLoading = true
-        //   await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}`).then((res => {
-        //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-        //   })).catch((erro => {
-        //     this.messageAxios = erro.response.data.error
-        //     this.responseApiStatus = erro.response.status
-        //   }))
-        //   this.isLoading = false
-        //   this.openModalResponseAPI = !this.openModalResponseAPI
-        //   this.selected = []
+        this.isLoading = true
+        await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}`).then((res => {
+          this.rows = res.data.map((el: any) => ({
+            id: el.id,
+            name: el.nameTable,
+            createdAt: el.createdAt,
+            updateAt: el.nextUpdate,
+          }))
+        })).catch((erro => {
+          this.messageAxios = erro.response.data.error
+          this.responseStatus = erro.response.status
+          this.openModalResponseAPI = !this.openModalResponseAPI
+        }))
+        this.isLoading = false
+        this.selected = []
       },
 
+      onRequest(props: any) {
+        console.log("🚀 ~ file: home.ts:129 ~ onRequest ~ props:", props)
+      },
       download() {
         // TODO:Descomentar
         // let tablesForDownload = []
@@ -141,7 +117,7 @@ export default defineComponent(
         console.log("🚀 ~ file: home.ts:67 ~ goTo ~ index", index)
         console.log("🚀 ~ file: home.ts:67 ~ goTo ~ row", row.id)
         console.log("🚀 ~ file: home.ts:67 ~ goTo ~ evt", evt)
-        this.$router.push({ name: 'table', params:{tableId: row.id} })
+        this.$router.push({ name: 'table', params: { tableId: row.id } })
       },
 
       newTable() {
@@ -163,19 +139,17 @@ export default defineComponent(
       },
     },
 
-    mixins: [packAxios, utils],
-
     watch: {
       async search(newValue) {
-        if (newValue.length > 0) {
-          const tableId = Cookies.get('tableId')
-          this.isLoading = true
+        // if (newValue.length > 0) {
+        //   const tableId = Cookies.get('tableId')
+        //   this.isLoading = true
 
-          await axios.get(`${this.baseUrl}/table/search/${tableId}/${this.search}`).catch((erro => {
-            console.error(erro)
-          }))
-          this.isLoading = false
-        }
+        //   await axios.get(`${this.baseUrl}/table/search/${tableId}/${this.search}`).catch((erro => {
+        //     console.error(erro)
+        //   }))
+        //   this.isLoading = false
+        // }
       }
     },
   }
