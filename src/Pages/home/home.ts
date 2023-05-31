@@ -26,9 +26,10 @@ export default defineComponent(
 
     data() {
       return {
+        loading: false,
         openModalSharing: false,
         pagination: {
-          sortBy: 'desc',
+          sortBy: 'name',
           descending: false,
           page: 1,
           rowsPerPage: 5,
@@ -74,9 +75,10 @@ export default defineComponent(
 
     methods: {
       async getTables() {
-        this.isLoading = true
-        await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}`).then((res => {
-          this.rows = res.data.map((el: any) => ({
+        this.loading = true
+        await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`).then((res => {
+          this.pagination.rowsNumber = res.data.meta.total
+          this.rows = res.data.data.map((el: any) => ({
             id: el.id,
             name: el.nameTable,
             createdAt: el.createdAt,
@@ -86,13 +88,15 @@ export default defineComponent(
           this.messageAxios = erro.response.data.error
           this.responseStatus = erro.response.status
           this.openModalResponseAPI = !this.openModalResponseAPI
-        }))
-        this.isLoading = false
+        })).finally(() => setTimeout(() => {
+          this.loading = false
+        }, 1000))
         this.selected = []
       },
 
       onRequest(props: any) {
-        console.log("🚀 ~ file: home.ts:129 ~ onRequest ~ props:", props)
+        this.pagination = props.pagination
+        this.getTables()
       },
       download() {
         // TODO:Descomentar

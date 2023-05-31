@@ -73,10 +73,13 @@
       :columns="columns"
       row-key="id"
       selection="multiple"
+      class="mb-3"
       v-model:selected="selected"
       @row-click="goTo"
+      :filter="search"
       v-model:pagination="pagination"
       @request="onRequest"
+      :loading="loading"
     />
 
     <loading :isLoading="isLoading" />
