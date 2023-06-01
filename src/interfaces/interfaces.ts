@@ -28,10 +28,42 @@ export interface RowsTableHome {
     createdAt: string,
     updateAt: string,
 }
+export interface rowsTableCreateOrRead {
+    date: string;
+    [key: string]: string;
+}
 export interface vModelSelect {
     label: string,
     value: string,
     rest?: any
+}
+export interface PropsRequest {
+    getCellValue: Function,
+    pagination: {
+        sortBy: string;
+        descending: boolean;
+        page: number;
+        rowsPerPage: number;
+        rowsNumber: number;
+    },
+    filter?: string
+}
+export interface PropsFullScreen {
+    firstPage: Function,
+    inFullscreen: Boolean,
+    isFirstPage: Boolean,
+    isLastPage: Boolean,
+    lastPage: Function,
+    nextPage: Function,
+    pagesNumber: number
+    pagination: {
+        sortBy?: string;
+        descending: boolean;
+        page: number;
+        rowsPerPage: number;
+    },
+    prevPage: Function,
+    toggleFullscreen: Function,
 }
 export interface ButtonInput {
     color: string,
@@ -45,4 +77,15 @@ export interface Network {
     icon: string,
     className: string,
     name: string,
+}
+export interface TypeGetTable {
+    cols: ColumnsTableCreate[],
+    createdAt: string,
+    daysWeek: vModelSelect[],
+    id: number,
+    idTable: string,
+    nameTable: string,
+    nextUpdate: string,
+    rows: rowsTableCreateOrRead[],
+    updatedAt: string,
 }

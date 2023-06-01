@@ -1,5 +1,5 @@
 import { defineComponent, PropType } from "vue";
-import { vModelSelect, ColumnsTableCreate } from "@/interfaces/interfaces";
+import { vModelSelect, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 import utils from "@/mixins/utils";
@@ -63,7 +63,7 @@ export default defineComponent({
             ],
             nameColumns: '',
 
-            rows: [] as any[],
+            rows: [] as rowsTableCreateOrRead[],
 
             columns: [] as ColumnsTableCreate[],
 
@@ -206,7 +206,7 @@ export default defineComponent({
     },
     validations: {
         nameTable: {
-            asyncValidator: withAsync( async (newValue: any, v: any) => {
+            asyncValidator: withAsync( async (newValue: string, v: any) => {
                 const exist = await axios.get(`${v.baseUrl}/table/existTableWithThisName/${v.nameTable}/${Cookies.get('tableId')}`).then((res => {
                     return res.data
                 }))

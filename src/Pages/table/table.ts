@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
 import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
-import { ColumnsTableCreate, InputsEditTable, vModelSelect } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable, vModelSelect, rowsTableCreateOrRead, PropsFullScreen } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import axios from "axios";
 import packAxios from "@/mixins/packAxios";
@@ -20,7 +20,7 @@ export default defineComponent({
     data() {
         return {
             loading: false,
-            rows: [] as any[],
+            rows: [] as rowsTableCreateOrRead[],
             columns: [] as ColumnsTableCreate[],
             showTable: false,
             nameTable: '',
@@ -30,14 +30,14 @@ export default defineComponent({
             confirm: '',
             isOpenModalConfirm: false,
             IsOpenAgain: false,
-            dataUpdate: [] as any[],
+            dataUpdate: [] as rowsTableCreateOrRead[],
             weekDays: [] as vModelSelect[],
             nextUpdate: ''
         }
     },
 
     methods: {
-        createTable(rows: any, columns: any, nameTable: string, vModelWeekDays: vModelSelect[], nextUpdate: string) {
+        createTable(rows: rowsTableCreateOrRead[], columns: ColumnsTableCreate[], nameTable: string, vModelWeekDays: vModelSelect[], nextUpdate: string) {
             this.loading = true
             this.nameTable = nameTable
             this.columns = columns
@@ -48,7 +48,7 @@ export default defineComponent({
             this.nextUpdate = nextUpdate
         },
 
-        openModalEdit(evt: Event, row: any, index: number) {
+        openModalEdit(evt: Event, row: rowsTableCreateOrRead, index: number) {
             this.isModalEditInput = true
             let inputs = [] as InputsEditTable[]
             for (const key in row) {
@@ -78,7 +78,7 @@ export default defineComponent({
             }
         },
 
-        fullscreen(props: any) {
+        fullscreen(props: PropsFullScreen) {
             this.isNotFullScreen = !this.isNotFullScreen
             props.toggleFullscreen()
         },

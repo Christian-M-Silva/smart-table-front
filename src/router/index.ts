@@ -52,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
     await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`).then((res => {
       res.data ? next() : next({ name: 'loginAndRegister' });
     })).catch((erro => {
-      console.log("🚀 ~ file: home.ts:73 ~ awaitaxios.get ~ erro:", erro)
+      console.error(erro)
     }))
   } else {
     next()

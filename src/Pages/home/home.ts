@@ -6,7 +6,7 @@ import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import packAxios from "@/mixins/packAxios";
-import { RowsTableHome } from "@/interfaces/interfaces"
+import { RowsTableHome, TypeGetTable, PropsRequest } from "@/interfaces/interfaces"
 import utils from "@/mixins/utils";
 
 export default defineComponent(
@@ -78,7 +78,7 @@ export default defineComponent(
         this.loading = true
         await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`).then((res => {
           this.pagination.rowsNumber = res.data.meta.total
-          this.rows = res.data.data.map((el: any) => ({
+          this.rows = res.data.data.map((el: TypeGetTable) => ({
             id: el.id,
             name: el.nameTable,
             createdAt: el.createdAt,
@@ -94,7 +94,7 @@ export default defineComponent(
         this.selected = []
       },
 
-      onRequest(props: any) {
+      onRequest(props: PropsRequest) {
         this.pagination = props.pagination
         this.getTables()
       },
