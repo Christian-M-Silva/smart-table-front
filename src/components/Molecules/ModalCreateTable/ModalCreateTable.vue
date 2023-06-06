@@ -38,22 +38,28 @@
         <q-page-container style="max-height: 577px" class="scroll">
           <q-page padding class="mx-10">
             <div class="my-5">
-              <span class="font-bold text-red-600">*Nome da tabela</span>
+              <span class="font-bold text-red-600">*NOME DA TABELA</span>
               <q-input
                 v-model="nameTable"
-                :rules="[(val) => !!val || 'Esse campo é obrigatório']"
                 filled
-              >
-                <template v-slot:hint>
-                  <span
-                    class="text-red-700 font-semibold"
-                    v-if="v$.nameTable.asyncValidator.$invalid"
-                    >O nome da tabela escolhido, já existe, escolha outro</span
-                  >
-                </template>
-              </q-input>
+                @blur="v$.nameTable.$touch"
+              />
+              <div>
+                <div class="text-red-700 font-semibold">
+                  <span v-if="v$.nameTable.asyncValidator.$invalid">
+                    O nome da tabela escolhido, já existe, escolha outro
+                  </span>
+                  <span v-else-if="v$.nameTable.$error">
+                    {{ v$.nameTable.required.$message }}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div class="my-5" v-for="input in inputs" :key="input.title">
+            <div
+              class="my-5"
+              v-for="(input, index) in inputs"
+              :key="input.title"
+            >
               <span class="font-bold text-red-600"
                 >*{{ input.title.toUpperCase() }}</span
               >
@@ -62,16 +68,28 @@
                 v-model="input.vModel"
                 :options="input.options"
                 filled
-                :rules="[(val) => val.length > 0 || 'Esse campo é obrigatório']"
                 multiple
+                @blur="input.hasFistTouch = true"
               />
+
               <q-input
                 v-else
                 v-model="input.vModel"
                 :type="input.type"
-                :rules="[(val) => !!val || 'Esse campo é obrigatório']"
+                :erros="v$.inputs.$each.$message[index]"
                 filled
+                @blur="input.hasFistTouch = true"
               />
+              <div v-if="input.hasFistTouch">
+                <div
+                  v-for="(error, index) of v$.inputs.$each.$message[index]"
+                  :key="index"
+                >
+                  <div class="text-red-700 font-semibold">
+                    {{ error }}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div>

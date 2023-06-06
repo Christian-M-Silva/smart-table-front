@@ -5,7 +5,7 @@ import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 import utils from "@/mixins/utils";
 import axios from "axios";
 import packAxios from "@/mixins/packAxios";
-import { helpers } from "@vuelidate/validators";
+import { helpers, required } from "@vuelidate/validators";
 import { useVuelidate } from '@vuelidate/core'
 const { withAsync } = helpers
 
@@ -37,13 +37,15 @@ export default defineComponent({
                     vModel: '5',
                     type: 'number',
                     name: 'numberRow',
-                    title: 'Quantidade de linhas da tabela'
+                    title: 'Quantidade de linhas da tabela',
+                    hasFistTouch: false
                 },
                 {
                     vModel: '2001-07-13',
                     name: 'dayBegin',
                     type: 'date',
-                    title: 'Dia inicial da tabela'
+                    title: 'Dia inicial da tabela',
+                    hasFistTouch: false
                 },
                 {
                     vModel: [{ label: "Domingo", value: '0' },],
@@ -58,7 +60,8 @@ export default defineComponent({
                         { label: "Quinta", value: '4' },
                         { label: "Sexta", value: '5' },
                         { label: "Sábado", value: '6' }
-                    ]
+                    ],
+                    hasFistTouch: false
                 },
             ],
             nameColumns: '',
@@ -197,6 +200,7 @@ export default defineComponent({
 
     watch: {
         openModalAgain() {
+            this.inputs.map(el => el.hasFistTouch = false)
             this.createTableModal = true
         },
     },
@@ -211,6 +215,14 @@ export default defineComponent({
                     return res.data
                 }))
                 return !exist
+            }),
+            required: helpers.withMessage('Este campo é obrigatório', required)
+        },
+        inputs: {
+            $each: helpers.forEach({
+                vModel: {
+                    required: helpers.withMessage('Este campo é obrigatório', required)
+                },
             })
         }
     }

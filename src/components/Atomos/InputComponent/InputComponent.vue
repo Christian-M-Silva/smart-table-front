@@ -18,9 +18,9 @@
     </div>
 
     <div v-if="erros">
-      <div v-for="error of erros" :key="error.$uid">
+      <div v-for="(error, index) of erros" :key="index">
         <div class="text-red-700 font-semibold">
-          {{ error.$message }}
+          {{ error.$message || error }}
         </div>
       </div>
     </div>
