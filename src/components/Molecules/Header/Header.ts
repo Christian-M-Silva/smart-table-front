@@ -29,6 +29,8 @@ export default defineComponent(
                     }
                     return config
                 })
+                Cookies.remove('authToken')
+                Cookies.remove('tableId')
                 await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
                     console.error(erro)
                 }))

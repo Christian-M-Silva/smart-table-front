@@ -9,7 +9,8 @@ export default defineComponent(
 
         data() {
             return {
-                isAuthenticate: false
+                isAuthenticate: false,
+                nameUser: ''
             }
         },
 
@@ -24,13 +25,14 @@ export default defineComponent(
                 })
 
                 await axios.get(`${this.baseUrl}/auth/isAuthenticate`).then((res => {
-                    this.isAuthenticate = res.data
+                    this.isAuthenticate = res.data.isAuthenticate
+                    this.nameUser = res.data.entity
                 })).catch((erro => {
                     console.error(erro)
                 }))
             },
 
-            createArrayData(date: Date, weekDaysChosenByUser: string[], quantityLoop: number){
+            createArrayData(date: Date, weekDaysChosenByUser: string[], quantityLoop: number) {
                 let rowsDate = []
                 while (rowsDate.length < quantityLoop) { //aqui ele vai ver se a quantidade de linhas ou seja de datas armazenadas dentro do row, combina com a quantidade de linha, pois cada data é uma linha
 
