@@ -80,6 +80,7 @@
       v-model:pagination="pagination"
       @request="onRequest"
       :loading="loading"
+      no-data-label="Nenhuma tabela encontrada."
     />
 
     <loading :isLoading="isLoading" />
