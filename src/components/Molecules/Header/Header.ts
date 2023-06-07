@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 import { defineComponent } from "vue";
 import utils from "@/mixins/utils";
+import axios from "axios";
 
 export default defineComponent(
     {
@@ -20,7 +21,17 @@ export default defineComponent(
 
                 return this.$router.push({ name: 'loginAndRegister' })
             },
-            exit() {
+            async exit() {
+                axios.interceptors.request.use((config) => {
+                    const token = Cookies.get('authToken')
+                    if (token) {
+                        config.headers.Authorization = `Bearer ${token}`
+                    }
+                    return config
+                })
+                await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
+                    console.error(erro)
+                }))
                 this.$router.push({ name: 'loginAndRegister' })
             }
         },

@@ -84,6 +84,16 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.isLoading = true
+                    axios.interceptors.request.use((config) => {
+                        const token = Cookies.get('authToken')
+                        if (token) {
+                            config.headers.Authorization = `Bearer ${token}`
+                        }
+                        return config
+                    })
+                    await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
+                        console.error(erro)
+                    }))
                     await axios.post(`${this.baseUrl}/auth`, dataUser).then((res => {
                         Cookies.remove('authToken')
                         Cookies.remove('tableId')
@@ -155,16 +165,6 @@ export default defineComponent(
 
         async created() {
             this.messageAxios = ''
-            axios.interceptors.request.use((config) => {
-                const token = Cookies.get('authToken')
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`
-                }
-                return config
-            })
-            await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
-                console.error(erro)
-            }))
             this.action = "Login"
             this.openModalInputs = !!this.$route.params.tableId
             this.inputsModal = [
