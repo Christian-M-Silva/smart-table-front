@@ -128,18 +128,22 @@ export default defineComponent(
         this.$router.push({ name: 'table' })
       },
 
-      removeTable() {
-        this.selected.forEach(async el => {
-          this.messageAxios = ''
-          this.isLoading = true
-          await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}`).catch((erro => {
-            this.messageAxios = erro.response.data.error
-            this.responseStatus = erro.response.status
-            this.openModalResponseAPI = !this.openModalResponseAPI
-          }))
-        });
-        this.isLoading = false
-        this.getTables()
+      async removeTable() {
+        this.messageAxios = '';
+        this.isLoading = true;
+
+        try {
+          for (const el of this.selected) {
+            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}`);
+          }
+        } catch (error: any) {
+          this.messageAxios = error.response.data.error;
+          this.responseStatus = error.response.status;
+          this.openModalResponseAPI = true;
+        } finally {
+          this.getTables();
+          this.isLoading = false;
+        }
       },
     },
 
