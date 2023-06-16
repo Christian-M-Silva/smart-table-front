@@ -6,9 +6,10 @@ import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import packAxios from "@/mixins/packAxios";
-import { RowsTableHome, TypeGetTable, PropsRequest } from "@/interfaces/interfaces"
+import { RowsTableHome, TypeGetTable, PropsRequest, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces"
+import { Document, Packer, Paragraph, Table, TableCell, TableRow } from "docx";
 import utils from "@/mixins/utils";
-
+import { saveAs } from "file-saver";
 export default defineComponent(
   {
     mixins: [packAxios, utils],
@@ -98,23 +99,63 @@ export default defineComponent(
         this.pagination = props.pagination
         this.getTables()
       },
-      download() {
+      async download() {
         // TODO:Descomentar
-        // let tablesForDownload = []
-        // this.selected.forEach(async el => {
-        //   this.messageAxios = ''
-        //   this.isLoading = true
-        //   await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`).then((res => {
-        //     console.log("🚀 ~ file: home.ts:53 ~ awaitaxios.get ~ res:", res)
-        //     tablesForDownload.push(res.data)
-        //   })).catch((erro => {
-        //     this.messageAxios = erro.response.data.error
-        //     this.responseApiStatus = erro.response.status
-        //     this.openModalResponseAPI = !this.openModalResponseAPI
-        //   }))
-        // });
-        // this.isLoading = false
-        // this.getTables()
+        let tablesForDownload = [] as TypeGetTable[]
+        this.messageAxios = ''
+        this.isLoading = true
+        try {
+          for (const el of this.selected) {
+            const res = await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`);
+            tablesForDownload.push(res.data)
+          }
+        } catch (error: any) {
+          this.messageAxios = error.response.data.error
+          this.responseStatus = error.response.status
+          this.openModalResponseAPI = !this.openModalResponseAPI
+        }
+        try {
+          for (const el of tablesForDownload) {
+            const columns = el.cols.map(el => new TableCell({
+              children: [new Paragraph(el.label)],
+            }))
+            let rowsData = el.rows.map(row => {
+              let tableCell: TableCell[] = [];
+              const reorderedObject = this.reorderObjectProperties(el.cols, row);
+              reorderedObject.forEach((el: string[]) => {
+                tableCell.push(new TableCell({
+                  children: [new Paragraph(el[1])],
+                }));
+              });
+
+              return new TableRow({
+                children: tableCell
+              });
+            });
+            const table = new Table({
+              rows: [
+                new TableRow({
+                  children: columns
+                }),
+                ...rowsData,
+              ],
+            });
+
+            const doc = new Document({
+              sections: [{
+                children: [table],
+              }],
+            });
+
+            Packer.toBlob(doc).then((blob) => {
+              saveAs(blob, el.nameTable);
+            });
+          }
+        } catch (error) {
+          console.error(error)
+        }
+        this.isLoading = false
+        this.selected = []
       },
 
       goTo(evt: Event, row: RowsTableHome, index: number) {
@@ -126,6 +167,16 @@ export default defineComponent(
 
       newTable() {
         this.$router.push({ name: 'table' })
+      },
+
+      reorderObjectProperties(cols: ColumnsTableCreate[], row: rowsTableCreateOrRead): [string, string][] {
+
+        const reorderedArray: [string, string][] = [];
+
+        cols.forEach((item) => {
+          reorderedArray.push([item.name, row[item.name]]);
+        })
+        return reorderedArray;
       },
 
       async removeTable() {

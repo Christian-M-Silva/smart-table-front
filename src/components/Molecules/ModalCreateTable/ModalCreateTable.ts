@@ -31,17 +31,17 @@ export default defineComponent({
         return {
             createTableModal: false,
             erroInput: false,
-            nameTable: "e",
+            nameTable: "Teste",
             inputs: [
                 {
-                    vModel: '5',
+                    vModel: '2',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela',
                     hasFistTouch: false
                 },
                 {
-                    vModel: '2001-07-13',
+                    vModel: '2023-06-15',
                     name: 'dayBegin',
                     type: 'date',
                     title: 'Dia inicial da tabela',
@@ -70,7 +70,7 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: ['1', '2', '3', '4', '5'] as string[],
+            namesColumns: ['1', '2'] as string[],
             openModalConfirm: false,
             userConfirmation: null as ((value: boolean) => void) | null,
         }
