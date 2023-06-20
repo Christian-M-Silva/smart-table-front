@@ -211,7 +211,11 @@ export default defineComponent({
     validations: {
         nameTable: {
             asyncValidator: withAsync( async (newValue: string, v: any) => {
-                const exist = await axios.get(`${v.baseUrl}/table/existTableWithThisName/${v.nameTable}/${Cookies.get('tableId')}`).then((res => {
+                const data = {
+                    tableName: v.nameTable,
+                    tableId: Cookies.get('tableId')
+                }
+                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data).then((res => {
                     return res.data
                 }))
                 return !exist

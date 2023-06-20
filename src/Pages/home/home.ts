@@ -7,7 +7,7 @@ import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import packAxios from "@/mixins/packAxios";
 import { RowsTableHome, TypeGetTable, PropsRequest, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces"
-import { Document, Packer, Paragraph, Table, TableCell, TableRow } from "docx";
+import { Document, Packer, Paragraph, Table, TableCell, TableRow, HeadingLevel, AlignmentType, WidthType, TextRun, HeightRule } from "docx";
 import utils from "@/mixins/utils";
 import { saveAs } from "file-saver";
 export default defineComponent(
@@ -29,6 +29,7 @@ export default defineComponent(
       return {
         loading: false,
         openModalSharing: false,
+        zebraColor: false,
         pagination: {
           sortBy: 'name',
           descending: false,
@@ -117,33 +118,79 @@ export default defineComponent(
         try {
           for (const el of tablesForDownload) {
             const columns = el.cols.map(el => new TableCell({
-              children: [new Paragraph(el.label)],
+              shading: {
+                fill: '111111',
+              },
+              children: [new Paragraph({
+                children: [new TextRun({
+                  text: el.label,
+                  bold: true,
+                  color: 'ffffff',
+                  font: "Calibri (Corpo)",
+                  allCaps: true,
+                  size: 28,
+                })],
+                heading: HeadingLevel.TITLE,
+                alignment: AlignmentType.CENTER,
+              })],
             }))
             let rowsData = el.rows.map(row => {
               let tableCell: TableCell[] = [];
               const reorderedObject = this.reorderObjectProperties(el.cols, row);
-              reorderedObject.forEach((el: string[]) => {
+              reorderedObject.forEach((el: [string, string]) => {
+                if (el[0] === 'date') {
+                  this.zebraColor = !this.zebraColor
+                }
                 tableCell.push(new TableCell({
-                  children: [new Paragraph(el[1])],
+                  shading: {
+                    fill: this.zebraColor ? 'e8e8e8' : 'FFFFFF',
+                  },
+                  children: [new Paragraph({
+                    children: [new TextRun({
+                      text: el[1],
+                      font: "Calibri (Corpo)",
+                      size: 28
+                    })],
+                    heading: HeadingLevel.TITLE,
+                    alignment: AlignmentType.CENTER,
+                  })],
                 }));
               });
 
               return new TableRow({
-                children: tableCell
+                children: tableCell,
+                height: { value: 400, rule: HeightRule.ATLEAST }
               });
             });
             const table = new Table({
               rows: [
                 new TableRow({
-                  children: columns
+                  children: columns,
+                  tableHeader: true
                 }),
                 ...rowsData,
               ],
+              alignment: AlignmentType.CENTER,
+              width: {
+                size: 4535,
+                type: WidthType.PERCENTAGE,
+              },
             });
 
+            const title = new Paragraph({
+              children: [new TextRun({
+                text: el.nameTable,
+                bold: true,
+                font: "Calibri (Corpo)",
+                allCaps: true,
+                size: 40
+              })],
+              heading: HeadingLevel.TITLE,
+              alignment: AlignmentType.CENTER,
+            });
             const doc = new Document({
               sections: [{
-                children: [table],
+                children: [title, table],
               }],
             });
 
@@ -186,30 +233,15 @@ export default defineComponent(
         try {
           for (const el of this.selected) {
             await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}`);
+            this.getTables();
           }
         } catch (error: any) {
           this.messageAxios = error.response.data.error;
           this.responseStatus = error.response.status;
           this.openModalResponseAPI = true;
-        } finally {
-          this.getTables();
-          this.isLoading = false;
         }
+        this.isLoading = false;
       },
-    },
-
-    watch: {
-      async search(newValue) {
-        // if (newValue.length > 0) {
-        //   const tableId = Cookies.get('tableId')
-        //   this.isLoading = true
-
-        //   await axios.get(`${this.baseUrl}/table/search/${tableId}/${this.search}`).catch((erro => {
-        //     console.error(erro)
-        //   }))
-        //   this.isLoading = false
-        // }
-      }
     },
   }
 )
