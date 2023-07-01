@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 import utils from "@/mixins/utils";
 import axios from "axios";
+// import forma
 import packAxios from "@/mixins/packAxios";
 import { helpers, required } from "@vuelidate/validators";
 import { useVuelidate } from '@vuelidate/core'
@@ -41,7 +42,7 @@ export default defineComponent({
                     hasFistTouch: false
                 },
                 {
-                    vModel: '2023-06-15',
+                    vModel: new Date().toISOString().split('T')[0],
                     name: 'dayBegin',
                     type: 'date',
                     title: 'Dia inicial da tabela',
