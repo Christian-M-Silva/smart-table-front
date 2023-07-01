@@ -38,11 +38,9 @@ export default defineComponent(
             }
         },
 
-        created() {
+        async created() {
+            await new Promise(resolve => setTimeout(resolve, 500));
             this.tableId = Cookies.get('tableId') as string
-            if (!this.tableId) {
-                this.$router.go(0)
-            }
             this.authenticate()
             this.toOrFrom = this.isAuthenticate ? 'from' : 'to'
         },

@@ -85,6 +85,7 @@ export default defineComponent(
             name: el.nameTable,
             createdAt: el.createdAt,
             updateAt: el.nextUpdate,
+            eventId: el.eventId
           }))
         })).catch((erro => {
           this.messageAxios = erro.response.data.error
@@ -232,9 +233,10 @@ export default defineComponent(
 
         try {
           for (const el of this.selected) {
-            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}`);
-            this.getTables();
+            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`);
           }
+          await new Promise(resolve => setTimeout(resolve, 500));
+          this.getTables();
         } catch (error: any) {
           this.messageAxios = error.response.data.error;
           this.responseStatus = error.response.status;

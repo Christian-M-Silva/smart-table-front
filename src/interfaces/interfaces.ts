@@ -27,6 +27,7 @@ export interface RowsTableHome {
     name: string,
     createdAt: string,
     updateAt: string,
+    eventId?: string,
 }
 export interface rowsTableCreateOrRead {
     date: string;
@@ -81,6 +82,7 @@ export interface Network {
 export interface TypeGetTable {
     cols: ColumnsTableCreate[],
     createdAt: string,
+    eventId: string,
     daysWeek: vModelSelect[],
     id: number,
     idTable: string,
