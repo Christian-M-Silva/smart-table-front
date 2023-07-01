@@ -150,7 +150,8 @@ export default defineComponent(
                     children: [new TextRun({
                       text: el[1],
                       font: "Calibri (Corpo)",
-                      size: 28
+                      size: 28,
+                      bold: el[0] === 'date',
                     })],
                     heading: HeadingLevel.TITLE,
                     alignment: AlignmentType.CENTER,
