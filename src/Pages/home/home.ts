@@ -80,6 +80,7 @@ export default defineComponent(
         this.loading = true
         await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`).then((res => {
           this.pagination.rowsNumber = res.data.meta.total
+          res.data.data.map((el: TypeGetTable) => this.updateDates(el))
           this.rows = res.data.data.map((el: TypeGetTable) => ({
             id: el.id,
             name: el.nameTable,

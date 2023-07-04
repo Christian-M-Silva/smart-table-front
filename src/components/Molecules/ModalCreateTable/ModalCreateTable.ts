@@ -122,7 +122,7 @@ export default defineComponent({
                 const currentDate = new Date(year, month, day);
                 let date = currentDate
 
-                let rowsDate = this.createArrayData(date, weekDaysChosenByUser, quantityRow + 1)
+                let rowsDate = this.createArrayData(date, weekDaysChosenByUser, quantityRow)
 
                 let nextUpdate = rowsDate.pop()
 
