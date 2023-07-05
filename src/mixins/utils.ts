@@ -51,19 +51,30 @@ export default defineComponent(
                 return rowsDate
             },
 
-            updateDates(data: TypeGetTable) {
-                const dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
+            async updateDates(data: TypeGetTable) {
+                let dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
                 const currentDate = new Date()
                 if (dateUpdate < currentDate) {
                     const daysWeek = data.daysWeek.map(el => el.value)
-                    const arrayDatesUpdates = this.createArrayData(dateUpdate, daysWeek, data.rows.length)
-                    data.nextUpdate = arrayDatesUpdates.pop() as string
-                    data.rows.map((el, index) => el.date = arrayDatesUpdates[index])
-                    const dataUpdate = {
-                        rows: data.rows,
-                        nextUpdate: data.nextUpdate 
+                    let arrayDatesUpdates: string[]
+                    while (dateUpdate < currentDate) {
+                        arrayDatesUpdates = this.createArrayData(dateUpdate, daysWeek, data.rows.length)
+                        data.nextUpdate = arrayDatesUpdates.pop() as string
+                        dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
                     }
-                    console.log("🚀 ~ file: utils.ts:66 ~ updateDates ~ dataUpdate:", dataUpdate)
+                    data.rows.map((el, index) => el.date = arrayDatesUpdates[index])
+                    const [day, month, year] = data.nextUpdate.split('/');
+                    const date = new Date(+year, +month - 1, +day).toISOString();
+                    const nextUpdate = DateTime.fromISO(date);
+                    const dataUpdate = {
+                        rows: JSON.stringify(data.rows),
+                        nextUpdate
+                    }
+                    await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate).then((res => {
+                        console.log("🚀 ~ file: utils.ts:69 ~ awaitaxios.put ~ res:", res)
+                    })).catch((erro => {
+                        console.error(erro)
+                    }))
                 }
             }
         },
