@@ -54,7 +54,7 @@ export default defineComponent(
             async updateDates(data: TypeGetTable) {
                 let dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
                 const currentDate = new Date()
-                if (dateUpdate < currentDate) {
+                if (dateUpdate < currentDate && this.isAuthenticate) {
                     const daysWeek = data.daysWeek.map(el => el.value)
                     let arrayDatesUpdates: string[]
                     while (dateUpdate < currentDate) {
