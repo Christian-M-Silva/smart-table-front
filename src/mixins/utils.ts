@@ -70,13 +70,15 @@ export default defineComponent(
                         rows: JSON.stringify(data.rows),
                         nextUpdate
                     }
-                    await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate).then((res => {
-                        console.log("🚀 ~ file: utils.ts:69 ~ awaitaxios.put ~ res:", res)
-                    })).catch((erro => {
+                    await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate).catch((erro => {
                         console.error(erro)
                     }))
                 }
             }
+        },
+
+        created() {
+            this.authenticate()
         },
     }
 )
