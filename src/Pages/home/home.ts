@@ -68,7 +68,8 @@ export default defineComponent(
           },
         ],
         entity: 'Christian',
-        openModalConfirm: false,
+        openModalConfirmRemove: false,
+        openModalConfirmDownload: false,
         rows: [] as RowsTableHome[],
         search: '',
         selected: [] as RowsTableHome[],
@@ -77,25 +78,40 @@ export default defineComponent(
 
     methods: {
       async getTables() {
-        this.loading = true
-        await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`).then((res => {
-          this.pagination.rowsNumber = res.data.meta.total
-          res.data.data.map((el: TypeGetTable) => this.updateDates(el))
+        this.selected = []
+        this.loading = true;
+        try {
+          const res = await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`);
+          this.pagination.rowsNumber = res.data.meta.total;
+
+          const nameTables = await Promise.all(res.data.data.map(async (el: TypeGetTable) => {
+            return await this.updateDates(el);
+          }));
+
           this.rows = res.data.data.map((el: TypeGetTable) => ({
             id: el.id,
             name: el.nameTable,
             createdAt: el.createdAt,
             updateAt: el.nextUpdate,
             eventId: el.eventId
-          }))
-        })).catch((erro => {
-          this.messageAxios = erro.response.data.error
-          this.responseStatus = erro.response.status
-          this.openModalResponseAPI = !this.openModalResponseAPI
-        })).finally(() => setTimeout(() => {
-          this.loading = false
-        }, 1000))
-        this.selected = []
+          }));
+
+          if (!nameTables.includes(null) && nameTables.length > 0) {
+            nameTables.map(el => {
+              const rowSelected = this.rows.filter(row => row.name === el)[0]
+              this.selected.push(rowSelected)
+            })
+            this.openModalConfirmDownload = !this.openModalConfirmDownload
+          }
+        } catch (erro: any) {
+          this.messageAxios = erro.response.data.error;
+          this.responseStatus = erro.response.status;
+          this.openModalResponseAPI = !this.openModalResponseAPI;
+        } finally {
+          setTimeout(() => {
+            this.loading = false;
+          }, 1000)
+        }
       },
 
       onRequest(props: PropsRequest) {
@@ -103,7 +119,6 @@ export default defineComponent(
         this.getTables()
       },
       async download() {
-        // TODO:Descomentar
         let tablesForDownload = [] as TypeGetTable[]
         this.messageAxios = ''
         this.isLoading = true
