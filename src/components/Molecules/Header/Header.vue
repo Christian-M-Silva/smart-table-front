@@ -15,12 +15,24 @@
       >
         SMART TABLE
       </h1>
-      <div @click="exit" class="font-semibold row justify-center items-center cursor-pointer">
-        <q-icon :name="`fa-solid fa-arrow-right-${toOrFrom}-bracket`" class="pr-1" size="1rem"/>
-        <span >{{ isAuthenticate ? "Sair" : "Entrar" }}</span>
+      <div
+        @click="exit"
+        class="font-semibold row justify-center items-center cursor-pointer"
+      >
+        <q-icon
+          :name="`fa-solid fa-arrow-right-${toOrFrom}-bracket`"
+          class="pr-1"
+          size="1rem"
+        />
+        <span>{{ isAuthenticate ? "Sair" : "Entrar" }}</span>
       </div>
     </header>
     <router-view></router-view>
+    <modal-response-api
+      :isOpenModal="openModalResponseAPI"
+      :messageAxios="messageAxios"
+      :responseApiStatus="responseStatus"
+    ></modal-response-api>
   </div>
 </template>
 

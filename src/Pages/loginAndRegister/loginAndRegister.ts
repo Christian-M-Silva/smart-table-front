@@ -80,7 +80,9 @@ export default defineComponent(
                         this.messageAxios = erro.response.data.errors[0].message
                         this.responseStatus = erro.response.status
                     }))
-                    this.isLoading = false
+                    setTimeout(() => {
+                        this.isLoading = false;
+                      }, 1000)
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.isLoading = true
@@ -104,7 +106,9 @@ export default defineComponent(
                         this.messageAxios = 'Entidade ou senha errado'
                         this.responseStatus = erro.response.status
                     }))
-                    this.isLoading = false
+                    setTimeout(() => {
+                        this.isLoading = false;
+                      }, 1000)
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 }
             },
@@ -128,7 +132,9 @@ export default defineComponent(
                     this.messageAxios = erro.response.data.error
                     this.responseStatus = erro.response.status
                 }))
-                this.isLoading = false
+                setTimeout(() => {
+                    this.isLoading = false;
+                  }, 1000)
                 this.openModalResponseAPI = !this.openModalResponseAPI
 
             },
@@ -143,7 +149,9 @@ export default defineComponent(
                     this.messageAxios = erro.response.data.error
                     this.responseStatus = erro.response.status
                 }))
-                this.isLoading = false
+                setTimeout(() => {
+                    this.isLoading = false;
+                  }, 1000)
                 this.openModalResponseAPI = !this.openModalResponseAPI
                 this.modelSendEmail = false
             },

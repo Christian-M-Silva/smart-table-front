@@ -5,14 +5,13 @@ import { defineComponent } from "vue";
 import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
-import packAxios from "@/mixins/packAxios";
 import { RowsTableHome, TypeGetTable, PropsRequest, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces"
 import { Document, Packer, Paragraph, Table, TableCell, TableRow, HeadingLevel, AlignmentType, WidthType, TextRun, HeightRule } from "docx";
 import utils from "@/mixins/utils";
 import { saveAs } from "file-saver";
 export default defineComponent(
   {
-    mixins: [packAxios, utils],
+    mixins: [utils],
     components: {
       ModalConfirm,
       ModalSharing,
@@ -219,7 +218,9 @@ export default defineComponent(
         } catch (error) {
           console.error(error)
         }
-        this.isLoading = false
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000)
         this.selected = []
       },
 
@@ -259,7 +260,9 @@ export default defineComponent(
           this.responseStatus = error.response.status;
           this.openModalResponseAPI = true;
         }
-        this.isLoading = false;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000)
       },
     },
   }

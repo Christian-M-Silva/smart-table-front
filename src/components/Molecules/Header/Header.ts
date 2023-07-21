@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import { defineComponent } from "vue";
 import utils from "@/mixins/utils";
 import axios from "axios";
+import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 
 export default defineComponent(
     {
@@ -10,6 +11,9 @@ export default defineComponent(
                 tableId: '',
                 toOrFrom: 'from'
             }
+        },
+        components: {
+            ModalResponseApi
         },
         mixins: [utils],
 
@@ -30,10 +34,13 @@ export default defineComponent(
                     return config
                 })
                 Cookies.remove('tableId')
-                await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
+                await axios.delete(`${this.baseUrl}/auth`).then(() => this.$router.push({ name: 'loginAndRegister' })).catch((erro => {
+                    this.messageAxios = 'Falha ao sair'
+                    this.responseStatus = erro.response.status
+                    this.openModalResponseAPI = !this.openModalResponseAPI
                     console.error(erro)
                 }))
-                this.$router.push({ name: 'loginAndRegister' })
+
             }
         },
 
