@@ -3,17 +3,20 @@ import { defineComponent } from "vue";
 import utils from "@/mixins/utils";
 import axios from "axios";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
+import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 
 export default defineComponent(
     {
         data() {
             return {
                 tableId: '',
-                toOrFrom: 'from'
+                toOrFrom: 'from',
+                openModalConfirmExit: false,
             }
         },
         components: {
-            ModalResponseApi
+            ModalResponseApi,
+            ModalConfirm
         },
         mixins: [utils],
 
@@ -24,6 +27,12 @@ export default defineComponent(
                 }
 
                 return this.$router.push({ name: 'loginAndRegister' })
+            },
+            checkAuthenticated() {
+                if (this.isAuthenticate) {
+                    return this.openModalConfirmExit = !this.openModalConfirmExit
+                }
+                this.exit()
             },
             async exit() {
                 axios.interceptors.request.use((config) => {
@@ -40,7 +49,7 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 }))
 
-            }
+            },
         },
 
         async created() {

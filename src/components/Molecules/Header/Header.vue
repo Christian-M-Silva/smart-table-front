@@ -16,7 +16,7 @@
         SMART TABLE
       </h1>
       <div
-        @click="exit"
+        @click="checkAuthenticated"
         class="font-semibold row justify-center items-center cursor-pointer"
       >
         <q-icon
@@ -33,6 +33,12 @@
       :messageAxios="messageAxios"
       :responseApiStatus="responseStatus"
     ></modal-response-api>
+    <modal-confirm
+      v-if="isAuthenticate"
+      :isOpenModalConfirm="openModalConfirmExit"
+      @confirm="exit"
+      @negative="openModalConfirmExit = false"
+    ></modal-confirm>
   </div>
 </template>
 

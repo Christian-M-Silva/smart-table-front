@@ -218,7 +218,7 @@ export default defineComponent({
                     tableName: v.nameTable,
                     tableId: Cookies.get('tableId')
                 }
-                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisNam`, data)
+                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data)
                 .then((res => {
                     return res.data
                 }))
