@@ -216,7 +216,7 @@ export default defineComponent(
             });
           }
         } catch (error) {
-          console.error(error)
+          console.error('Ocorreu algum erro')
         }
         setTimeout(() => {
           this.isLoading = false;

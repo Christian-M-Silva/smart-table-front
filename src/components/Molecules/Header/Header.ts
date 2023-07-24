@@ -38,7 +38,6 @@ export default defineComponent(
                     this.messageAxios = 'Falha ao sair'
                     this.responseStatus = erro.response.status
                     this.openModalResponseAPI = !this.openModalResponseAPI
-                    console.error(erro)
                 }))
 
             }

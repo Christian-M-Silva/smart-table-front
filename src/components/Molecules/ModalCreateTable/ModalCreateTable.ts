@@ -2,6 +2,7 @@ import { defineComponent, PropType } from "vue";
 import { vModelSelect, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
+import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
 import utils from "@/mixins/utils";
 import axios from "axios";
 import { helpers, required } from "@vuelidate/validators";
@@ -13,7 +14,8 @@ export default defineComponent({
         return { v$: useVuelidate() }
     },
     components: {
-        ModalConfirm
+        ModalConfirm,
+        ModalError
     },
     mixins: [utils],
     props: {
@@ -30,6 +32,8 @@ export default defineComponent({
         return {
             createTableModal: false,
             erroInput: false,
+            errorMessage: '',
+            openModalError: false,
             nameTable: "Teste",
             inputs: [
                 {
@@ -214,8 +218,14 @@ export default defineComponent({
                     tableName: v.nameTable,
                     tableId: Cookies.get('tableId')
                 }
-                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data).then((res => {
+                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisNam`, data)
+                .then((res => {
                     return res.data
+                }))
+                .catch((err => {
+                    v.createTableModal = false
+                    v.errorMessage = "Ocorreu algum erro, recarregue a página"
+                    v.openModalError = !v.openModalError
                 }))
                 return !exist
             }),

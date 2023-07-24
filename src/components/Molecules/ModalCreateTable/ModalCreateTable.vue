@@ -39,11 +39,7 @@
           <q-page padding class="mx-10">
             <div class="my-5">
               <span class="font-bold text-red-600">*NOME DA TABELA</span>
-              <q-input
-                v-model="nameTable"
-                filled
-                @blur="v$.nameTable.$touch"
-              />
+              <q-input v-model="nameTable" filled @blur="v$.nameTable.$touch" />
               <div>
                 <div class="text-red-700 font-semibold">
                   <span v-if="v$.nameTable.asyncValidator.$invalid">
@@ -128,6 +124,11 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <modal-error
+      :errorMessage="errorMessage"
+      :isOpenModalErro="openModalError"
+    />
 
     <modal-confirm
       :isOpenModalConfirm="openModalConfirm"

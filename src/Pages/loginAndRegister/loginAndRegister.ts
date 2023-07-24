@@ -94,7 +94,7 @@ export default defineComponent(
                         return config
                     })
                     await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
-                        console.error(erro)
+                        console.error('Erro ao fazer Login')
                     }))
                     await axios.post(`${this.baseUrl}/auth`, dataUser).then((res => {
                         Cookies.remove('authToken')

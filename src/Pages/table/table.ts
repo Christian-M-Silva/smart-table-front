@@ -123,7 +123,7 @@ export default defineComponent({
                     this.$router.push({ name: 'home', params: { tableId: idTable } })
                 }, 1000);
             })).catch((erro => {
-                console.error(erro)
+                console.error('Erro ao cadastrar a tabela')
                 this.responseStatus = erro.response.status
             }))
             this.isLoading = false

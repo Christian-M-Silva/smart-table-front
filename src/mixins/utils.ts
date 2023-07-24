@@ -30,7 +30,7 @@ export default defineComponent(
                     this.isAuthenticate = res.data.isAuthenticate
                     this.nameUser = res.data.entity
                 })).catch((erro => {
-                    console.error(erro)
+                    console.error("Falha na autenticação")
                 }))
             },
 
@@ -79,7 +79,7 @@ export default defineComponent(
                         const nameTable = res.data;
                         return nameTable as string;
                     } catch (erro) {
-                        console.error(erro);
+                        console.error('Falha ao atualizar as datas automaticamente');
                     }
                 }
 

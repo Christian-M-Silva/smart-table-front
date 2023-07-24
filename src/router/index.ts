@@ -52,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
     await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`).then((res => {
       res.data.isAuthenticate ? next() : next({ name: 'loginAndRegister' });
     })).catch((erro => {
-      console.error(erro)
+      console.error('Erro na verificação de autenticação')
     }))
   } else {
     next()
