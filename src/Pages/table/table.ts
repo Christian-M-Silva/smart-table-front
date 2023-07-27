@@ -4,7 +4,7 @@ import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
 import { ColumnsTableCreate, InputsEditTable, vModelSelect, rowsTableCreateOrRead, PropsFullScreen } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import axios from "axios";
-import packAxios from "@/mixins/packAxios";
+import packAxios from "@/mixins/utils";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { DateTime } from 'luxon';
 
@@ -20,6 +20,7 @@ export default defineComponent({
     data() {
         return {
             loading: false,
+            textLoad: '',
             rows: [] as rowsTableCreateOrRead[],
             columns: [] as ColumnsTableCreate[],
             showTable: false,
@@ -113,9 +114,10 @@ export default defineComponent({
                 nameTable: this.nameTable,
                 idTable,
                 daysWeek,
-                nextUpdate 
+                nextUpdate
             }
             this.isLoading = true
+            this.textLoad = "Salvando sua Tabela"
             this.messageAxios = ''
             await axios.post(`${this.baseUrl}/table`, data).then((res => {
                 this.responseStatus = res.status
@@ -133,6 +135,29 @@ export default defineComponent({
         editTable() {
             this.dataUpdate = this.rows
             this.IsOpenAgain = !this.IsOpenAgain
+        },
+
+        async loadTable() {
+            this.isLoading = true
+            this.textLoad = "Trazendo sua tabela"
+            await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`).then((res => {
+                this.responseStatus = res.status
+                console.log("🚀 ~ file: table.ts:145 ~ awaitaxios.get ~ res:", res)
+            })).catch((erro => {
+                console.error('Erro ao trazer os dados')
+                this.messageAxios = 'Erro ao trazer os dados';
+                this.responseStatus = erro.response.status;
+                this.openModalResponseAPI = !this.openModalResponseAPI;
+            }))
+            setTimeout(() => {
+                this.isLoading = false;
+            }, 1000)
+        }
+    },
+
+    mounted() {
+        if (this.$route.params.tableId) {
+            this.loadTable()
         }
     },
 })

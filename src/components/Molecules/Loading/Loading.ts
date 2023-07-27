@@ -6,6 +6,7 @@ export default defineComponent({
             type: Boolean,
             required: true
         },
+        textLoad: String
     },
 
     data() {

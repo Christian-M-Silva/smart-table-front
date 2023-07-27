@@ -80,7 +80,7 @@ export default defineComponent(
         this.selected = []
         this.loading = true;
         try {
-          const res = await axios.get(`${this.baseUrl}/table/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`);
+          const res = await axios.get(`${this.baseUrl}/table/index/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`);
           this.pagination.rowsNumber = res.data.meta.total;
 
           const nameTables = await Promise.all(res.data.data.map(async (el: TypeGetTable) => {
@@ -225,9 +225,6 @@ export default defineComponent(
       },
 
       goTo(evt: Event, row: RowsTableHome, index: number) {
-        console.log("🚀 ~ file: home.ts:67 ~ goTo ~ index", index)
-        console.log("🚀 ~ file: home.ts:67 ~ goTo ~ row", row.id)
-        console.log("🚀 ~ file: home.ts:67 ~ goTo ~ evt", evt)
         this.$router.push({ name: 'table', params: { tableId: row.id } })
       },
 

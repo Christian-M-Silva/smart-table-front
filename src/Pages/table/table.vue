@@ -88,6 +88,7 @@
         color="primary"
         label="ABRIR MODAL DE CRIAÇÃO"
         @click="IsOpenAgain = !IsOpenAgain"
+        v-if="!this.$route.params.tableId"
       />
     </div>
 
@@ -109,13 +110,7 @@
       @negative="isOpenModalConfirm = false"
     ></modal-confirm>
 
-    <div
-      v-if="loading"
-      class="h-[calc(100vh-68px)] column justify-center items-center"
-    >
-      <q-icon name="autorenew" size="7rem" class="animate-spin h-20" />
-      <span>Construindo sua Tabela</span>
-    </div>
+    <loading :isLoading="isLoading" :textLoad="textLoad" />
 
     <q-dialog
       v-model="isModalEditInput"
