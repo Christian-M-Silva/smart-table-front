@@ -140,9 +140,12 @@ export default defineComponent({
         async loadTable() {
             this.isLoading = true
             this.textLoad = "Trazendo sua tabela"
-            await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`).then((res => {
+            await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`).then((async res => {
                 this.responseStatus = res.status
-                console.log("🚀 ~ file: table.ts:145 ~ awaitaxios.get ~ res:", res)
+                const nameTables = await this.updateDates(res.data);
+                if (nameTables) {
+                    this.loadTable()
+                }
             })).catch((erro => {
                 console.error('Erro ao trazer os dados')
                 this.messageAxios = 'Erro ao trazer os dados';

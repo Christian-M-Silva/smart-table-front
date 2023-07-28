@@ -55,6 +55,7 @@ export default defineComponent(
                 let dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
                 const currentDate = new Date()
 
+                await this.authenticate()
                 if (dateUpdate < currentDate && this.isAuthenticate) {
                     const daysWeek = data.daysWeek.map(el => el.value)
                     let arrayDatesUpdates: string[]
