@@ -146,6 +146,7 @@ export default defineComponent({
                 if (nameTables) {
                     this.loadTable()
                 }
+                this.createTable(res.data.rows, res.data.cols, res.data.nameTable, res.data.daysWeek, res.data.nextUpdate)
             })).catch((erro => {
                 console.error('Erro ao trazer os dados')
                 this.messageAxios = 'Erro ao trazer os dados';
