@@ -43,6 +43,7 @@
       <template v-slot:bottom>
         <div class="row justify-between w-full items-center">
           <div
+            v-if="isAuthenticate"
             :class="[
               $q.screen.width > 425
                 ? 'shrink-0'
@@ -73,6 +74,14 @@
               icon="delete"
               label="LIMPAR OS DADOS DA TABELA"
               @click="clearTable"
+            />
+          </div>
+          <div v-else>
+            <q-btn
+              color="green"
+              icon="home"
+              label="VOLTAR AO INICIO"
+              @click="cancel"
             />
           </div>
           <span>Total de linhas: {{ rows.length }}</span>
