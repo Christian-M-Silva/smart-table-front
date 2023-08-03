@@ -1,7 +1,7 @@
 import { defineComponent } from "vue";
 import ModalCreateTable from "@/components/Molecules/ModalCreateTable/ModalCreateTable.vue";
 import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm.vue";
-import { ColumnsTableCreate, InputsEditTable, vModelSelect, rowsTableCreateOrRead, PropsFullScreen } from "@/interfaces/interfaces";
+import { ColumnsTableCreate, InputsEditTable, vModelSelect, rowsTableCreateOrRead, PropsFullScreen, TypeGetTable } from "@/interfaces/interfaces";
 import Cookies from "js-cookie";
 import axios from "axios";
 import packAxios from "@/mixins/utils";
@@ -33,12 +33,13 @@ export default defineComponent({
             IsOpenAgain: false,
             dataUpdate: [] as rowsTableCreateOrRead[],
             weekDays: [] as vModelSelect[],
-            nextUpdate: ''
+            nextUpdate: '',
+            fillModalData: {} as TypeGetTable
         }
     },
 
     methods: {
-        createTable(rows: rowsTableCreateOrRead[], columns: ColumnsTableCreate[], nameTable: string, vModelWeekDays: vModelSelect[], nextUpdate: string) {
+        createTable(rows: rowsTableCreateOrRead[], columns: ColumnsTableCreate[], nameTable: string, vModelWeekDays: vModelSelect[], nextUpdate: string, isUpdate: boolean) {
             this.loading = true
             this.nameTable = nameTable
             this.columns = columns
@@ -47,6 +48,9 @@ export default defineComponent({
             this.weekDays = vModelWeekDays
             this.loading = false
             this.nextUpdate = nextUpdate
+            if (isUpdate) {
+                this.fillModalData = {} as TypeGetTable
+            }
         },
 
         openModalEdit(evt: Event, row: rowsTableCreateOrRead, index: number) {
@@ -142,11 +146,12 @@ export default defineComponent({
             this.textLoad = "Trazendo sua tabela"
             await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`).then((async res => {
                 this.responseStatus = res.status
+                this.fillModalData = res.data
                 const nameTables = await this.updateDates(res.data);
                 if (nameTables) {
                     this.loadTable()
                 }
-                this.createTable(res.data.rows, res.data.cols, res.data.nameTable, res.data.daysWeek, res.data.nextUpdate)
+                this.createTable(res.data.rows, res.data.cols, res.data.nameTable, res.data.daysWeek, res.data.nextUpdate, false)
             })).catch((erro => {
                 console.error('Erro ao trazer os dados')
                 this.messageAxios = 'Erro ao trazer os dados';

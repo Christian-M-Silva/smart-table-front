@@ -1,5 +1,6 @@
 import { defineComponent, PropType } from "vue";
-import { vModelSelect, ColumnsTableCreate, rowsTableCreateOrRead } from "@/interfaces/interfaces";
+import { vModelSelect, ColumnsTableCreate, rowsTableCreateOrRead, TypeGetTable } from "@/interfaces/interfaces";
+import { DateTime } from "luxon";
 import Cookies from "js-cookie";
 import ModalConfirm from "../ModalConfirm/ModalConfirm.vue";
 import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
@@ -25,7 +26,10 @@ export default defineComponent({
         },
         updateData: {
             type: Array as PropType<any>
-        }
+        },
+
+        fillModalData: Object as PropType<TypeGetTable>
+
     },
 
     data() {
@@ -34,10 +38,10 @@ export default defineComponent({
             erroInput: false,
             errorMessage: '',
             openModalError: false,
-            nameTable: "Teste",
+            nameTable: "",
             inputs: [
                 {
-                    vModel: '2',
+                    vModel: '',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela',
@@ -51,7 +55,7 @@ export default defineComponent({
                     hasFistTouch: false
                 },
                 {
-                    vModel: [{ label: "Domingo", value: '0' },],
+                    vModel: [] as vModelSelect[],
                     type: 'select',
                     name: 'weekDays',
                     title: 'Dias da Semana que a tabela vai ter que repetir',
@@ -73,7 +77,7 @@ export default defineComponent({
 
             columns: [] as ColumnsTableCreate[],
 
-            namesColumns: ['1', '2'] as string[],
+            namesColumns: [] as string[],
             openModalConfirm: false,
             userConfirmation: null as ((value: boolean) => void) | null,
         }
@@ -83,6 +87,34 @@ export default defineComponent({
         addNameColumn() {
             this.namesColumns.includes(this.nameColumns.toUpperCase()) || /\s/g.test(this.nameColumns) || this.nameColumns.length === 0 || this.nameColumns.toUpperCase() === "DATE" ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
             this.nameColumns = ''
+        },
+
+        fillModal() {
+            this.nameTable = this.fillModalData?.nameTable as string
+            const nameColumns = this.fillModalData?.cols.filter(el =>
+                el.label !== 'DATA'
+            )
+            this.namesColumns = nameColumns?.map(el =>
+                el.label
+            ) ?? []
+            this.inputs.forEach(el => {
+                switch (el.name) {
+                    case 'numberRow':
+                        el.vModel = this.fillModalData?.rows.length.toString() as string
+                        break;
+
+                    case 'dayBegin':
+                        el.vModel = DateTime.fromFormat(this.fillModalData?.rows[0].date as string, "dd/MM/yyyy").toISODate() as string
+                        break;
+
+                    case 'weekDays':
+                        el.vModel = this.fillModalData?.daysWeek as vModelSelect[]
+                        break;
+
+                    default:
+                        break;
+                }
+            })
         },
 
         removeItem(index: number) {
@@ -181,7 +213,8 @@ export default defineComponent({
                 }
 
                 this.createTableModal = false
-                this.$emit('confirm', this.rows, this.columns, this.nameTable, vModelWeekDays, nextUpdate)
+                const isUpdate = !!this.$route.params.tableId
+                this.$emit('confirm', this.rows, this.columns, this.nameTable, vModelWeekDays, nextUpdate, isUpdate)
             }
 
         },
@@ -204,6 +237,9 @@ export default defineComponent({
     watch: {
         openModalAgain() {
             this.inputs.map(el => el.hasFistTouch = false)
+            if (Object.keys(this.fillModalData as {}).length > 0) {
+                this.fillModal()
+            }
             this.createTableModal = true
         },
     },
@@ -213,21 +249,26 @@ export default defineComponent({
     },
     validations: {
         nameTable: {
-            asyncValidator: withAsync( async (newValue: string, v: any) => {
+            asyncValidator: withAsync(async (newValue: string, v: any) => {
                 const data = {
                     tableName: v.nameTable,
                     tableId: Cookies.get('tableId')
                 }
-                const exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data)
-                .then((res => {
-                    return res.data
-                }))
-                .catch((err => {
-                    v.createTableModal = false
-                    v.errorMessage = "Ocorreu algum erro, recarregue a página"
-                    v.openModalError = !v.openModalError
-                }))
+
+                let exist = false
+                if (v.fillModalData.nameTable !== newValue) {
+                    exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data)
+                        .then((res => {
+                            return res.data
+                        }))
+                        .catch((err => {
+                            v.createTableModal = false
+                            v.errorMessage = "Ocorreu algum erro, recarregue a página"
+                            v.openModalError = !v.openModalError
+                        }))
+                }
                 return !exist
+
             }),
             required: helpers.withMessage('Este campo é obrigatório', required)
         },

@@ -35,7 +35,7 @@
           />
         </q-footer>
 
-        <q-page-container style="max-height: 577px" class="scroll">
+        <q-page-container style="max-height: 571px" class="scroll">
           <q-page padding class="mx-10">
             <div class="my-5">
               <span class="font-bold text-red-600">*NOME DA TABELA</span>
@@ -95,7 +95,7 @@
                 @keyup.enter="addNameColumn"
                 type="text"
                 filled
-                :class="{ 'mb-16': $q.screen.lt.sm }"
+                :class="$q.screen.lt.sm ? 'mb-16' : 'mb-8'"
                 hint="Clique Enter para adicionar o titulo da coluna, e clique no nome da coluna para remover ela. (É OBRIGATÓRIO PELO MENOS UMA COLUNA)"
               />
 

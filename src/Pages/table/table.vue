@@ -105,6 +105,7 @@
       @confirm="createTable"
       :openModalAgain="IsOpenAgain"
       :updateData="dataUpdate"
+      :fillModalData="fillModalData"
     />
 
     <modal-response-api
