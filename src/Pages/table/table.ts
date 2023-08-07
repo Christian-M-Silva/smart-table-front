@@ -123,15 +123,20 @@ export default defineComponent({
             this.isLoading = true
             this.textLoad = "Salvando sua Tabela"
             this.messageAxios = ''
-            await axios.post(`${this.baseUrl}/table`, data).then((res => {
-                this.responseStatus = res.status
+
+            try {
+                const request = this.$route.params.tableId ? await axios.put(`${this.baseUrl}/table/${this.$route.params.tableId}`, data) : await axios.post(`${this.baseUrl}/table`, data)
+
+                this.responseStatus = request.status;
                 setTimeout(() => {
                     this.$router.push({ name: 'home', params: { tableId: idTable } })
                 }, 1000);
-            })).catch((erro => {
-                console.error('Erro ao cadastrar a tabela')
-                this.responseStatus = erro.response.status
-            }))
+
+            } catch (error: any) {
+                const errorMessage = this.$route.params.tableId ? 'Erro ao atualizar a tabela' : 'Erro ao cadastrar a tabela'
+                console.error(errorMessage)
+                this.responseStatus = error.response.status
+            }
             this.isLoading = false
             this.openModalResponseAPI = !this.openModalResponseAPI
         },
