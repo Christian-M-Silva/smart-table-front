@@ -85,7 +85,7 @@ export default defineComponent({
 
     methods: {
         addNameColumn() {
-            this.namesColumns.includes(this.nameColumns.toUpperCase()) || /\s/g.test(this.nameColumns) || this.nameColumns.length === 0 || this.nameColumns.toUpperCase() === "DATE" ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
+            this.namesColumns.includes(this.nameColumns.toUpperCase()) || this.nameColumns.length === 0 || this.nameColumns.toUpperCase() === "DATE" ? this.erroInput = true : this.namesColumns.push(this.nameColumns.toUpperCase().trim())
             this.nameColumns = ''
         },
 
