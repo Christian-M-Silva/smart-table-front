@@ -43,12 +43,17 @@ export default defineComponent(
                     return config
                 })
                 Cookies.remove('tableId')
-                await axios.delete(`${this.baseUrl}/auth`).then(() => this.$router.push({ name: 'loginAndRegister' })).catch((erro => {
-                    this.messageAxios = 'Falha ao sair'
-                    this.responseStatus = erro.response.status
+                this.isLoading = true
+                await axios.delete(`${this.baseUrl}/auth`, {
+                    timeout: 10000
+                }).then(() => this.$router.push({ name: 'loginAndRegister' })).catch((erro => {
+                    if (erro.code !== 'ECONNABORTED') {
+                        this.messageAxios = 'Falha ao sair'
+                    }
+                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
                     this.openModalResponseAPI = !this.openModalResponseAPI
+                    this.isLoading = false
                 }))
-
             },
         },
 

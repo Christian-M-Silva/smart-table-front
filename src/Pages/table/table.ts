@@ -125,20 +125,28 @@ export default defineComponent({
             this.messageAxios = ''
 
             try {
-                const request = this.$route.params.tableId ? await axios.put(`${this.baseUrl}/table/${this.$route.params.tableId}`, data) : await axios.post(`${this.baseUrl}/table`, data)
+                const request = this.$route.params.tableId ? await axios.put(`${this.baseUrl}/table/${this.$route.params.tableId}`, data, {
+                    timeout: 10000
+                }) : await axios.post(`${this.baseUrl}/table`, data, {
+                    timeout: 10000
+                })
 
                 this.responseStatus = request.status;
+                this.openModalResponseAPI = !this.openModalResponseAPI
                 setTimeout(() => {
                     this.$router.push({ name: 'home', params: { tableId: idTable } })
                 }, 1000);
 
-            } catch (error: any) {
-                const errorMessage = this.$route.params.tableId ? 'Erro ao atualizar a tabela' : 'Erro ao cadastrar a tabela'
-                console.error(errorMessage)
-                this.responseStatus = error.response.status
+            } catch (erro: any) {
+                if (erro.code !== 'ECONNABORTED') {
+                    const errorMessage = this.$route.params.tableId ? 'Erro ao atualizar a tabela' : 'Erro ao cadastrar a tabela'
+                    this.messageAxios = errorMessage;
+                    console.error(errorMessage)
+                }
+                this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                this.openModalResponseAPI = !this.openModalResponseAPI
+                this.isLoading = false
             }
-            this.isLoading = false
-            this.openModalResponseAPI = !this.openModalResponseAPI
         },
 
         editTable() {
@@ -149,7 +157,9 @@ export default defineComponent({
         async loadTable() {
             this.isLoading = true
             this.textLoad = "Trazendo sua tabela"
-            await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`).then((async res => {
+            await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`, {
+                timeout: 10000
+              }).then((async res => {
                 this.responseStatus = res.status
                 this.fillModalData = res.data
                 const nameTables = await this.updateDates(res.data);
@@ -158,10 +168,13 @@ export default defineComponent({
                 }
                 this.createTable(res.data.rows, res.data.cols, res.data.nameTable, res.data.daysWeek, res.data.nextUpdate, false)
             })).catch((erro => {
-                console.error('Erro ao trazer os dados')
-                this.messageAxios = 'Erro ao trazer os dados';
-                this.responseStatus = erro.response.status;
-                this.openModalResponseAPI = !this.openModalResponseAPI;
+                if (erro.code !== 'ECONNABORTED') {
+                    this.messageAxios = 'Erro ao trazer os dados';
+                    console.error('Erro ao trazer os dados')
+                }
+                this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                this.openModalResponseAPI = !this.openModalResponseAPI
+                this.isLoading = false
             }))
             setTimeout(() => {
                 this.isLoading = false;

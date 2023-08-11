@@ -73,16 +73,22 @@ export default defineComponent(
                     }
 
                     this.isLoading = true
-                    await axios.post(`${this.baseUrl}/user`, dataUser).then((res => {
+                    await axios.post(`${this.baseUrl}/user`, dataUser, {
+                        timeout: 10000
+                    }).then((res => {
                         this.responseStatus = res.status
                         this.action = "Login"
                     })).catch((erro => {
-                        this.messageAxios = erro.response.data.errors[0].message
-                        this.responseStatus = erro.response.status
+                        if (erro.code !== 'ECONNABORTED') {
+                            this.messageAxios = erro.response.data.code ? 'Erro na requisição': erro.response.data.errors[0].message
+                        }
+                        this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                        this.isLoading = false
+                        this.openModalResponseAPI = !this.openModalResponseAPI
                     }))
                     setTimeout(() => {
                         this.isLoading = false;
-                      }, 1000)
+                    }, 1000)
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 } else {
                     this.isLoading = true
@@ -93,23 +99,38 @@ export default defineComponent(
                         }
                         return config
                     })
-                    await axios.delete(`${this.baseUrl}/auth`).catch((erro => {
+                    await axios.delete(`${this.baseUrl}/auth`, {
+                        timeout: 10000
+                    }).then(async () => {
+                        await axios.post(`${this.baseUrl}/auth`, dataUser, {
+                            timeout: 10000
+                        }).then((res => {
+                            Cookies.remove('authToken')
+                            Cookies.remove('tableId')
+                            this.responseStatus = res.status
+                            Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
+                            this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
+                        })).catch((erro => {
+                            if (erro.code !== 'ECONNABORTED') {
+                                this.messageAxios = 'Entidade ou senha errado'
+                            }
+                            this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                            this.isLoading = false
+                        }))
+                        this.openModalResponseAPI = !this.openModalResponseAPI
+                    })
+                    .catch((erro => {
+                        if (erro.code === 'ECONNABORTED') {
+                            this.responseStatus = erro.code
+                            this.openModalResponseAPI = !this.openModalResponseAPI
+                        }
                         console.error('Erro ao fazer Login')
-                    }))
-                    await axios.post(`${this.baseUrl}/auth`, dataUser).then((res => {
-                        Cookies.remove('authToken')
-                        Cookies.remove('tableId')
-                        this.responseStatus = res.status
-                        Cookies.set('authToken', res.data.dataToken.token, { secure: true, sameSite: 'strict', expires: 30 })
-                        this.$router.push({ name: 'home', params: { tableId: res.data.tableId } })
-                    })).catch((erro => {
-                        this.messageAxios = 'Entidade ou senha errado'
-                        this.responseStatus = erro.response.status
+                        this.isLoading = false
+                        return
                     }))
                     setTimeout(() => {
                         this.isLoading = false;
-                      }, 1000)
-                    this.openModalResponseAPI = !this.openModalResponseAPI
+                    }, 1000)
                 }
             },
 
@@ -123,18 +144,23 @@ export default defineComponent(
                 this.messageAxios = ''
 
                 this.isLoading = true
-                await axios.put(`${this.baseUrl}/user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }).then((res => {
+                await axios.put(`${this.baseUrl}/user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }, {
+                    timeout: 10000
+                }).then((res => {
                     this.responseStatus = res.status
                     setTimeout(() => {
                         this.$router.push({ name: 'loginAndRegister' })
                     }, 2000);
                 })).catch((erro => {
-                    this.messageAxios = erro.response.data.error
-                    this.responseStatus = erro.response.status
+                    if (erro.code !== 'ECONNABORTED') {
+                        this.messageAxios = erro.response.data.error
+                    }
+                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                    this.isLoading = false
                 }))
                 setTimeout(() => {
                     this.isLoading = false;
-                  }, 1000)
+                }, 1000)
                 this.openModalResponseAPI = !this.openModalResponseAPI
 
             },
@@ -142,16 +168,21 @@ export default defineComponent(
             async sendEmail() {
                 this.isLoading = true
                 this.messageAxios = ''
-                await axios.post(`${this.baseUrl}/user/sendEmailForgetPassword`, { email: this.email }).then((res => {
+                await axios.post(`${this.baseUrl}/user/sendEmailForgetPassword`, { email: this.email }, {
+                    timeout: 10000
+                }).then((res => {
                     this.messageAxios = res.data.message
                     this.responseStatus = res.status
                 })).catch((erro => {
-                    this.messageAxios = erro.response.data.error
-                    this.responseStatus = erro.response.status
+                    if (erro.code !== 'ECONNABORTED') {
+                        this.messageAxios = erro.response.data.error
+                    }
+                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                    this.isLoading = false
                 }))
                 setTimeout(() => {
                     this.isLoading = false;
-                  }, 1000)
+                }, 1000)
                 this.openModalResponseAPI = !this.openModalResponseAPI
                 this.modelSendEmail = false
             },

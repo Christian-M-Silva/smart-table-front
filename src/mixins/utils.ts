@@ -26,10 +26,16 @@ export default defineComponent(
                     return config
                 })
 
-                await axios.get(`${this.baseUrl}/auth/isAuthenticate`).then((res => {
+                await axios.get(`${this.baseUrl}/auth/isAuthenticate`, {
+                    timeout: 10000
+                }).then((res => {
                     this.isAuthenticate = res.data.isAuthenticate
                     this.nameUser = res.data.entity
                 })).catch((erro => {
+                    if (erro.code === 'ECONNABORTED') {
+                        this.responseStatus = erro.code
+                        this.openModalResponseAPI = !this.openModalResponseAPI
+                    }
                     console.error("Falha na autenticação")
                 }))
             },
@@ -76,10 +82,16 @@ export default defineComponent(
                     };
 
                     try {
-                        const res = await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate);
+                        const res = await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate, {
+                            timeout: 10000
+                        });
                         const nameTable = res.data;
                         return nameTable as string;
-                    } catch (erro) {
+                    } catch (erro: any) {
+                        if (erro.code === 'ECONNABORTED') {
+                            this.responseStatus = erro.code
+                            this.openModalResponseAPI = !this.openModalResponseAPI
+                        }
                         console.error('Falha ao atualizar as datas automaticamente');
                     }
                 }

@@ -257,13 +257,15 @@ export default defineComponent({
 
                 let exist = false
                 if (v.fillModalData.nameTable !== newValue) {
-                    exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data)
+                    exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data, {
+                        timeout: 10000
+                    })
                         .then((res => {
                             return res.data
                         }))
                         .catch((err => {
                             v.createTableModal = false
-                            v.errorMessage = "Ocorreu algum erro, recarregue a página"
+                            v.errorMessage = err.code !== 'ECONNABORTED' ? "Ocorreu algum erro, recarregue a página" : 'Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente'
                             v.openModalError = !v.openModalError
                         }))
                 }

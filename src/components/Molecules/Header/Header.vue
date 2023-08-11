@@ -39,6 +39,7 @@
       @confirm="exit"
       @negative="openModalConfirmExit = false"
     ></modal-confirm>
+    <loading :isLoading="isLoading"/>
   </div>
 </template>
 

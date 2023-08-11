@@ -49,10 +49,16 @@ router.beforeEach(async (to, from, next) => {
       return config
     })
 
-    await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`).then((res => {
+    await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`, {
+      timeout: 10000
+    }).then((res => {
       res.data.isAuthenticate ? next() : next({ name: 'loginAndRegister' });
     })).catch((erro => {
-      console.error('Erro na verificação de autenticação')
+      if (erro.code !== 'ECONNABORTED') {
+        console.error('Erro na verificação de autenticação')
+      }else{
+        console.error('Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente')
+      }
     }))
   } else {
     next()

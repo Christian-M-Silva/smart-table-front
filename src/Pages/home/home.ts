@@ -80,7 +80,9 @@ export default defineComponent(
         this.selected = []
         this.loading = true;
         try {
-          const res = await axios.get(`${this.baseUrl}/table/index/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`);
+          const res = await axios.get(`${this.baseUrl}/table/index/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`, {
+            timeout: 10000
+          });
           this.pagination.rowsNumber = res.data.meta.total;
 
           const nameTables = await Promise.all(res.data.data.map(async (el: TypeGetTable) => {
@@ -103,9 +105,12 @@ export default defineComponent(
             this.openModalConfirmDownload = !this.openModalConfirmDownload
           }
         } catch (erro: any) {
-          this.messageAxios = erro.response.data.error;
-          this.responseStatus = erro.response.status;
-          this.openModalResponseAPI = !this.openModalResponseAPI;
+          if (erro.code !== 'ECONNABORTED') {
+            this.messageAxios = erro.response.data.error;
+          }
+          this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+          this.openModalResponseAPI = !this.openModalResponseAPI
+          this.loading = false
         } finally {
           setTimeout(() => {
             this.loading = false;
@@ -123,13 +128,18 @@ export default defineComponent(
         this.isLoading = true
         try {
           for (const el of this.selected) {
-            const res = await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`);
+            const res = await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`, {
+              timeout: 10000
+            });
             tablesForDownload.push(res.data)
           }
-        } catch (error: any) {
-          this.messageAxios = error.response.data.error
-          this.responseStatus = error.response.status
+        } catch (erro: any) {
+          if (erro.code !== 'ECONNABORTED') {
+            this.messageAxios = erro.response.data.error;
+          }
+          this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
           this.openModalResponseAPI = !this.openModalResponseAPI
+          this.loading = false
         }
         try {
           for (const el of tablesForDownload) {
@@ -248,14 +258,19 @@ export default defineComponent(
 
         try {
           for (const el of this.selected) {
-            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`);
+            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`, {
+              timeout: 10000
+          });
           }
           await new Promise(resolve => setTimeout(resolve, 500));
           this.getTables();
-        } catch (error: any) {
-          this.messageAxios = error.response.data.error;
-          this.responseStatus = error.response.status;
-          this.openModalResponseAPI = true;
+        } catch (erro: any) {
+          if (erro.code !== 'ECONNABORTED') {
+            this.messageAxios = erro.response.data.error;
+          }
+          this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+          this.openModalResponseAPI = !this.openModalResponseAPI
+          this.loading = false
         }
         setTimeout(() => {
           this.isLoading = false;

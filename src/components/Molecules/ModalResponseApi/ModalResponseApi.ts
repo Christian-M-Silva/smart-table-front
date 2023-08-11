@@ -7,7 +7,7 @@ export default defineComponent({
             required: true
         },
         responseApiStatus: {
-            type: Number,
+            type: [Number, String],
             required: true
         },
 
@@ -33,7 +33,7 @@ export default defineComponent({
             switch (this.responseApiStatus) {
                 case 200:
                     this.colorCode = 'text-lime-700'
-                    this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Requisição feita com sucesso'
+                    this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Operação Concluída com Sucesso!'
                     break;
                 case 201:
                     this.colorCode = 'text-lime-700'
@@ -51,12 +51,18 @@ export default defineComponent({
                     this.colorCode = 'text-amber-400'
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Dado não encontrado'
                     break;
+                case 'ECONNABORTED':
+                    this.colorCode = 'text-amber-400'
+                    console.error('Tempo muito longo de espera');
+                    this.axiosMessage = 'Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente';
+                    break;
                 case 422:
                     this.colorCode = 'text-red-500'
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Não foi possível processar as instruções, tente alterar o dado enviado'
                     break;
                 case 500:
                     this.colorCode = 'text-red-600'
+                    console.error('Erro ao trazer os dados')
                     this.axiosMessage = this.axiosMessage.length > 0 ? this.axiosMessage : 'Houve algum erro no servidor ao processar esse dado, tente novamente, mais tarde'
                     break;
             }
