@@ -9,7 +9,7 @@ import ModalInputs from "@/components/Molecules/ModalInputs/ModalInputs.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { required, email, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
-import packAxios from "@/mixins/packAxios";
+import utils from "@/mixins/utils";
 type inputsCreatePassword = Omit<BaseInputs, "name" | "options">[];
 
 
@@ -23,7 +23,7 @@ export default defineComponent(
             ModalResponseApi,
         },
 
-        mixins: [packAxios],
+        mixins: [utils],
 
         setup() {
             return { v$: useVuelidate() }
@@ -203,6 +203,10 @@ export default defineComponent(
         },
 
         async created() {
+            await this.authenticate()
+            if (this.isAuthenticate) {
+                this.$router.push({ name: 'home', params: { tableId: this.tableId } })
+            }
             this.messageAxios = ''
             this.action = "Login"
             this.openModalInputs = !!this.$route.params.tableId

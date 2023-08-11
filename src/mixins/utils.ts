@@ -12,7 +12,8 @@ export default defineComponent(
         data() {
             return {
                 isAuthenticate: false,
-                nameUser: ''
+                nameUser: '',
+                tableId: '',
             }
         },
 
@@ -30,7 +31,8 @@ export default defineComponent(
                     timeout: 10000
                 }).then((res => {
                     this.isAuthenticate = res.data.isAuthenticate
-                    this.nameUser = res.data.entity
+                    this.nameUser = res.data.user.entity
+                    this.tableId = res.data.user.tableId
                 })).catch((erro => {
                     if (erro.code === 'ECONNABORTED') {
                         this.responseStatus = erro.code
