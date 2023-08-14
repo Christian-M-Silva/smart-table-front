@@ -11,7 +11,7 @@
       </div>
       <h1
         class="text-xl font-semibold cursor-pointer"
-        @click="$router.push({ name: 'home', params: { tableId: tableId } })"
+        @click="goToHome"
       >
         SMART TABLE
       </h1>
@@ -39,7 +39,7 @@
       @confirm="exit"
       @negative="openModalConfirmExit = false"
     ></modal-confirm>
-    <loading :isLoading="isLoading"/>
+    <loading :isLoading="isLoading" />
   </div>
 </template>
 

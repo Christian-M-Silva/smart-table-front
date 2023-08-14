@@ -9,7 +9,6 @@ export default defineComponent(
     {
         data() {
             return {
-                tableId: '',
                 toOrFrom: 'from',
                 openModalConfirmExit: false,
             }
@@ -27,6 +26,9 @@ export default defineComponent(
                 }
 
                 return this.$router.push({ name: 'loginAndRegister' })
+            },
+            goToHome() {
+                this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
             },
             checkAuthenticated() {
                 if (this.isAuthenticate) {
@@ -57,9 +59,7 @@ export default defineComponent(
             },
         },
 
-        async created() {
-            await new Promise(resolve => setTimeout(resolve, 500));
-            this.tableId = Cookies.get('tableId') as string
+        created() {
             this.authenticate()
             this.toOrFrom = this.isAuthenticate ? 'from' : 'to'
         },
