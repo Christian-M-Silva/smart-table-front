@@ -74,7 +74,7 @@ export default defineComponent(
 
                     this.isLoading = true
                     await axios.post(`${this.baseUrl}/user`, dataUser, {
-                        timeout: 10000
+                        timeout: 20000
                     }).then((res => {
                         this.responseStatus = res.status
                         this.action = "Login"
@@ -100,10 +100,10 @@ export default defineComponent(
                         return config
                     })
                     await axios.delete(`${this.baseUrl}/auth`, {
-                        timeout: 10000
+                        timeout: 20000
                     }).then(async () => {
                         await axios.post(`${this.baseUrl}/auth`, dataUser, {
-                            timeout: 10000
+                            timeout: 20000
                         }).then((res => {
                             Cookies.remove('authToken')
                             Cookies.remove('tableId')
@@ -145,7 +145,7 @@ export default defineComponent(
 
                 this.isLoading = true
                 await axios.put(`${this.baseUrl}/user/changePassword/${this.$route.params.tableId}`, { password: inputs[0].vModel }, {
-                    timeout: 10000
+                    timeout: 20000
                 }).then((res => {
                     this.responseStatus = res.status
                     setTimeout(() => {
@@ -169,7 +169,7 @@ export default defineComponent(
                 this.isLoading = true
                 this.messageAxios = ''
                 await axios.post(`${this.baseUrl}/user/sendEmailForgetPassword`, { email: this.email }, {
-                    timeout: 10000
+                    timeout: 20000
                 }).then((res => {
                     this.messageAxios = res.data.message
                     this.responseStatus = res.status

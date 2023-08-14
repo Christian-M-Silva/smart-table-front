@@ -28,7 +28,7 @@ export default defineComponent(
                 })
 
                 await axios.get(`${this.baseUrl}/auth/isAuthenticate`, {
-                    timeout: 10000
+                    timeout: 20000
                 }).then((res => {
                     this.isAuthenticate = res.data.isAuthenticate
                     this.nameUser = res.data.user.entity
@@ -85,7 +85,7 @@ export default defineComponent(
 
                     try {
                         const res = await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate, {
-                            timeout: 10000
+                            timeout: 20000
                         });
                         const nameTable = res.data;
                         return nameTable as string;

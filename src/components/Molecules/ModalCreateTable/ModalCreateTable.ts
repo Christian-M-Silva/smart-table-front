@@ -258,7 +258,7 @@ export default defineComponent({
                 let exist = false
                 if (v.fillModalData.nameTable !== newValue) {
                     exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data, {
-                        timeout: 10000
+                        timeout: 20000
                     })
                         .then((res => {
                             return res.data

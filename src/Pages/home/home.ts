@@ -81,7 +81,7 @@ export default defineComponent(
         this.loading = true;
         try {
           const res = await axios.get(`${this.baseUrl}/table/index/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`, {
-            timeout: 10000
+            timeout: 20000
           });
           this.pagination.rowsNumber = res.data.meta.total;
 
@@ -129,7 +129,7 @@ export default defineComponent(
         try {
           for (const el of this.selected) {
             const res = await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`, {
-              timeout: 10000
+              timeout: 20000
             });
             tablesForDownload.push(res.data)
           }
@@ -259,7 +259,7 @@ export default defineComponent(
         try {
           for (const el of this.selected) {
             await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`, {
-              timeout: 10000
+              timeout: 20000
           });
           }
           await new Promise(resolve => setTimeout(resolve, 500));

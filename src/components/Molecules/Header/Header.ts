@@ -45,7 +45,7 @@ export default defineComponent(
                 Cookies.remove('tableId')
                 this.isLoading = true
                 await axios.delete(`${this.baseUrl}/auth`, {
-                    timeout: 10000
+                    timeout: 20000
                 }).then(() => this.$router.push({ name: 'loginAndRegister' })).catch((erro => {
                     if (erro.code !== 'ECONNABORTED') {
                         this.messageAxios = 'Falha ao sair'

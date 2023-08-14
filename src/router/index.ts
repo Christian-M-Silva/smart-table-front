@@ -50,7 +50,7 @@ router.beforeEach(async (to, from, next) => {
     })
 
     await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`, {
-      timeout: 10000
+      timeout: 20000
     }).then((res => {
       res.data.isAuthenticate ? next() : next({ name: 'loginAndRegister' });
     })).catch((erro => {
