@@ -81,7 +81,7 @@ export default defineComponent(
         this.loading = true;
         try {
           const res = await axios.get(`${this.baseUrl}/table/index/${Cookies.get('tableId')}?page=${this.pagination.page}&perPage=${this.pagination.rowsPerPage}&search=${this.search}`, {
-            timeout: 20000
+            timeout: 40000
           });
           this.pagination.rowsNumber = res.data.meta.total;
 

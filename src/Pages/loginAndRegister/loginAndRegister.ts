@@ -50,6 +50,10 @@ export default defineComponent(
         },
 
         methods: {
+            // onClick() {
+            //     window.location.href = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FloginAndRegister&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=480592212237-o9c4mt0kuhll7utqqf638e2m9nfvmeel.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow"
+            // },
+            
             showPassword(isShowPassWord: boolean) {
                 if (isShowPassWord) {
                     return this.typePassword = 'password'
@@ -80,7 +84,7 @@ export default defineComponent(
                         this.action = "Login"
                     })).catch((erro => {
                         if (erro.code !== 'ECONNABORTED') {
-                            this.messageAxios = erro.response.data.code ? 'Erro na requisição': erro.response.data.errors[0].message
+                            this.messageAxios = erro.response.data.code ? 'Erro na requisição' : erro.response.data.errors[0].message
                         }
                         this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
                         this.isLoading = false
@@ -119,15 +123,15 @@ export default defineComponent(
                         }))
                         this.openModalResponseAPI = !this.openModalResponseAPI
                     })
-                    .catch((erro => {
-                        if (erro.code === 'ECONNABORTED') {
-                            this.responseStatus = erro.code
-                            this.openModalResponseAPI = !this.openModalResponseAPI
-                        }
-                        console.error('Erro ao fazer Login')
-                        this.isLoading = false
-                        return
-                    }))
+                        .catch((erro => {
+                            if (erro.code === 'ECONNABORTED') {
+                                this.responseStatus = erro.code
+                                this.openModalResponseAPI = !this.openModalResponseAPI
+                            }
+                            console.error('Erro ao fazer Login')
+                            this.isLoading = false
+                            return
+                        }))
                     setTimeout(() => {
                         this.isLoading = false;
                     }, 1000)
@@ -202,6 +206,15 @@ export default defineComponent(
             },
         },
 
+        // mounted() {
+        //     const script = document.createElement('script');
+        //     script.src = 'https://accounts.google.com/gsi/client';
+        //     script.async = true;
+        //     script.defer = true;
+        //     document.body.appendChild(script);
+        // },
+
+       
         async created() {
             await this.authenticate()
             if (this.isAuthenticate) {

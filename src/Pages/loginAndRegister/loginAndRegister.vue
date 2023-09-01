@@ -50,6 +50,22 @@
                   >Esqueci minha senha</span
                 >
               </div>
+              <!-- <q-btn color="primary" icon="check" label="OK" @click="onClick" /> -->
+              <!-- <div
+                id="g_id_onload"
+                data-client_id="480592212237-o76d9u0tqvjv3lpitunukvl82llbqvar.apps.googleusercontent.com"
+                data-login_uri="https://your.domain/your_login_endpoint"
+                data-auto_prompt="false"
+              ></div>
+              <div
+                class="g_id_signin"
+                data-type="standard"
+                data-size="large"
+                data-theme="outline"
+                data-text="sign_in_with"
+                data-shape="rectangular"
+                data-logo_alignment="left"
+              ></div> -->
 
               <div class="text-center mt-6">
                 <button

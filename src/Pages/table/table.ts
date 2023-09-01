@@ -161,7 +161,7 @@ export default defineComponent({
             this.isLoading = true
             this.textLoad = "Trazendo sua tabela"
             await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`, {
-                timeout: 20000
+                // timeout: 20000
               }).then((async res => {
                 this.responseStatus = res.status
                 this.fillModalData = res.data
