@@ -50,10 +50,55 @@ export default defineComponent(
         },
 
         methods: {
+            //http://localhost:8080/loginAndRegister?code=4%2F0Adeu5BUjGipq9n9e5lYrOb2mZqJxitDVK_S1C-G8_AZB34bZEHTh28N-pJ4Y7sqF85Yz-g&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=2&prompt=consent
+
+            //http://localhost:8080/loginAndRegister?code=4%2F0Adeu5BV5a_RV2yNSjHmoUbw-lT6Jlq6WpFyRn_Wv-Hff1ibbqSweqPb23gMcPHmLlcT-0g&scope=email+profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&authuser=2&prompt=consent
+
+            //https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FloginAndRegister&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=480592212237-c2m76cn3vs1rro9dhgph56lmv0vkac22.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow
+
+            async iniciarAutenticacao() {
+                // 1. Construa a URL de autorização OAuth 2.0 com os parâmetros necessários.
+                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=480592212237-c2m76cn3vs1rro9dhgph56lmv0vkac22.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow&entity=${this.entity}`
+
+                // 2. Abra uma janela pop-up com a URL de autorização e configure o tamanho da tela.
+                const popupWidth = 600;
+                const popupHeight = 400;
+                const left = (window.innerWidth - popupWidth) / 2;
+                const top = (window.innerHeight - popupHeight) / 2;
+                const popup = window.open(
+                    authUrl,
+                    'popup',
+                    `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
+                );
+                if (popup) {
+                    const timer = setInterval(() => {
+                        if (popup.closed) {
+                            clearInterval(timer);
+
+                            // 4. Lidar com o retorno após a autenticação.
+                            // Implemente o código para processar o token de acesso aqui.
+                        }
+                    }, 1000);
+                } else {
+                    // Tratar o caso em que a janela pop-up não foi aberta com sucesso.
+                    console.error('Não foi possível abrir a janela pop-up.');
+                }
+
+
+                // 3. Aguarde até que a janela pop-up seja fechada.
+                // const timer = setInterval(() => {
+                //     if (popup.closed) {
+                //         clearInterval(timer);
+
+                //         // 4. Lidar com o retorno após a autenticação.
+                //         // Implemente o código para processar o token de acesso aqui.
+                //     }
+                // }, 1000);
+            },
             // onClick() {
             //     window.location.href = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FloginAndRegister&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=480592212237-o9c4mt0kuhll7utqqf638e2m9nfvmeel.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow"
             // },
-            
+
             showPassword(isShowPassWord: boolean) {
                 if (isShowPassWord) {
                     return this.typePassword = 'password'
@@ -214,7 +259,7 @@ export default defineComponent(
         //     document.body.appendChild(script);
         // },
 
-       
+
         async created() {
             await this.authenticate()
             if (this.isAuthenticate) {

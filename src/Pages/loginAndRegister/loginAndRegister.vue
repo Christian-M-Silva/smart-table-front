@@ -50,7 +50,7 @@
                   >Esqueci minha senha</span
                 >
               </div>
-              <!-- <q-btn color="primary" icon="check" label="OK" @click="onClick" /> -->
+              <q-btn color="primary" icon="check" label="OK" @click="iniciarAutenticacao" />
               <!-- <div
                 id="g_id_onload"
                 data-client_id="480592212237-o76d9u0tqvjv3lpitunukvl82llbqvar.apps.googleusercontent.com"

@@ -9,6 +9,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/Pages/loginAndRegister/loginAndRegister.vue')
   },
   {
+    path: '/saveAuth',
+    name: 'saveAuth',
+    component: () => import('@/Pages/saveAuth/saveAuth.vue')
+  },
+  {
     path: '/',
     component: () => import('@/components/Molecules/Header/Header.vue'),
     children: [
