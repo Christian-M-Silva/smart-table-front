@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen pt-5">
+  <div class="h-screen column justify-center">
     <div>
       <div class="w-full lg:w-6/12 px-4 mx-auto pt-6">
         <div
@@ -9,6 +9,9 @@
             <div class="text-slate-700 text-center my-5 font-bold text-2xl">
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
+            <div class="py-5 text-center">
+              <span class="text-[.9rem] font-semibold">Ola, Seja bem vindo(a)! Faça o seu {{ action }} para poder otimizar o seu tempo.</span>
+            </div>
             <form>
               <input-component
                 type="text"
@@ -16,64 +19,17 @@
                 v-model="entity"
                 @blur="v$.entity.$touch"
                 placeholder="Insira seu nome ou da instituição"
-                :erros="action === 'Cadastrar' ? v$.entity.$errors : []"
+                :erros="v$.entity.$errors"
+                v-if="action === 'Cadastro'"
               ></input-component>
-
-              <input-component
-                v-show="action === 'Cadastrar'"
-                type="text"
-                title="EMAIL"
-                autocomplete="username"
-                v-model="email"
-                placeholder="Insira seu e-mail"
-                @blur="v$.email.$touch"
-                :erros="action === 'Cadastrar' ? v$.email.$errors : []"
-              ></input-component>
-
-              <input-component
-                :type="typePassword"
-                title="SENHA"
-                isVisibility
-                v-model="password"
-                placeholder="Insira a senha"
-                autocomplete="current-password"
-                @blur="v$.password.$touch"
-                @show-password="showPassword"
-                :erros="action === 'Cadastrar' ? v$.password.$errors : []"
-              ></input-component>
-
-              <div class="text-center mt-5 text-teal-700 font-semibold">
-                <span
-                  class="cursor-pointer"
-                  @click="modelSendEmail = true"
-                  v-if="action == 'Login'"
-                  >Esqueci minha senha</span
-                >
-              </div>
-              <q-btn color="primary" icon="check" label="OK" @click="iniciarAutenticacao" />
-              <!-- <div
-                id="g_id_onload"
-                data-client_id="480592212237-o76d9u0tqvjv3lpitunukvl82llbqvar.apps.googleusercontent.com"
-                data-login_uri="https://your.domain/your_login_endpoint"
-                data-auto_prompt="false"
-              ></div>
-              <div
-                class="g_id_signin"
-                data-type="standard"
-                data-size="large"
-                data-theme="outline"
-                data-text="sign_in_with"
-                data-shape="rectangular"
-                data-logo_alignment="left"
-              ></div> -->
 
               <div class="text-center mt-6">
                 <button
                   class="bg-slate-700 text-white hover:bg-slate-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
-                  @click="registerOrLogin"
+                  @click="iniciarAutenticacao"
                 >
-                  {{ action }}
+                  Faça seu {{ action }}
                 </button>
               </div>
 
@@ -82,14 +38,14 @@
               >
                 <span
                   class="slide-in-right text-center w-full py-2"
-                  @click="action = 'Cadastrar'"
+                  @click="action = 'Cadastro'"
                   v-show="action == 'Login'"
                   >Não está cadastrado? Faça o seu cadastro</span
                 >
                 <span
                   class="slide-in-left text-center w-full py-2"
                   @click="action = 'Login'"
-                  v-show="action == 'Cadastrar'"
+                  v-show="action == 'Cadastro'"
                   >Já está cadastrado? Faça o seu login</span
                 >
               </div>
@@ -97,7 +53,7 @@
           </div>
         </div>
       </div>
-      <footer class="w-full md:w-6/12 px-4 mx-auto text-center my-14">
+      <footer class="w-full md:w-6/12 px-4 mx-auto text-center mt-4">
         <a
           href="https://github.com/Christian-M-Silva"
           target="_blank"
@@ -107,41 +63,11 @@
       </footer>
     </div>
 
-    <modal-error
-      :errorMessage="errorMessage"
-      :isOpenModalErro="openModalError"
-    />
-
     <modal-response-api
       :isOpenModal="openModalResponseAPI"
       :messageAxios="messageAxios"
       :responseApiStatus="responseStatus"
     ></modal-response-api>
-
-    <q-dialog v-model="modelSendEmail" persistent>
-      <q-card style="min-width: 350px">
-        <q-card-section>
-          <div class="text-h6">Digite o e-mail cadastrado</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <q-input dense v-model="email" autofocus @keyup.enter="sendEmail" />
-        </q-card-section>
-
-        <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn flat label="Enviar" @click="sendEmail" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
-    <modal-inputs
-      :isCloseModal="closeModal"
-      :isOpenModal="openModalInputs"
-      titleModal="Crie sua nova senha"
-      :inputs="inputsModal"
-      @confirm="saveNewPassword"
-    />
 
     <loading :isLoading="isLoading" />
   </div>

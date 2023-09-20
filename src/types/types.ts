@@ -1,1 +1,1 @@
-export type Actions = 'Login' | 'Cadastrar'
+export type Actions = 'Login' | 'Cadastro'
