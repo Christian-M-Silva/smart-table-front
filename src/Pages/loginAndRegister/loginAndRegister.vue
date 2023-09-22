@@ -15,10 +15,10 @@
             <form>
               <input-component
                 type="text"
-                title="ENTIDADE"
+                title="Entidade"
                 v-model="entity"
                 @blur="v$.entity.$touch"
-                placeholder="Insira seu nome ou da instituição"
+                placeholder="Insira um nome para o sistema"
                 :erros="v$.entity.$errors"
                 v-if="action === 'Cadastro'"
               ></input-component>
