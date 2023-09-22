@@ -10,7 +10,7 @@
               <h2 :class="classAnimation">{{ action }}</h2>
             </div>
             <div class="py-5 text-center">
-              <span class="text-[.9rem] font-semibold">Ola, Seja bem vindo(a)! Faça o seu {{ action }} para poder otimizar o seu tempo.</span>
+              <span class="text-[.9rem] font-semibold">Ola, Seja bem vindo(a)! Faça o seu {{lowercase}} para poder otimizar o seu tempo.</span>
             </div>
             <form>
               <input-component

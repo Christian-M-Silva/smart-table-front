@@ -185,6 +185,11 @@ export default defineComponent(
         //     script.defer = true;
         //     document.body.appendChild(script);
         // },
+        computed: {
+            lowercase () {
+                return this.action.charAt(0).toLowerCase() + this.action.slice(1)
+            }
+        },
 
 
         async created() {
