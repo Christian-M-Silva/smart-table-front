@@ -1,6 +1,6 @@
 <template>
- <div class="h-screen text-center">
-  Você já pode fechar essa tela
+ <div class="font-bold text-lg h-screen row justify-center items-center">
+  Feche essa tela para prosseguir
  </div>
 </template>
 <style scoped src="./saveAuth.css"></style>
