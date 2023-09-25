@@ -1,6 +1,6 @@
 <template>
  <div class="font-bold text-lg h-screen row justify-center items-center">
-  Feche essa tela para prosseguir
+  {{message}}
  </div>
 </template>
 <style scoped src="./saveAuth.css"></style>
