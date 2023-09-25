@@ -6,8 +6,7 @@ import ModalError from "@/components/Molecules/ModalError/ModalError.vue";
 import { required, helpers } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
 import utils from "@/mixins/utils";
-
-
+import Cookies from "js-cookie";
 
 export default defineComponent(
     {
@@ -35,8 +34,10 @@ export default defineComponent(
 
         methods: {
             async startAuth() {  
+                Cookies.set('entity', this.entity)
+                Cookies.set('actions', this.action)
                 // 1. Construa a URL de autorização OAuth 2.0 com os parâmetros necessários.
-                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=480592212237-c2m76cn3vs1rro9dhgph56lmv0vkac22.apps.googleusercontent.com&service=lso&o2v=2&flowName=GeneralOAuthFlow&entity=${this.entity}&actions=${this.action}`
+                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=${process.env.VUE_APP_CLIENT_ID}&service=lso&o2v=2&flowName=GeneralOAuthFlow`
 
                 // 2. Abra uma janela pop-up com a URL de autorização e configure o tamanho da tela.
                 const popupWidth = 600;
