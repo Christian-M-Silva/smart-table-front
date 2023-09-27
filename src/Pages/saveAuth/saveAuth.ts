@@ -38,7 +38,7 @@ export default defineComponent(
                                 this.message = "Esse e-mail não está cadastrado no sistema, feche essa tela e o cadastre primeiro, ou escolha um outro e-mail"
                             }, 1000)
                         }
-                        //Faz login
+                        this.login(res.data.tableId)
                     } else {
                         if (res.data) {
                             this.showModalConfirm = true
@@ -47,7 +47,7 @@ export default defineComponent(
                             if (!userConfirmed) {
                                 return this.message = "Esse e-mail já existe escolha um e-mail que ainda não foi cadastrado"
                             }
-                            return this.login()
+                            return this.login(res.data.tableId)
                         }
                         this.register()
                     }
@@ -158,8 +158,12 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 }))
             },
-            async login(){
-                alert('login')
+            async login(tableId: string){
+                this.saveTokenInCookie(tableId)
+                setTimeout(() => {
+                    this.isLoading = false;
+                    window.close()
+                }, 1000)
             },
             saveTokenInCookie(tableId: string) {
                 Cookies.remove('infoToken')

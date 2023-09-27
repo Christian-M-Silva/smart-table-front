@@ -57,9 +57,7 @@ export default defineComponent(
                             const infoTokenString = Cookies.get('infoToken')
                             if (infoTokenString) {
                                 const infoToken = JSON.parse(infoTokenString)
-                                this.$router.push({ name: 'home', params: { tableId: infoToken.tableId } })
-                                alert("Login será feito")
-                                
+                                this.$router.push({ name: 'home', params: { tableId: infoToken.tableId } })                             
                             }
                             alert('O login não será feito')
                             // 4. Lidar com o retorno após a autenticação.
