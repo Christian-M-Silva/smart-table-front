@@ -24,7 +24,7 @@ export default defineComponent(
 
         data() {
             return {
-                action: '' as Actions,
+                action: 'Login' as Actions,
                 classAnimation: 'slide-in-right',
                 entity: '',
                 errorMessage: '',
@@ -54,7 +54,14 @@ export default defineComponent(
                     const timer = setInterval(() => {
                         if (popup.closed) {
                             clearInterval(timer);
-                            alert("Login será feito")
+                            const infoTokenString = Cookies.get('infoToken')
+                            if (infoTokenString) {
+                                const infoToken = JSON.parse(infoTokenString)
+                                this.$router.push({ name: 'home', params: { tableId: infoToken.tableId } })
+                                alert("Login será feito")
+                                
+                            }
+                            alert('O login não será feito')
                             // 4. Lidar com o retorno após a autenticação.
                             // Implemente o código para processar o token de acesso aqui.
                         }

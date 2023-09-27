@@ -19,7 +19,6 @@ export default defineComponent(
     },
 
     created() {
-      Cookies.set('tableId', this.$route.params.tableId as string)
       this.getTables()
       this.authenticate()
     },

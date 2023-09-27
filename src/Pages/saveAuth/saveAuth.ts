@@ -1,30 +1,58 @@
 import axios from "axios";
 import { defineComponent } from "vue";
-const { DateTime } = require('luxon');
 import Cookies from "js-cookie";
 import utils from "@/mixins/utils";
-
+import { Actions } from "@/types/types";
 
 export default defineComponent(
     {
         data() {
             return {
-                message: ''
+                message: '',
+                showModalConfirm: false,
+                refreshToken: '',
+                email: '',
+                entity: '',
+                action: 'Login' as Actions
             }
         },
 
         mixins: [utils],
 
         methods: {
-            async registerOrLogin(action: string, entity: string) {
-                console.log("🚀 ~ file: saveAuth.ts:15 ~ registerOrLogin ~ entity:", entity)
-                console.log("🚀 ~ file: saveAuth.ts:15 ~ registerOrLogin ~ action:", action)
+            async registerOrLogin() {
+                this.isLoading = true
+                this.messageAxios = ''
+                await axios.get(`${this.baseUrl}/user/isEmailRegister/${this.email}`, {
+                    timeout: 20000
+                }).then((res => {
+                    if (this.action == "Login") {
+                        if (!res.data) {
+                            //Chama o modal erro
+                        }
+                        //Faz login
+                    } else {
+                        if (res.data) {
+                            //Chama modal erro
+                            return this.showModalConfirm = true
+                        }
+                        this.register()
+                    }
+
+                })).catch((erro => {
+                    if (erro.code !== 'ECONNABORTED') {
+                        this.messageAxios = erro.response.data.code ? 'Erro na requisição' : erro.response.data.errors[0].message
+                    }
+                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                    this.isLoading = false
+                    this.openModalResponseAPI = !this.openModalResponseAPI
+                }))
+
                 // let dataUser: DataUser
                 // dataUser = {
                 //     entity: this.entity,
                 //     password: this.password
                 // }
-                // this.messageAxios = ''
 
                 // if (this.action === "Cadastro") {
                 //     const isValidate = await this.v$.$validate()
@@ -32,6 +60,7 @@ export default defineComponent(
                 //         return console.error("Um dos dados dos inputs não está seguindo as regras estabelecidas")
                 //     }
 
+                // this.messageAxios = ''
                 //     this.isLoading = true
                 //     await axios.post(`${this.baseUrl}/user`, dataUser, {
                 //         timeout: 20000
@@ -93,22 +122,48 @@ export default defineComponent(
                 //     }, 1000)
                 // }
             },
-            processToken(refreshToken: string, email: string, expireToken: object) {
+            async register() {
+                const dataUser = {
+                    email: this.email,
+                    entity: this.entity
+                }
+                this.messageAxios = ''
+                await axios.post(`${this.baseUrl}/user`, dataUser, {
+                    timeout: 20000
+                }).then((res => {
+                    
+                    this.saveTokenInCookie(res.data.tableId)
+                    setTimeout(() => {
+                        this.isLoading = false;
+                        window.close()
+                    }, 1000)
+                })).catch((erro => {
+                    if (erro.code !== 'ECONNABORTED') {
+                        this.messageAxios = erro.response.data.code ? 'Erro na requisição' : erro.response.data.errors[0].message
+                    }
+                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
+                    this.isLoading = false
+                    this.openModalResponseAPI = !this.openModalResponseAPI
+                }))
+            },
+            saveTokenInCookie(tableId: string) {
+                Cookies.remove('infoToken')
                 const infoToken = {
                     credentials: {
-                        refreshToken,
+                        refreshToken: this.refreshToken,
                         type: 'authorized_user',
-                        "client_id": process.env.VUE_CLIENT_ID,
-                        "client_secret": process.env.VUE_CLIENT_SECRET
                     },
-                    email,
-                    expireToken
+                    email: this.email,
+                    tableId
                 }
+
+                const cryptographyInfoToken = JSON.stringify(infoToken)
+                Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
             }
         },
         created() {
-            const entity = Cookies.get('entity') ?? ''
-            const actions = Cookies.get('actions') ?? ''
+            this.entity = Cookies.get('entity') ?? ''
+            this.action = Cookies.get('actions') as Actions ?? 'Login' as Actions
             Cookies.remove('entity')
             Cookies.remove('actions')
             const urlParams = new URLSearchParams(window.location.search);
@@ -125,14 +180,11 @@ export default defineComponent(
 
             axios.post(tokenUrl, data)
                 .then((res: any) => {
-                    this.message = "Feche essa tela para prosseguir"
-                    const refreshToken = res.data.refresh_token;
+                    this.refreshToken = res.data.refresh_token;
                     const idToken = res.data.id_token;
                     const idTokenPayload = JSON.parse(window.atob(idToken.split('.')[1]));
-                    const userEmail = idTokenPayload.email;
-                    const expireToken = DateTime.now().plus({ seconds: res.data.expires_in })
-                    // this.processToken(refreshToken, userEmail, expireToken)
-                    this.registerOrLogin(actions, entity)
+                    this.email = idTokenPayload.email;
+                    this.registerOrLogin()
                 })
                 .catch((error: any) => {
                     this.message = 'Ocorreu um erro ao efetuar essa requisição'
