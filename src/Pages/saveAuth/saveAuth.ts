@@ -3,9 +3,13 @@ import { defineComponent } from "vue";
 import Cookies from "js-cookie";
 import utils from "@/mixins/utils";
 import { Actions } from "@/types/types";
+import ModalConfirm from "@/components/Molecules/ModalConfirm/ModalConfirm";
 
 export default defineComponent(
     {
+        components: {
+            ModalConfirm
+        },
         data() {
             return {
                 message: '',
@@ -13,7 +17,8 @@ export default defineComponent(
                 refreshToken: '',
                 email: '',
                 entity: '',
-                action: 'Login' as Actions
+                action: 'Login' as Actions,
+                userConfirmation: null as ((value: boolean) => void) | null,
             }
         },
 
@@ -25,7 +30,7 @@ export default defineComponent(
                 this.messageAxios = ''
                 await axios.get(`${this.baseUrl}/user/isEmailRegister/${this.email}`, {
                     timeout: 20000
-                }).then((res => {
+                }).then((async res => {
                     if (this.action == "Login") {
                         if (!res.data) {
                             //Chama o modal erro
@@ -33,8 +38,13 @@ export default defineComponent(
                         //Faz login
                     } else {
                         if (res.data) {
-                            //Chama modal erro
-                            return this.showModalConfirm = true
+                            this.showModalConfirm = true
+                            const userConfirmed = await this.waitForUserConfirmation();
+                            this.showModalConfirm = false
+                            if (!userConfirmed) {
+                                return this.message = "Esse e-mail já existe escolha um e-mail que ainda não foi cadastrado"
+                            }
+                            return this.login()
                         }
                         this.register()
                     }
@@ -146,6 +156,9 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 }))
             },
+            async login(){
+                alert('login')
+            },
             saveTokenInCookie(tableId: string) {
                 Cookies.remove('infoToken')
                 const infoToken = {
@@ -159,7 +172,20 @@ export default defineComponent(
 
                 const cryptographyInfoToken = JSON.stringify(infoToken)
                 Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
-            }
+            },
+            waitForUserConfirmation() {
+                return new Promise((resolve) => {
+                    this.userConfirmation = resolve;
+                });
+            },
+    
+            proceed() {
+                this.userConfirmation?.(true)
+            },
+    
+            notProceed() {
+                this.userConfirmation?.(false)
+            },
         },
         created() {
             this.entity = Cookies.get('entity') ?? ''
