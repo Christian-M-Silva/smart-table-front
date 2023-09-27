@@ -33,7 +33,10 @@ export default defineComponent(
                 }).then((async res => {
                     if (this.action == "Login") {
                         if (!res.data) {
-                            //Chama o modal erro
+                            setTimeout(() => {
+                                this.isLoading = false;
+                                this.message = "Esse e-mail não está cadastrado no sistema, feche essa tela e o cadastre primeiro, ou escolha um outro e-mail"
+                            }, 1000)
                         }
                         //Faz login
                     } else {
@@ -141,7 +144,6 @@ export default defineComponent(
                 await axios.post(`${this.baseUrl}/user`, dataUser, {
                     timeout: 20000
                 }).then((res => {
-                    
                     this.saveTokenInCookie(res.data.tableId)
                     setTimeout(() => {
                         this.isLoading = false;
