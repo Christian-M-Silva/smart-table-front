@@ -176,7 +176,10 @@ export default defineComponent(
                     tableId
                 }
 
-                const cryptographyInfoToken = JSON.stringify(infoToken)
+                if (!process.env.VUE_APP_SECRET_KEY) {
+                    return this.message = 'É necessario a inclusão de um chave secreta, entre em contato com o suporte para resolver'
+                }
+                const cryptographyInfoToken = this.encryptObject(infoToken, process.env.VUE_APP_SECRET_KEY)
                 Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
             },
             waitForUserConfirmation() {

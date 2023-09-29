@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import packAxios from "@/mixins/packAxios";
 import { TypeGetTable } from "@/interfaces/interfaces";
 import { DateTime } from "luxon";
+import CryptoJS from "crypto-js";
 
 export default defineComponent(
     {
@@ -99,8 +100,21 @@ export default defineComponent(
                 }
 
                 return null;
-            }
+            },
 
+            encryptObject(data: object, secretKey: string) {
+                const objectEncrypted = CryptoJS.AES.encrypt(
+                  JSON.stringify(data),
+                  secretKey
+                );
+                return objectEncrypted.toString();
+              },
+            
+              decryptObject(objectEncrypted: string, secretKey: string) {
+                const bytes = CryptoJS.AES.decrypt(objectEncrypted, secretKey);
+                const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+                return decryptedData;
+              }
         },
 
         created() {
