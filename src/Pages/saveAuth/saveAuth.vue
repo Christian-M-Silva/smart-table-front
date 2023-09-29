@@ -5,7 +5,7 @@
       :isOpenModalConfirm="showModalConfirm"
       @confirm="proceed"
       @negative="notProceed"
-      messageConfirmation="Esse e-mail já existe gostaria de fazer login com ele?"
+      :messageConfirmation="messageConfirmation"
     ></modal-confirm>
   </div>
 </template>

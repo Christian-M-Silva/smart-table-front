@@ -16,6 +16,7 @@ export default defineComponent(
                 showModalConfirm: false,
                 refreshToken: '',
                 email: '',
+                messageConfirmation: '',
                 entity: '',
                 action: 'Login' as Actions,
                 userConfirmation: null as ((value: boolean) => void) | null,
@@ -33,18 +34,25 @@ export default defineComponent(
                 }).then((async res => {
                     if (this.action == "Login") {
                         if (!res.data) {
-                            setTimeout(() => {
-                                this.isLoading = false;
-                                this.message = "Esse e-mail não está cadastrado no sistema, feche essa tela e o cadastre primeiro, ou escolha um outro e-mail"
-                            }, 1000)
-                        }
-                        this.login(res.data.tableId)
-                    } else {
-                        if (res.data) {
+                            this.messageConfirmation = 'Esse e-mail não existe gostaria de cadastrar ele?'
                             this.showModalConfirm = true
                             const userConfirmed = await this.waitForUserConfirmation();
                             this.showModalConfirm = false
                             if (!userConfirmed) {
+                                this.isLoading = false;
+                                this.message = "Esse e-mail não está cadastrado no sistema, feche essa tela e o cadastre primeiro, ou escolha um outro e-mail"
+                            }
+                            return this.register()
+                        }
+                        this.login(res.data.tableId)
+                    } else {
+                        if (res.data) {
+                            this.messageConfirmation = 'Esse e-mail já existe gostaria de fazer login com ele?'
+                            this.showModalConfirm = true
+                            const userConfirmed = await this.waitForUserConfirmation();
+                            this.showModalConfirm = false
+                            if (!userConfirmed) {
+                                this.isLoading = false;
                                 return this.message = "Esse e-mail já existe escolha um e-mail que ainda não foi cadastrado"
                             }
                             return this.login(res.data.tableId)
