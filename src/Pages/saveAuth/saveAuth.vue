@@ -1,5 +1,5 @@
 <template>
-  <div class="font-bold text-lg h-screen row justify-center items-center">
+  <div class="font-bold text-lg h-screen row justify-center items-center text-center">
     {{ message }}
     <modal-confirm
       :isOpenModalConfirm="showModalConfirm"
