@@ -29,6 +29,10 @@ export default defineComponent(
         methods: {
             async registerOrLogin() {
                 this.isLoading = true
+                if (!process.env.VUE_APP_SECRET_KEY) {
+                    this.isLoading = false
+                    return this.message = 'É necessario a inclusão de um chave secreta, entre em contato com o suporte para resolver'
+                }
                 this.messageAxios = ''
                 await axios.get(`${this.baseUrl}/user/isEmailRegister/${this.email}`, {
                     timeout: 20000
@@ -42,6 +46,7 @@ export default defineComponent(
                             if (!userConfirmed) {
                                 this.isLoading = false;
                                 this.message = "Esse e-mail não está cadastrado no sistema, feche essa tela e o cadastre primeiro, ou escolha um outro e-mail"
+                                return
                             }
                             return this.register()
                         }
@@ -110,11 +115,8 @@ export default defineComponent(
                     email: this.email,
                     tableId
                 }
-
-                if (!process.env.VUE_APP_SECRET_KEY) {
-                    return this.message = 'É necessario a inclusão de um chave secreta, entre em contato com o suporte para resolver'
-                }
-                const cryptographyInfoToken = this.encryptObject(infoToken, process.env.VUE_APP_SECRET_KEY)
+                
+                const cryptographyInfoToken = this.encryptObject(infoToken, process.env.VUE_APP_SECRET_KEY as string)
                 Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
             },
             waitForUserConfirmation() {

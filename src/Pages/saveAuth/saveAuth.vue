@@ -7,6 +7,7 @@
       @negative="notProceed"
       :messageConfirmation="messageConfirmation"
     ></modal-confirm>
+    <loading :isLoading="isLoading" />
   </div>
 </template>
 <style scoped src="./saveAuth.css"></style>

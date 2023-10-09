@@ -40,8 +40,8 @@ export default defineComponent(
                 const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=${process.env.VUE_APP_CLIENT_ID}&service=lso&o2v=2&flowName=GeneralOAuthFlow`
 
                 // 2. Abra uma janela pop-up com a URL de autorização e configure o tamanho da tela.
-                const popupWidth = 600;
-                const popupHeight = 400;
+                const popupWidth = 400;
+                const popupHeight = 700;
                 const left = (window.innerWidth - popupWidth) / 2;
                 const top = (window.innerHeight - popupHeight) / 2;
                 const popup = window.open(
@@ -59,7 +59,6 @@ export default defineComponent(
                                 const infoToken = this.decryptObject(infoTokenString, process.env.VUE_APP_SECRET_KEY as string)
                                 return this.$router.push({ name: 'home', params: { tableId: infoToken.tableId } })
                             }
-                            alert('O login não será feito')
                             // 4. Lidar com o retorno após a autenticação.
                             // Implemente o código para processar o token de acesso aqui.
                         }
