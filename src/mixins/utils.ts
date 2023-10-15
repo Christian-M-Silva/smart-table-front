@@ -26,7 +26,7 @@ export default defineComponent(
                 }
                 try {
                     const infoToken = this.decryptObject(infoTokenString, process.env.VUE_APP_SECRET_KEY as string)
-                    const refreshToken = infoToken.credentials.refreshToken
+                    const refreshToken = infoToken.credentials.refresh_token
                     await axios.post('https://oauth2.googleapis.com/token', {
                         refresh_token: refreshToken,
                         client_id: process.env.VUE_APP_CLIENT_ID,

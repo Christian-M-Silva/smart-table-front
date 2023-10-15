@@ -128,11 +128,13 @@ export default defineComponent({
             this.messageAxios = ''
 
             try {
-                const request = this.$route.params.tableId ? await axios.put(`${this.baseUrl}/table/${this.$route.params.tableId}`, data, {
-                    // timeout: 20000
-                }) : await axios.post(`${this.baseUrl}/table`, data, {
-                    timeout: 20000
-                })
+                const config = {
+                    timeout: 20000,
+                    headers: {
+                        Authorization: Cookies.get('infoToken')
+                    }
+                }
+                const request = this.$route.params.tableId ? await axios.put(`${this.baseUrl}/table/${this.$route.params.tableId}`, data, config) : await axios.post(`${this.baseUrl}/table`, data, config)
 
                 this.responseStatus = request.status;
                 this.openModalResponseAPI = !this.openModalResponseAPI
@@ -162,7 +164,7 @@ export default defineComponent({
             this.textLoad = "Trazendo sua tabela"
             await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`, {
                 timeout: 20000
-              }).then((async res => {
+            }).then((async res => {
                 this.responseStatus = res.status
                 this.fillModalData = res.data
                 const nameTables = await this.updateDates(res.data);

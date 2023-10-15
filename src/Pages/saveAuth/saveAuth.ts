@@ -109,7 +109,7 @@ export default defineComponent(
             saveTokenInCookie(tableId: string) {
                 const infoToken = {
                     credentials: {
-                        refreshToken: this.refreshToken,
+                        refresh_token: this.refreshToken,
                         type: 'authorized_user',
                     },
                     email: this.email

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import CryptoJS from "crypto-js";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -53,19 +54,19 @@ router.beforeEach(async (to, from, next) => {
     try {
       const bytes = CryptoJS.AES.decrypt(infoTokenString as string, process.env.VUE_APP_SECRET_KEY as string);
       const infoToken = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-       
-        const refreshToken = infoToken.credentials.refreshToken
-        await axios.post('https://oauth2.googleapis.com/token', {
-            refresh_token: refreshToken,
-            client_id: process.env.VUE_APP_CLIENT_ID,
-            client_secret: process.env.VUE_APP_CLIENT_SECRET,
-            grant_type: 'refresh_token'
-        });
-        next()
+
+      const refreshToken = infoToken.credentials.refresh_token
+      await axios.post('https://oauth2.googleapis.com/token', {
+        refresh_token: refreshToken,
+        client_id: process.env.VUE_APP_CLIENT_ID,
+        client_secret: process.env.VUE_APP_CLIENT_SECRET,
+        grant_type: 'refresh_token'
+      });
+      next()
     } catch (error) {
-        Cookies.remove('infoToken')
-        console.error('Você não pode inserir um token fake para acessar os dados')
-        next({ name: 'loginAndRegister' })
+      Cookies.remove('infoToken')
+      console.error('Você não pode inserir um token fake para acessar os dados')
+      next({ name: 'loginAndRegister' })
     }
   } else {
     next()
