@@ -20,27 +20,26 @@ export default defineComponent(
 
         methods: {
             async authenticate() {
-                axios.interceptors.request.use((config) => {
-                    const token = Cookies.get('authToken')
-                    if (token) {
-                        config.headers.Authorization = `Bearer ${token}`
-                    }
-                    return config
-                })
-
-                await axios.get(`${this.baseUrl}/auth/isAuthenticate`, {
-                    timeout: 20000
-                }).then((res => {
-                    this.isAuthenticate = res.data.isAuthenticate
-                    this.nameUser = res.data.user.entity
-                    this.tableId = res.data.user.tableId
-                })).catch((erro => {
-                    if (erro.code === 'ECONNABORTED') {
-                        this.responseStatus = erro.code
-                        this.openModalResponseAPI = !this.openModalResponseAPI
-                    }
-                    console.error("Falha na autenticação")
-                }))
+                const infoTokenString = Cookies.get('infoToken')
+                if (!infoTokenString) {
+                    return this.isAuthenticate = false
+                }
+                try {
+                    const infoToken = this.decryptObject(infoTokenString, process.env.VUE_APP_SECRET_KEY as string)
+                    const refreshToken = infoToken.credentials.refreshToken
+                    await axios.post('https://oauth2.googleapis.com/token', {
+                        refresh_token: refreshToken,
+                        client_id: process.env.VUE_APP_CLIENT_ID,
+                        client_secret: process.env.VUE_APP_CLIENT_SECRET,
+                        grant_type: 'refresh_token'
+                    });
+                    return this.isAuthenticate = true;
+                } catch (error) {
+                    Cookies.remove('infoToken')
+                    this.isAuthenticate = false
+                    console.error('Você não pode inserir um token fake para acessar os dados')
+                    this.$router.push({name: 'loginAndRegister'})
+                }
             },
 
             createArrayData(date: Date, weekDaysChosenByUser: string[], quantityLoop: number) {
@@ -104,17 +103,17 @@ export default defineComponent(
 
             encryptObject(data: object, secretKey: string) {
                 const objectEncrypted = CryptoJS.AES.encrypt(
-                  JSON.stringify(data),
-                  secretKey
+                    JSON.stringify(data),
+                    secretKey
                 );
                 return objectEncrypted.toString();
-              },
-            
-              decryptObject(objectEncrypted: string, secretKey: string) {
+            },
+
+            decryptObject(objectEncrypted: string, secretKey: string) {
                 const bytes = CryptoJS.AES.decrypt(objectEncrypted, secretKey);
                 const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
                 return decryptedData;
-              }
+            }
         },
 
         created() {

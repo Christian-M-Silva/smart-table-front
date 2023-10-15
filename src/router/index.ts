@@ -46,25 +46,27 @@ router.beforeEach(async (to, from, next) => {
   const nameRoute = to.name ? to.name : ''
 
   if (routesNeedAuthentication.includes(nameRoute as string) && !to.params.tableId) {
-    axios.interceptors.request.use((config) => {
-      const token = Cookies.get('authToken')
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`
-      }
-      return config
-    })
-
-    await axios.get(`${process.env.VUE_APP_API_URL}/auth/isAuthenticate`, {
-      timeout: 20000
-    }).then((res => {
-      res.data.isAuthenticate ? next() : next({ name: 'loginAndRegister' });
-    })).catch((erro => {
-      if (erro.code !== 'ECONNABORTED') {
-        console.error('Erro na verificação de autenticação')
-      }else{
-        console.error('Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente')
-      }
-    }))
+    const infoTokenString = Cookies.get('infoToken')
+    if (!infoTokenString) {
+      return next({ name: 'loginAndRegister' })
+    }
+    try {
+      const bytes = CryptoJS.AES.decrypt(infoTokenString as string, process.env.VUE_APP_SECRET_KEY as string);
+      const infoToken = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+       
+        const refreshToken = infoToken.credentials.refreshToken
+        await axios.post('https://oauth2.googleapis.com/token', {
+            refresh_token: refreshToken,
+            client_id: process.env.VUE_APP_CLIENT_ID,
+            client_secret: process.env.VUE_APP_CLIENT_SECRET,
+            grant_type: 'refresh_token'
+        });
+        next()
+    } catch (error) {
+        Cookies.remove('infoToken')
+        console.error('Você não pode inserir um token fake para acessar os dados')
+        next({ name: 'loginAndRegister' })
+    }
   } else {
     next()
   }

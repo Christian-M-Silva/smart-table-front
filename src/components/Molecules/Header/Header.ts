@@ -37,25 +37,9 @@ export default defineComponent(
                 this.exit()
             },
             async exit() {
-                axios.interceptors.request.use((config) => {
-                    const token = Cookies.get('authToken')
-                    if (token) {
-                        config.headers.Authorization = `Bearer ${token}`
-                    }
-                    return config
-                })
-                Cookies.remove('tableId')
-                this.isLoading = true
-                await axios.delete(`${this.baseUrl}/auth`, {
-                    timeout: 20000
-                }).then(() => this.$router.push({ name: 'loginAndRegister' })).catch((erro => {
-                    if (erro.code !== 'ECONNABORTED') {
-                        this.messageAxios = 'Falha ao sair'
-                    }
-                    this.responseStatus = erro.code === 'ECONNABORTED' ? erro.code : erro.response.status
-                    this.openModalResponseAPI = !this.openModalResponseAPI
-                    this.isLoading = false
-                }))
+                Cookies.remove('infoToken')
+                this.isAuthenticate = false
+                this.$router.push({ name: 'loginAndRegister' })
             },
         },
 

@@ -57,7 +57,7 @@ export default defineComponent(
                             const infoTokenString = Cookies.get('infoToken')
                             if (infoTokenString) {
                                 const infoToken = this.decryptObject(infoTokenString, process.env.VUE_APP_SECRET_KEY as string)
-                                return this.$router.push({ name: 'home', params: { tableId: infoToken.tableId } })
+                                return this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
                             }
                             // 4. Lidar com o retorno após a autenticação.
                             // Implemente o código para processar o token de acesso aqui.
@@ -91,9 +91,9 @@ export default defineComponent(
 
         async created() {
             await this.authenticate()
-            // if (this.isAuthenticate) {
-            //     this.$router.push({ name: 'home', params: { tableId: this.tableId } })
-            // }
+            if (Cookies.get('infoToken')) {
+                this.$router.push({ name: 'home', params: { tableId: this.tableId } })
+            }
             this.messageAxios = ''
             this.action = "Login"
         },

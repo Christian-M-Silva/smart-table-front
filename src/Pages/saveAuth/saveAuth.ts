@@ -112,12 +112,12 @@ export default defineComponent(
                         refreshToken: this.refreshToken,
                         type: 'authorized_user',
                     },
-                    email: this.email,
-                    tableId
+                    email: this.email
                 }
                 
                 const cryptographyInfoToken = this.encryptObject(infoToken, process.env.VUE_APP_SECRET_KEY as string)
                 Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
+                Cookies.set('tableId', tableId)
             },
             waitForUserConfirmation() {
                 return new Promise((resolve) => {
