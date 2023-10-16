@@ -255,11 +255,15 @@ export default defineComponent(
         this.messageAxios = '';
         this.isLoading = true;
 
+        const config = {
+          timeout: 20000,
+          headers: {
+            Authorization: Cookies.get('infoToken')
+          }
+        }
         try {
           for (const el of this.selected) {
-            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`, {
-              timeout: 20000
-          });
+            await axios.delete(`${this.baseUrl}/table/${Cookies.get('tableId')}/${el.id}/${el.eventId}`, config);
           }
           await new Promise(resolve => setTimeout(resolve, 500));
           this.getTables();

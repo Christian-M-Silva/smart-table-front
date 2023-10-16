@@ -84,9 +84,13 @@ export default defineComponent(
                     };
 
                     try {
-                        const res = await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate, {
-                            timeout: 20000
-                        });
+                        const config = {
+                            timeout: 20000,
+                            headers: {
+                                Authorization: Cookies.get('infoToken')
+                            }
+                        }
+                        const res = await axios.put(`${this.baseUrl}/table/updateDates/${data.id}`, dataUpdate, config);
                         const nameTable = res.data;
                         return nameTable as string;
                     } catch (erro: any) {
