@@ -92,7 +92,7 @@ export default defineComponent(
         async created() {
             await this.authenticate()
             if (Cookies.get('infoToken')) {
-                this.$router.push({ name: 'home', params: { tableId: this.tableId } })
+                this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
             }
             this.messageAxios = ''
             this.action = "Login"
