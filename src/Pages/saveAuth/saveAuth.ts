@@ -50,6 +50,7 @@ export default defineComponent(
                             }
                             return this.register()
                         }
+                        Cookies.set('nameUser', res.data.entity)
                         this.login(res.data.tableId)
                     } else {
                         if (res.data) {
@@ -61,6 +62,7 @@ export default defineComponent(
                                 this.isLoading = false;
                                 return this.message = "Esse e-mail já existe escolha um e-mail que ainda não foi cadastrado"
                             }
+                            Cookies.set('nameUser', res.data.entity)
                             return this.login(res.data.tableId)
                         }
                         this.register()
@@ -77,6 +79,7 @@ export default defineComponent(
             },
             async register() {
                 this.entity = this.entity ?  this.entity : this.nameEmail
+                Cookies.set('nameUser', this.entity)
                 const dataUser = {
                     email: this.email,
                     entity: this.entity
@@ -135,6 +138,7 @@ export default defineComponent(
         },
         created() {
             Cookies.remove('infoToken')
+            Cookies.remove('nameUser')
             this.entity = Cookies.get('entity') ?? null
             this.action = Cookies.get('actions') as Actions ?? 'Login' as Actions
             Cookies.remove('entity')

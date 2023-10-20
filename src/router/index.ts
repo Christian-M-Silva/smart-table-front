@@ -65,6 +65,8 @@ router.beforeEach(async (to, from, next) => {
       next()
     } catch (error) {
       Cookies.remove('infoToken')
+      Cookies.remove('tableId')
+      Cookies.remove('nameUser')
       console.error('Você não pode inserir um token fake para acessar os dados')
       next({ name: 'loginAndRegister' })
     }

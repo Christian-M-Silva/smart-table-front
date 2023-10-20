@@ -36,6 +36,8 @@ export default defineComponent(
                     return this.isAuthenticate = true;
                 } catch (error) {
                     Cookies.remove('infoToken')
+                    Cookies.remove('nameUser')
+                    Cookies.remove('tableId')
                     this.isAuthenticate = false
                     console.error('Você não pode inserir um token fake para acessar os dados')
                     this.$router.push({name: 'loginAndRegister'})

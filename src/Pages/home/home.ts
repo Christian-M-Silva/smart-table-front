@@ -21,6 +21,7 @@ export default defineComponent(
     created() {
       this.getTables()
       this.authenticate()
+      this.nameUser = Cookies.get('nameUser') ?? ''
     },
 
     data() {
@@ -65,7 +66,7 @@ export default defineComponent(
             sortable: true
           },
         ],
-        entity: 'Christian',
+        entity: '',
         openModalConfirmRemove: false,
         openModalConfirmDownload: false,
         rows: [] as RowsTableHome[],
