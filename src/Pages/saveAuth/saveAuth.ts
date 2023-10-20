@@ -139,6 +139,7 @@ export default defineComponent(
         created() {
             Cookies.remove('infoToken')
             Cookies.remove('nameUser')
+            Cookies.remove('tableId')
             this.entity = Cookies.get('entity') ?? null
             this.action = Cookies.get('actions') as Actions ?? 'Login' as Actions
             Cookies.remove('entity')

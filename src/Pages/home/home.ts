@@ -19,9 +19,12 @@ export default defineComponent(
     },
 
     created() {
+      Cookies.set('tableId', this.$route.params.tableId as string)
+      this.nameUser = Cookies.get('nameUser') ?? ''
+      Cookies.remove('actions')
+      Cookies.remove('entity')
       this.getTables()
       this.authenticate()
-      this.nameUser = Cookies.get('nameUser') ?? ''
     },
 
     data() {

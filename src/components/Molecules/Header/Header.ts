@@ -39,6 +39,7 @@ export default defineComponent(
             async exit() {
                 Cookies.remove('infoToken')
                 Cookies.remove('nameUser')
+                Cookies.remove('tableId')
                 this.isAuthenticate = false
                 this.$router.push({ name: 'loginAndRegister' })
             },
