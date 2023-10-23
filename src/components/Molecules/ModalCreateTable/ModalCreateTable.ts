@@ -250,14 +250,13 @@ export default defineComponent({
     validations: {
         nameTable: {
             asyncValidator: withAsync(async (newValue: string, v: any) => {
-                if (Cookies.get('tableId') && v.nameTable) {
                     const data = {
                         tableName: v.nameTable,
                         tableId: Cookies.get('tableId')
                     }
     
                     let exist = false
-                    if (v.fillModalData.nameTable !== newValue) {
+                    if (v.fillModalData.nameTable !== newValue && Cookies.get('tableId')) {
                         exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data, {
                             timeout: 20000
                         })
@@ -271,8 +270,6 @@ export default defineComponent({
                             }))
                     }
                     return !exist
-                }
-
             }),
             required: helpers.withMessage('Este campo é obrigatório', required)
         },
