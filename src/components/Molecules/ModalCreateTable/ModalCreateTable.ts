@@ -14,11 +14,14 @@ export default defineComponent({
     setup() {
         return { v$: useVuelidate() }
     },
+
     components: {
         ModalConfirm,
         ModalError
     },
+
     mixins: [utils],
+
     props: {
         openModalAgain: {
             type: Boolean,
@@ -38,6 +41,7 @@ export default defineComponent({
             erroInput: false,
             errorMessage: '',
             openModalError: false,
+            dateFormatted: new Date().toLocaleDateString(),
             nameTable: "",
             inputs: [
                 {
@@ -48,7 +52,7 @@ export default defineComponent({
                     hasFistTouch: false
                 },
                 {
-                    vModel: new Date().toISOString().split('T')[0],
+                    vModel: new Date().toISOString().split('T')[0].replaceAll('-', '/'),
                     name: 'dayBegin',
                     type: 'date',
                     title: 'Dia inicial da tabela',
@@ -89,6 +93,17 @@ export default defineComponent({
             this.nameColumns = ''
         },
 
+        formattedDate(date: any) {
+            const dateLuxon = DateTime.fromFormat(date, 'yyyy/MM/dd');
+            const dateFormatted = dateLuxon.toFormat('dd/LL/yyyy');
+            this.dateFormatted = dateFormatted
+
+        },
+
+        optionsDate(date: string) {
+            return date >= new Date().toISOString().split('T')[0].replaceAll('-', '/')
+        },
+
         fillModal() {
             this.nameTable = this.fillModalData?.nameTable as string
             const nameColumns = this.fillModalData?.cols.filter(el =>
@@ -104,7 +119,8 @@ export default defineComponent({
                         break;
 
                     case 'dayBegin':
-                        el.vModel = DateTime.fromFormat(this.fillModalData?.rows[0].date as string, "dd/MM/yyyy").toISODate() as string
+                        el.vModel = DateTime.fromFormat(this.fillModalData?.rows[0].date as string, 'dd/MM/yyyy').toFormat('yyyy/LL/dd') as string
+                        this.dateFormatted = DateTime.fromFormat(this.fillModalData?.rows[0].date as string, 'dd/MM/yyyy').toFormat('dd/LL/yyyy') as string
                         break;
 
                     case 'weekDays':
@@ -149,7 +165,7 @@ export default defineComponent({
 
                 //CRIA A NOVA DATA COM BASE NO QUE O USER PASSOU 
                 let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string
-                const datePart = vModelDayBegin.split("-");
+                const datePart = vModelDayBegin.split("/");
                 const year = parseInt(datePart[0]);
                 const month = parseInt(datePart[1]) - 1;
                 const day = parseInt(datePart[2]);
@@ -247,29 +263,30 @@ export default defineComponent({
     created() {
         this.createTableModal = this.$route.params.tableId ? false : true
     },
+
     validations: {
         nameTable: {
             asyncValidator: withAsync(async (newValue: string, v: any) => {
-                    const data = {
-                        tableName: v.nameTable,
-                        tableId: Cookies.get('tableId')
-                    }
-    
-                    let exist = false
-                    if (v.fillModalData.nameTable !== newValue && Cookies.get('tableId')) {
-                        exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data, {
-                            timeout: 20000
-                        })
-                            .then((res => {
-                                return res.data
-                            }))
-                            .catch((err => {
-                                v.createTableModal = false
-                                v.errorMessage = err.code !== 'ECONNABORTED' ? "Ocorreu algum erro, recarregue a página" : 'Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente'
-                                v.openModalError = !v.openModalError
-                            }))
-                    }
-                    return !exist
+                const data = {
+                    tableName: v.nameTable,
+                    tableId: Cookies.get('tableId')
+                }
+
+                let exist = false
+                if (v.fillModalData.nameTable !== newValue && Cookies.get('tableId')) {
+                    exist = await axios.post(`${v.baseUrl}/table/existTableWithThisName`, data, {
+                        timeout: 20000
+                    })
+                        .then((res => {
+                            return res.data
+                        }))
+                        .catch((err => {
+                            v.createTableModal = false
+                            v.errorMessage = err.code !== 'ECONNABORTED' ? "Ocorreu algum erro, recarregue a página" : 'Tempo muito longo de espera, verifique sua conexão com a internet ou tente novamente'
+                            v.openModalError = !v.openModalError
+                        }))
+                }
+                return !exist
             }),
             required: helpers.withMessage('Este campo é obrigatório', required)
         },

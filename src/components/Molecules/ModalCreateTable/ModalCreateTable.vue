@@ -69,13 +69,36 @@
               />
 
               <q-input
-                v-else
+                v-else-if="input.type !== 'date'"
                 v-model="input.vModel"
                 :type="input.type"
                 :erros="v$.inputs.$each.$message[index]"
                 filled
                 @blur="input.hasFistTouch = true"
               />
+
+              <q-input v-else filled v-model="dateFormatted" mask="##/##/####">
+                <template v-slot:append>
+                  <q-icon name="event" class="cursor-pointer">
+                    <q-popup-proxy
+                      cover
+                      transition-show="scale"
+                      transition-hide="scale"
+                    >
+                      <q-date v-model="input.vModel" :update="formattedDate(input.vModel)" :options="optionsDate" today-btn>
+                        <div class="row items-center justify-end">
+                          <q-btn
+                            v-close-popup
+                            label="Close"
+                            color="primary"
+                            flat
+                          />
+                        </div>
+                      </q-date>
+                    </q-popup-proxy>
+                  </q-icon>
+                </template>
+              </q-input>
               <div v-if="input.hasFistTouch">
                 <div
                   v-for="(error, index) of v$.inputs.$each.$message[index]"
