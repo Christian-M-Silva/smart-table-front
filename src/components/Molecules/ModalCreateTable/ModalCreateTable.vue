@@ -85,7 +85,7 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="input.vModel" :update="formattedDate(input.vModel)" :options="optionsDate" today-btn>
+                      <q-date v-model="input.vModel" :update="formattedDate(input.vModel)" :options="optionsDate" today-btn :locale="myLocale">
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
