@@ -77,7 +77,7 @@
                 @blur="input.hasFistTouch = true"
               />
 
-              <q-input v-else filled v-model="dateFormatted" mask="##/##/####">
+              <q-input v-else filled v-model="dateFormatted" mask="##/##/####" readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy
