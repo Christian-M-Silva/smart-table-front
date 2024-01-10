@@ -51,7 +51,7 @@ export default defineComponent(
                             return this.register()
                         }
                         Cookies.set('nameUser', res.data.entity)
-                        this.login(res.data.tableId)
+                        this.login(res.data.tableId, res.data.quantityLastRow)
                     } else {
                         if (res.data) {
                             this.messageConfirmation = 'Esse e-mail já existe gostaria de fazer login com ele?'
@@ -63,7 +63,7 @@ export default defineComponent(
                                 return this.message = "Esse e-mail já existe escolha um e-mail que ainda não foi cadastrado"
                             }
                             Cookies.set('nameUser', res.data.entity)
-                            return this.login(res.data.tableId)
+                            return this.login(res.data.tableId, res.data.quantityLastRow)
                         }
                         this.register()
                     }
@@ -88,7 +88,7 @@ export default defineComponent(
                 await axios.post(`${this.baseUrl}/user`, dataUser, {
                     timeout: 20000
                 }).then((res => {
-                    this.saveTokenInCookie(res.data.tableId)
+                    this.saveTokenInCookie(res.data.tableId, res.data.quantityLastRow)
                     setTimeout(() => {
                         this.isLoading = false;
                         window.close()
@@ -102,14 +102,14 @@ export default defineComponent(
                     this.openModalResponseAPI = !this.openModalResponseAPI
                 }))
             },
-            async login(tableId: string){
-                this.saveTokenInCookie(tableId)
+            async login(tableId: string, quantityLastRow: number){
+                this.saveTokenInCookie(tableId, quantityLastRow)
                 setTimeout(() => {
                     this.isLoading = false;
                     window.close()
                 }, 1000)
             },
-            saveTokenInCookie(tableId: string) {
+            saveTokenInCookie(tableId: string, quantityLastRow: number) {
                 const infoToken = {
                     credentials: {
                         refresh_token: this.refreshToken,
@@ -121,6 +121,7 @@ export default defineComponent(
                 const cryptographyInfoToken = this.encryptObject(infoToken, process.env.VUE_APP_SECRET_KEY as string)
                 Cookies.set('infoToken', cryptographyInfoToken, { expires: 4})
                 Cookies.set('tableId', tableId)
+                Cookies.set('quantityLastRow', quantityLastRow.toString())
             },
             waitForUserConfirmation() {
                 return new Promise((resolve) => {
@@ -140,6 +141,7 @@ export default defineComponent(
             Cookies.remove('infoToken')
             Cookies.remove('nameUser')
             Cookies.remove('tableId')
+            Cookies.remove('quantityLastRow')
             this.entity = Cookies.get('entity') ?? null
             this.action = Cookies.get('actions') as Actions ?? 'Login' as Actions
             Cookies.remove('entity')

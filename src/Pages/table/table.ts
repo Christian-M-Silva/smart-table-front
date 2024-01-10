@@ -20,6 +20,7 @@ export default defineComponent({
     data() {
         return {
             loading: false,
+            isShowLastRows: false,
             textLoad: '',
             rows: [] as rowsTableCreateOrRead[],
             columns: [] as ColumnsTableCreate[],
@@ -34,7 +35,9 @@ export default defineComponent({
             dataUpdate: [] as rowsTableCreateOrRead[],
             weekDays: [] as vModelSelect[],
             nextUpdate: '',
-            fillModalData: {} as TypeGetTable
+            fillModalData: {} as TypeGetTable,
+            lastColumns: [] as ColumnsTableCreate[],
+            lastRows: [] as rowsTableCreateOrRead[]
         }
     },
 
@@ -108,6 +111,7 @@ export default defineComponent({
 
         async finalize() {
             const idTable = Cookies.get('tableId')
+            
             const [day, month, year] = this.nextUpdate.split('/');
             const date = new Date(+year, +month - 1, +day).toISOString();
             const nextUpdate = DateTime.fromISO(date);
@@ -158,13 +162,19 @@ export default defineComponent({
             this.dataUpdate = this.rows
             this.IsOpenAgain = !this.IsOpenAgain
         },
-
+        
         async loadTable() {
             this.isLoading = true
             this.textLoad = "Trazendo sua tabela"
             await axios.get(`${this.baseUrl}/table/${this.$route.params.tableId}`, {
                 timeout: 20000
             }).then((async res => {
+                const dateStart = DateTime.fromFormat(res.data.rows[0].date, 'dd/MM/yyyy').toJSDate()
+                this.isShowLastRows = new Date() < dateStart && res.data.lastRows
+                if (this.isShowLastRows) {
+                    this.lastColumns = res.data.lastRows.cols
+                    this.lastRows = res.data.lastRows.rows
+                }
                 this.responseStatus = res.status
                 this.fillModalData = res.data
                 const nameTables = await this.updateDates(res.data);

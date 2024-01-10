@@ -91,3 +91,7 @@ export interface TypeGetTable {
     rows: rowsTableCreateOrRead[],
     updatedAt: string,
 }
+export interface lastRows {
+    cols: ColumnsTableCreate[],
+    rows: rowsTableCreateOrRead[]
+}

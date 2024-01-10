@@ -5,6 +5,22 @@
       table-header-class="bg-blue-grey-6"
       table-class="bg-blue-grey-2"
       :class="[{ 'mx-32 my-5': isNotFullScreen && $q.screen.gt.sm }]"
+      v-show="showTable && isShowLastRows"
+      :rows-per-page-options="[0]"
+      :virtual-scroll-sticky-size-start="48"
+      virtual-scroll
+      :grid="$q.screen.lt.md"
+      row-key="date"
+      :title="nameTable"
+      :rows="lastRows"
+      :columns="lastColumns"
+    />
+
+    <q-table
+      card-class="bg-blue-grey-5"
+      table-header-class="bg-blue-grey-6"
+      table-class="bg-blue-grey-2"
+      :class="[{ 'mx-32 my-5': isNotFullScreen && $q.screen.gt.sm }]"
       v-show="showTable"
       :rows-per-page-options="[0]"
       :virtual-scroll-sticky-size-start="48"

@@ -54,7 +54,7 @@ export default defineComponent({
             nameTable: "",
             inputs: [
                 {
-                    vModel: '',
+                    vModel: '2',
                     type: 'number',
                     name: 'numberRow',
                     title: 'Quantidade de linhas da tabela',
@@ -154,10 +154,6 @@ export default defineComponent({
         },
 
         async confirm() {
-            const isValidate = await this.v$.$validate()
-            if (!isValidate) {
-                return console.error("O nome da tabela escolhido, já existe, escolha outro")
-            }
             const hasSomeInputInvalid = this.inputs.filter(input => input.vModel.length === 0)
 
             if (this.namesColumns.length > 0 && hasSomeInputInvalid.length === 0) {
@@ -173,7 +169,7 @@ export default defineComponent({
 
 
                 //CRIA A NOVA DATA COM BASE NO QUE O USER PASSOU 
-                let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string
+                let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string  
                 const datePart = vModelDayBegin.split("/");
                 const year = parseInt(datePart[0]);
                 const month = parseInt(datePart[1]) - 1;
@@ -182,8 +178,9 @@ export default defineComponent({
                 let date = currentDate
 
                 let rowsDate = this.createArrayData(date, weekDaysChosenByUser, quantityRow)
+                const isNeedSlice = rowsDate.length <= this.quantityLastRow
 
-                let nextUpdate = rowsDate.pop()
+                let nextUpdate = !isNeedSlice ? rowsDate[rowsDate.length - (this.quantityLastRow + 1)] : rowsDate[rowsDate.length - 1]
 
                 this.columns = this.namesColumns.map(el => ({
                     name: el.toLowerCase(),
@@ -210,6 +207,7 @@ export default defineComponent({
                         }
                     });
                 }
+
                 if (this.updateData.length > 0) {
                     const isLengthArraysDifferent = this.updateData.length > this.rows.length
                     const isLengthObjectInArraysDifferent = Object.keys(this.updateData[0]).length > Object.keys(this.rows[0]).length
@@ -239,6 +237,7 @@ export default defineComponent({
 
                 this.createTableModal = false
                 const isUpdate = !!this.$route.params.tableId
+
                 this.$emit('confirm', this.rows, this.columns, this.nameTable, vModelWeekDays, nextUpdate, isUpdate)
             }
 
@@ -266,7 +265,7 @@ export default defineComponent({
                 this.fillModal()
             }
             this.createTableModal = true
-        },
+        }
     },
 
     created() {
@@ -275,7 +274,7 @@ export default defineComponent({
 
     validations: {
         nameTable: {
-            asyncValidator: withAsync(async (newValue: string, v: any) => {
+            asyncValidator:  helpers.withMessage("O nome da tabela escolhido, já existe, escolha outro", withAsync(async (newValue: string, v: any) => {
                 const data = {
                     tableName: v.nameTable,
                     tableId: Cookies.get('tableId')
@@ -296,14 +295,24 @@ export default defineComponent({
                         }))
                 }
                 return !exist
-            }),
+            })),
             required: helpers.withMessage('Este campo é obrigatório', required)
         },
         inputs: {
             $each: helpers.forEach({
                 vModel: {
-                    required: helpers.withMessage('Este campo é obrigatório', required)
+                    required: helpers.withMessage('Este campo é obrigatório', required),
+                    isLessThanOne: helpers.withMessage('O valor deve ser maior ou igual a 2', (value: string, input: any) => {
+                        if (input.name === 'numberRow') {
+                            if (Number(input.vModel) < 2) {
+                                return false
+                            }
+                            return true
+                        }
+                        return true
+                    })
                 },
+                
             })
         }
     }
