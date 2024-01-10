@@ -17,7 +17,7 @@ export default defineComponent({
 
     watch: {
         isLoading(newValue) {
-            this.openModal = newValu
+            this.openModal = newValue
         }
     }
 
