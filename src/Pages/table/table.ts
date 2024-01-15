@@ -37,7 +37,8 @@ export default defineComponent({
             nextUpdate: '',
             fillModalData: {} as TypeGetTable,
             lastColumns: [] as ColumnsTableCreate[],
-            lastRows: [] as rowsTableCreateOrRead[]
+            lastRows: [] as rowsTableCreateOrRead[],
+            isOpenModalConfirmClearTable: false
         }
     },
 

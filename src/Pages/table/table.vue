@@ -89,7 +89,7 @@
               color="deep-orange"
               icon="delete"
               label="LIMPAR OS DADOS DA TABELA"
-              @click="clearTable"
+              @click="isOpenModalConfirmClearTable = true"
             />
           </div>
           <div v-else>
@@ -134,6 +134,12 @@
       :isOpenModalConfirm="isOpenModalConfirm"
       @confirm="cancel"
       @negative="isOpenModalConfirm = false"
+    ></modal-confirm>
+
+    <modal-confirm
+      :isOpenModalConfirm="isOpenModalConfirmClearTable"
+      @confirm="clearTable"
+      @negative="isOpenModalConfirmClearTable = false"
     ></modal-confirm>
 
     <loading :isLoading="isLoading" :textLoad="textLoad" />
