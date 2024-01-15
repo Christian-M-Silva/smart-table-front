@@ -35,8 +35,8 @@
           />
         </q-footer>
 
-        <q-page-container style="max-height: 571px" class="scroll">
-          <q-page padding class="mx-10">
+        <q-page-container>
+          <q-page padding class="scroll" style="max-height: 70vh;">
             <div class="my-5">
               <span class="font-bold text-red-600">*NOME DA TABELA</span>
               <q-input v-model="nameTable" filled @blur="v$.nameTable.$touch" />
