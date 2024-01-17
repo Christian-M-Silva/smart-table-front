@@ -39,13 +39,13 @@
           <q-page padding class="scroll" style="max-height: 70vh;">
             <div class="my-5">
               <span class="font-bold text-red-600">*NOME DA TABELA</span>
-              <q-input v-model="nameTable" filled @blur="v$.nameTable.$touch" />
+              <q-input v-model="nameTable" filled @blur="() => {v$.nameTable.$touch; nameTableHasFistTouch = true} " />
               <div>
                 <div class="text-red-700 font-semibold">
                   <span v-if="v$.nameTable.asyncValidator.$invalid">
                     O nome da tabela escolhido, já existe, escolha outro
                   </span>
-                  <span v-else-if="v$.nameTable.$error">
+                  <span v-else-if="v$.nameTable.required.$invalid && nameTableHasFistTouch">
                     {{ v$.nameTable.required.$message }}
                   </span>
                 </div>

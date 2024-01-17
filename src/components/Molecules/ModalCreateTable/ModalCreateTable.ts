@@ -52,6 +52,7 @@ export default defineComponent({
             openModalError: false,
             dateFormatted: new Date().toLocaleDateString(),
             nameTable: "",
+            nameTableHasFistTouch: false,
             inputs: [
                 {
                     vModel: '2',
@@ -169,7 +170,7 @@ export default defineComponent({
 
 
                 //CRIA A NOVA DATA COM BASE NO QUE O USER PASSOU 
-                let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string  
+                let vModelDayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string
                 const datePart = vModelDayBegin.split("/");
                 const year = parseInt(datePart[0]);
                 const month = parseInt(datePart[1]) - 1;
@@ -274,7 +275,7 @@ export default defineComponent({
 
     validations: {
         nameTable: {
-            asyncValidator:  helpers.withMessage("O nome da tabela escolhido, já existe, escolha outro", withAsync(async (newValue: string, v: any) => {
+            asyncValidator: helpers.withMessage("O nome da tabela escolhido, já existe, escolha outro", withAsync(async (newValue: string, v: any) => {
                 const data = {
                     tableName: v.nameTable,
                     tableId: Cookies.get('tableId')
@@ -312,7 +313,6 @@ export default defineComponent({
                         return true
                     })
                 },
-                
             })
         }
     }
