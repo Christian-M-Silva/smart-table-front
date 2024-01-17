@@ -43,11 +43,10 @@ export default defineComponent(
                 const popupWidth = 400;
                 const popupHeight = 700;
                 const left = (window.innerWidth - popupWidth) / 2;
-                const top = (window.innerHeight - popupHeight) / 2;
                 const popup = window.open(
                     authUrl,
                     'popup',
-                    `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
+                    `width=${popupWidth},height=${screen.height},left=${left}`
                 );
                 
                 if (popup) {
