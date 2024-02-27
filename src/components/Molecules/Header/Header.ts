@@ -36,14 +36,6 @@ export default defineComponent(
                 }
                 this.exit()
             },
-            async exit() {
-                Cookies.remove('infoToken')
-                Cookies.remove('nameUser')
-                Cookies.remove('tableId')
-                Cookies.remove('quantityLastRow')
-                this.isAuthenticate = false
-                this.$router.push({ name: 'loginAndRegister' })
-            },
         },
 
         created() {

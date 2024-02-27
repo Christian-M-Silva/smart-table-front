@@ -24,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/Pages/home/home.vue')
       },
       {
+        path: '/editUser',
+        name: 'editUser',
+        component: () => import('@/Pages/editUser/editUser.vue')
+      },
+      {
         path: '/table/:tableId?',
         name: 'table',
         component: () => import('@/Pages/table/table.vue')
@@ -43,7 +48,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const routesNeedAuthentication = ['table']
+  const routesNeedAuthentication = ['table', 'editUser']
   const nameRoute = to.name ? to.name : ''
 
   if (routesNeedAuthentication.includes(nameRoute as string) && !to.params.tableId) {

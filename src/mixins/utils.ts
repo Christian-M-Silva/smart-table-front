@@ -46,6 +46,15 @@ export default defineComponent(
                 }
             },
 
+            async exit() {
+                Cookies.remove('infoToken')
+                Cookies.remove('nameUser')
+                Cookies.remove('tableId')
+                Cookies.remove('quantityLastRow')
+                this.isAuthenticate = false
+                this.$router.push({ name: 'loginAndRegister' })
+            },
+
             createArrayData(date: Date, weekDaysChosenByUser: string[], quantityLoop: number) {
                 let rowsDate = []
                 while (rowsDate.length < quantityLoop) { //aqui ele vai ver se a quantidade de linhas ou seja de datas armazenadas dentro do row, combina com a quantidade de linha, pois cada data é uma linha

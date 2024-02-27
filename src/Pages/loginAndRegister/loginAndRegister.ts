@@ -59,7 +59,6 @@ export default defineComponent(
                                 return this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
                             }
                             // 4. Lidar com o retorno após a autenticação.
-                            // Implemente o código para processar o token de acesso aqui.
                         }
                     }, 1000);
                 } else {

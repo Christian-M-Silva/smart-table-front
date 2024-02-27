@@ -49,6 +49,13 @@ export interface PropsRequest {
     },
     filter?: string
 }
+export interface infoToken {
+        credentials: {
+            refresh_token: string,
+            type: string,
+        },
+        email: string
+}
 export interface PropsFullScreen {
     firstPage: Function,
     inFullscreen: Boolean,
