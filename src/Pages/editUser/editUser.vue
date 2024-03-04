@@ -17,11 +17,17 @@
           color="red"
           icon="delete"
           label="Excluir usuário"
-          @click="deleteUser"
+          @click="openModalConfirmRemove = true"
         />
         <q-btn color="blue" icon="check" label="Salvar" @click="saveEdits" />
       </div>
     </div>
+
+     <modal-confirm
+      :isOpenModalConfirm="openModalConfirmRemove"
+      @confirm="deleteUser"
+      @negative="openModalConfirmRemove = false"
+    ></modal-confirm>
   </div>
 </template>
 <script src="./editUser.ts"></script>
