@@ -32,7 +32,10 @@ export default defineComponent(
         infoToken:  {} as infoToken,
         userName: '',
         configAxios: {
-          timeout: 20000
+          timeout: 20000,
+          headers: {
+            Authorization: Cookies.get('infoToken')
+          }
         }
       }
     },
