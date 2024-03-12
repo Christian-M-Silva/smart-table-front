@@ -55,7 +55,6 @@ export default defineComponent(
                             clearInterval(timer);
                             const infoTokenString = Cookies.get('infoToken')
                             if (infoTokenString) {
-                                const infoToken = this.decryptObject(infoTokenString, process.env.VUE_APP_SECRET_KEY as string)
                                 return this.$router.push({ name: 'home', params: { tableId: Cookies.get('tableId') } })
                             }
                             // 4. Lidar com o retorno após a autenticação.
