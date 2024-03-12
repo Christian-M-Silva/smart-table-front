@@ -29,6 +29,7 @@ export default defineComponent(
       return {
         openModalConfirmRemove: false,
         lastRows: 0,
+        textLoad: '',
         infoToken:  {} as infoToken,
         userName: '',
         configAxios: {
@@ -42,6 +43,8 @@ export default defineComponent(
 
     methods: {
       async deleteUser() {
+        this.isLoading = true
+        this.textLoad = "Deletando seu usuário"
         await axios.delete(`${this.baseUrl}/user/${this.infoToken.email}`, this.configAxios).then(res => {
           this.exit()
         }).catch((erro => {
@@ -59,6 +62,8 @@ export default defineComponent(
           entity: this.userName,
           quantityLastRow: this.lastRows
         }
+        this.isLoading = true
+        this.textLoad = "Salvando seu usuário"
         await axios.put(`${this.baseUrl}/user/${this.infoToken.email}`, dataUpdate, this.configAxios).then(res => {
           Cookies.set('nameUser', res.data.entity)
           Cookies.set('quantityLastRow', res.data.quantityLastRow)

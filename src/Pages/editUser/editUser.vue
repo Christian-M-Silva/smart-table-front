@@ -5,9 +5,14 @@
     </h1>
 
     <div class="px-56 text-center">
-      <input-component standout  v-model="userName" type="text" label="Nome de usuário" />
       <input-component
-      standout 
+        standout
+        v-model="userName"
+        type="text"
+        label="Nome de usuário"
+      />
+      <input-component
+        standout
         v-model="lastRows"
         type="number"
         label="Faltando quantas linhas para acabar a tabela você quer que atualize?"
@@ -23,11 +28,13 @@
       </div>
     </div>
 
-     <modal-confirm
+    <modal-confirm
       :isOpenModalConfirm="openModalConfirmRemove"
       @confirm="deleteUser"
       @negative="openModalConfirmRemove = false"
     ></modal-confirm>
+
+    <loading :isLoading="isLoading" :textLoad="textLoad" />
   </div>
 </template>
 <script src="./editUser.ts"></script>
