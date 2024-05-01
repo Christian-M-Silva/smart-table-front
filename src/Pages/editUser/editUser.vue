@@ -16,6 +16,7 @@
         v-model="lastRows"
         type="number"
         label="Faltando quantas linhas para acabar a tabela você quer que atualize?"
+        :rules="[ val => val > 1 || 'Somente valores maiores que 1']"
       />
       <div class="mt-2 flex justify-center items-center gap-2">
         <q-btn

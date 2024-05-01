@@ -11,7 +11,7 @@
       virtual-scroll
       :grid="$q.screen.lt.md"
       row-key="date"
-      :title="nameTable"
+      :title="`Ultimas ${quantityLastRow} linhas da tabela ${nameTable}`"
       :rows="lastRows"
       :columns="lastColumns"
     />

@@ -7,8 +7,10 @@ import ModalSharing from "@/components/Molecules/ModalSharing/ModalSharing.vue";
 import ModalResponseApi from "@/components/Molecules/ModalResponseApi/ModalResponseApi.vue";
 import { infoToken } from "@/interfaces/interfaces"
 import utils from "@/mixins/utils";
+
 export default defineComponent(
   {
+  
     mixins: [utils],
     components: {
       ModalConfirm,
@@ -30,7 +32,7 @@ export default defineComponent(
         openModalConfirmRemove: false,
         lastRows: 0,
         textLoad: '',
-        infoToken:  {} as infoToken,
+        infoToken: {} as infoToken,
         userName: '',
         configAxios: {
           timeout: 20000,
@@ -58,6 +60,9 @@ export default defineComponent(
       },
 
       async saveEdits() {
+        if (this.lastRows < 2 ) {
+          return null
+        }
         const dataUpdate = {
           entity: this.userName,
           quantityLastRow: this.lastRows
