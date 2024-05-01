@@ -102,13 +102,12 @@ export default defineComponent(
 
           if (!nameTables.includes(null) && nameTables.length > 0) {
             nameTables.map(el => {
-              const rowSelected = this.rows.filter(row => row.name === el)[0]
+              const rowSelected = this.rows.filter(row => row.name == el)[0]
               this.selected.push(rowSelected)
             })
             this.openModalConfirmDownload = !this.openModalConfirmDownload
           }
         } catch (erro: any) {
-          console.log("🚀 ~ getTables ~ erro:", erro)
           if (erro.code !== 'ECONNABORTED') {
             this.messageAxios = erro.response.data.error;
           }
