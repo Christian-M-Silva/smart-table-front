@@ -58,14 +58,14 @@ export default defineComponent(
             createArrayData(date: Date, weekDaysChosenByUser: string[], quantityLoop: number) {
                 let rowsDate = []
                 while (rowsDate.length < quantityLoop) { //aqui ele vai ver se a quantidade de linhas ou seja de datas armazenadas dentro do row, combina com a quantidade de linha, pois cada data é uma linha
-                    
+
                     let dayWeek = date.getDay().toString() //aqui ele vai pegar o date e pegar o dia da semana que ele está se referindo
-                    
+
                     if (weekDaysChosenByUser.includes(dayWeek)) {// se retornar verdadeiro então rowsDate, recebe essa data atual já formatada
                         const dayRow = date.toLocaleDateString() //Transformar o date no formato DD/MM/AA
                         rowsDate.push(dayRow) //Add ao rowsDate esse dia
                     } //se retornar falso o rowsDate não recebe nada
-                    
+
                     date = new Date(date.getTime());
                     date.setDate(date.getDate() + 1); //ai fazemos a date somar mais um dia
                 }
@@ -89,17 +89,19 @@ export default defineComponent(
                     while (dateUpdate < currentDate) {
                         const dateStartNewTable = DateTime.fromFormat(data.rows[data.rows.length - 1].date, 'dd/MM/yyyy').plus({ days: 1 }).toJSDate() //Formatação da ultima data do array, add um dia e transformando em um formato de Date do proprio js
                         arrayDatesUpdates = this.createArrayData(dateStartNewTable, daysWeek, data.rows.length)
-                        const isNeedSlice = arrayDatesUpdates.length < this.quantityLastRow
-                        data.nextUpdate = !isNeedSlice ? arrayDatesUpdates[arrayDatesUpdates.length - (this.quantityLastRow + 1)] : arrayDatesUpdates.pop() as string
+                        const isNeedPop = arrayDatesUpdates.length <= this.quantityLastRow
+                        data.nextUpdate = isNeedPop ? arrayDatesUpdates[arrayDatesUpdates.length - 1] as string : arrayDatesUpdates[arrayDatesUpdates.length - (this.quantityLastRow + 1)]
                         dateUpdate = DateTime.fromFormat(data.nextUpdate, 'dd/MM/yyyy').toJSDate()
                     }
 
                     const dataRowsUpdated = [] as any
-                    data.rows.map((el, index) => dataRowsUpdated.push({
-                        ...el,
-                        date: arrayDatesUpdates[index]
-                    }))
-                    const [day, month, year] = dataRowsUpdated[dataRowsUpdated.length - this.quantityLastRow - 1].date.split('/');
+                    data.rows.map((el, index) => {
+                        dataRowsUpdated.push({
+                            ...el,
+                            date: arrayDatesUpdates[index]
+                        })
+                    })
+                    const [day, month, year] = dataRowsUpdated[dataRowsUpdated.length - (this.quantityLastRow - 1)].date.split('/');
                     const date = new Date(+year, +month - 1, +day).toISOString();
                     const nextUpdate = DateTime.fromISO(date);
                     const dataUpdate = {
@@ -126,7 +128,6 @@ export default defineComponent(
                         console.error('Falha ao atualizar as datas automaticamente');
                     }
                 }
-
                 return null;
             },
 

@@ -179,9 +179,9 @@ export default defineComponent({
                 let date = currentDate
 
                 let rowsDate = this.createArrayData(date, weekDaysChosenByUser, quantityRow)
-                const isNeedSlice = rowsDate.length <= this.quantityLastRow
+                const isGetLast = rowsDate.length <= this.quantityLastRow
 
-                let nextUpdate = !isNeedSlice ? rowsDate[rowsDate.length - (this.quantityLastRow + 1)] : rowsDate[rowsDate.length - 1]
+                let nextUpdate = isGetLast ? rowsDate[rowsDate.length - 1] : rowsDate[rowsDate.length - (this.quantityLastRow + 1)]
 
                 this.columns = this.namesColumns.map(el => ({
                     name: el.toLowerCase(),

@@ -108,6 +108,7 @@ export default defineComponent(
             this.openModalConfirmDownload = !this.openModalConfirmDownload
           }
         } catch (erro: any) {
+          console.log("🚀 ~ getTables ~ erro:", erro)
           if (erro.code !== 'ECONNABORTED') {
             this.messageAxios = erro.response.data.error;
           }
@@ -131,7 +132,7 @@ export default defineComponent(
         this.isLoading = true
         try {
           for (const el of this.selected) {
-            const res = await axios.get(`${this.baseUrl}/table/download/${Cookies.get('tableId')}/${el.id}`, {
+            const res = await axios.get(`${this.baseUrl}/table/${el.id}`, {
               timeout: 20000
             });
             tablesForDownload.push(res.data)
