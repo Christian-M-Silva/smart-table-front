@@ -47,6 +47,7 @@ export default defineComponent({
                 pluralDay: 'dias'
             },
             isLessThanToday: false,
+            isDateCleared: false,
             createTableModal: false,
             erroInput: false,
             errorMessage: '',
@@ -105,7 +106,8 @@ export default defineComponent({
         },
 
         formattedDate(date: any) {
-            const dateLuxon = DateTime.fromFormat(date, 'yyyy/MM/dd');
+            this.isDateCleared = !date
+            const dateLuxon = date ? DateTime.fromFormat(date, 'yyyy/MM/dd'): DateTime.now();
             const dateFormatted = dateLuxon.toFormat('dd/LL/yyyy');
             this.dateFormatted = dateFormatted
 
@@ -157,7 +159,13 @@ export default defineComponent({
 
         async confirm() {
             this.isLessThanToday = false
-            const dataBeginFormatDate = DateTime.fromFormat(this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string, "yyyy/MM/dd").startOf('day')
+            const dayBegin = this.inputs.filter(input => input.name === "dayBegin")[0].vModel
+            
+            if(!dayBegin){
+                return
+            }
+
+            const dataBeginFormatDate = DateTime.fromFormat(dayBegin as string, "yyyy/MM/dd").startOf('day')
             if(dataBeginFormatDate < DateTime.now().startOf('day')){
                 return this.isLessThanToday = true
             }

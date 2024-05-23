@@ -36,16 +36,29 @@
         </q-footer>
 
         <q-page-container>
-          <q-page padding class="scroll" style="max-height: 70vh;">
+          <q-page padding class="scroll" style="max-height: 70vh">
             <div class="my-5">
               <span class="font-bold text-red-600">*NOME DA TABELA</span>
-              <q-input v-model="nameTable" filled @blur="() => {v$.nameTable.$touch; nameTableHasFistTouch = true} " />
+              <q-input
+                v-model="nameTable"
+                filled
+                @blur="
+                  () => {
+                    v$.nameTable.$touch;
+                    nameTableHasFistTouch = true;
+                  }
+                "
+              />
               <div>
                 <div class="text-red-700 font-semibold">
                   <span v-if="v$.nameTable.asyncValidator.$invalid">
                     O nome da tabela escolhido, já existe, escolha outro.
                   </span>
-                  <span v-else-if="v$.nameTable.required.$invalid && nameTableHasFistTouch">
+                  <span
+                    v-else-if="
+                      v$.nameTable.required.$invalid && nameTableHasFistTouch
+                    "
+                  >
                     {{ v$.nameTable.required.$message }}
                   </span>
                 </div>
@@ -77,7 +90,13 @@
                 @blur="input.hasFistTouch = true"
               />
 
-              <q-input v-else filled v-model="dateFormatted" mask="##/##/####" readonly>
+              <q-input
+                v-else
+                filled
+                v-model="dateFormatted"
+                mask="##/##/####"
+                readonly
+              >
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy
@@ -85,8 +104,12 @@
                       transition-show="scale"
                       transition-hide="scale"
                     >
-                      <q-date v-model="input.vModel" :update="formattedDate(input.vModel)" today-btn :locale="myLocale">
-                      <!-- <q-date v-model="input.vModel" :update="formattedDate(input.vModel)" :options="optionsDate" today-btn :locale="myLocale"> -->
+                      <q-date
+                        v-model="input.vModel"
+                        :update="formattedDate(input.vModel)"
+                        today-btn
+                        :locale="myLocale"
+                      >
                         <div class="row items-center justify-end">
                           <q-btn
                             v-close-popup
@@ -104,6 +127,9 @@
                 <div class="text-red-700 font-semibold">
                   <span v-if="isLessThanToday && input.type === 'date'">
                     Somente datas superiores a hoje.
+                  </span>
+                  <span v-if="isDateCleared && input.type === 'date'">
+                    A data foi desmarcada selecione novamente
                   </span>
                 </div>
               </div>
