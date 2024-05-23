@@ -43,7 +43,7 @@
               <div>
                 <div class="text-red-700 font-semibold">
                   <span v-if="v$.nameTable.asyncValidator.$invalid">
-                    O nome da tabela escolhido, já existe, escolha outro
+                    O nome da tabela escolhido, já existe, escolha outro.
                   </span>
                   <span v-else-if="v$.nameTable.required.$invalid && nameTableHasFistTouch">
                     {{ v$.nameTable.required.$message }}
@@ -100,6 +100,13 @@
                   </q-icon>
                 </template>
               </q-input>
+              <div>
+                <div class="text-red-700 font-semibold">
+                  <span v-if="isLessThanToday && input.type === 'date'">
+                    Somente datas superiores a hoje.
+                  </span>
+                </div>
+              </div>
               <div v-if="input.hasFistTouch">
                 <div
                   v-for="(error, index) of v$.inputs.$each.$message[index]"

@@ -46,6 +46,7 @@ export default defineComponent({
                 format24h: true,
                 pluralDay: 'dias'
             },
+            isLessThanToday: false,
             createTableModal: false,
             erroInput: false,
             errorMessage: '',
@@ -155,6 +156,12 @@ export default defineComponent({
         },
 
         async confirm() {
+            this.isLessThanToday = false
+            const dataBeginFormatDate = DateTime.fromFormat(this.inputs.filter(input => input.name === "dayBegin")[0].vModel as string, "yyyy/MM/dd").startOf('day')
+            if(dataBeginFormatDate < DateTime.now().startOf('day')){
+                return this.isLessThanToday = true
+            }
+ 
             const hasSomeInputInvalid = this.inputs.filter(input => input.vModel.length === 0)
 
             if (this.namesColumns.length > 0 && hasSomeInputInvalid.length === 0) {
