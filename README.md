@@ -42,7 +42,7 @@
     VUE_APP_CLIENT_SECRET= Chave obtida no google console, terá que criar um projeto para isso
     VUE_APP_SECRET_KEY= Chave aleatorio escolhida pelo user
   ```
-   **Para gerar as chaves é só seguir as instruções do google nesse [link](lhttps://developers.google.com/calendar/api/quickstart/nodejs?hl=pt-brink)**
+   **Para gerar as chaves é só seguir as instruções do google nesse [link](https://developers.google.com/calendar/api/quickstart/nodejs?hl=pt-brink)**
 
    5. Por fim será necessario a API desse projeto que está nesse [repositorio](https://github.com/Christian-M-Silva/smart-table-api)
 
