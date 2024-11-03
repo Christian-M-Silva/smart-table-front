@@ -4,8 +4,8 @@
 
 - [Overview](#overview)
   - [The objectives](#the-objectives)
-  - [How to run the project](#How-to-run-the-project)
-  - [Solution link](#Solution-link)
+  - [How to run the project](#how-to-run-the-project)
+  - [Solution link](#solution-link)
 - [My process](#my-process)
   - [Built with](#built-with)
   - [What I learned](#what-i-learned)
