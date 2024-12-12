@@ -37,7 +37,8 @@ export default defineComponent(
                 Cookies.set('entity', this.entity)
                 Cookies.set('actions', this.action)
                 // 1. Construa a URL de autorização OAuth 2.0 com os parâmetros necessários.
-                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=${process.env.VUE_APP_CLIENT_ID}&service=lso&o2v=2&flowName=GeneralOAuthFlow`
+                const authUrl = `https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FsaveAuth&access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcalendar.events.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=${process.env.VUE_APP_CLIENT_ID}&service=lso&o2v=2&flowName=GeneralOAuthFlow&prompt=consent
+`
 
                 // 2. Abra uma janela pop-up com a URL de autorização e configure o tamanho da tela.
                 const popupWidth = 400;
